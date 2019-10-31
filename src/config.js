@@ -1,15 +1,10 @@
-const yaml = require('js-yaml');
-const fs = require('fs');
-const process = require('process');
+import { BACKEND_PROTOCOL,
+ BACKEND_PORT,
+ BACKEND_HOST,
+ BACKEND_ADMINS_PATH,
+ USER_KEY } from 'react-native-dotenv';
 
-console.log("config.js");
-let config=null;
-try {
-    config = yaml.safeLoad(fs.readFileSync('nalc-mobile.yaml', 'utf8'));
-    // const indentedJson = JSON.stringify(config, null, 4);
-    // console.log(indentedJson);
-} catch (e) {
-    console.log(e);
-    //process.exit(1);
-}
-module.exports=config;
+const cfg =   {BACKEND_PROTOCOL, BACKEND_PORT,BACKEND_HOST, BACKEND_ADMINS_PATH, USER_KEY};
+console.log(`config:${JSON.stringify(cfg) }`);
+
+export default  cfg;

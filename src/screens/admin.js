@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import Anchor from '../components/anchor';
 
-import { USER_KEY } from '../config';
+//import { USER_KEY } from '../config';
 
 export default class Admin extends React.Component {
     static get options() {
@@ -21,14 +21,14 @@ export default class Admin extends React.Component {
             }
         };
     }
-    logout = async () => {
-        try {
-            await AsyncStorage.removeItem(USER_KEY);
-            //goToAuth()
-        } catch (err) {
-            console.log('error signing out...: ', err)
-        }
-    };
+    // logout = async () => {
+    //     try {
+    //         await AsyncStorage.removeItem(USER_KEY);
+    //         //goToAuth()
+    //     } catch (err) {
+    //         console.log('error signing out...: ', err)
+    //     }
+    // };
     render() {
         const {navigate} = this.props.navigation;
 

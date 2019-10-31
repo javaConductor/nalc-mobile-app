@@ -24,7 +24,6 @@ const MainNavigator = createStackNavigator({
         initialRouteName: 'Home',
     });
 
-
 const App = createAppContainer(MainNavigator);
 export default App;
 
