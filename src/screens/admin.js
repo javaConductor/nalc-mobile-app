@@ -7,10 +7,7 @@ import {
     StyleSheet,
     AsyncStorage
 } from 'react-native'
-import Anchor from '../anchor';
-
-//..import { goToAuth } from './navigation';
-//import {Navigation} from 'react-native-navigation';
+import Anchor from '../components/anchor';
 
 import { USER_KEY } from '../config';
 
@@ -33,18 +30,32 @@ export default class Admin extends React.Component {
         }
     };
     render() {
+        const {navigate} = this.props.navigation;
+
         return (
             <View style={styles.container}>
 
                 <Button
                     onPress={() => {
-                        Navigation.push(this.props.componentId, {
-                            component: {
-                                name: 'Screen2',
-                            }
-                        });
+                        navigate("ManageAdmins", {});
                     }}
                     title="Manage Administators"
+                />
+
+
+                <Button
+                    onPress={() => {
+                        navigate("ManageCategories", {});
+                    }}
+                    title="Manage Categories"
+                />
+
+
+                <Button
+                    onPress={() => {
+                        navigate("UploadArticle", {});
+                    }}
+                    title="Upload Article"
                 />
             </View>
         )

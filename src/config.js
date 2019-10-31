@@ -1,6 +1,7 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
 const process = require('process');
+
 console.log("config.js");
 let config=null;
 try {
@@ -9,6 +10,6 @@ try {
     // console.log(indentedJson);
 } catch (e) {
     console.log(e);
-    process.exit(1);
+    //process.exit(1);
 }
 module.exports=config;

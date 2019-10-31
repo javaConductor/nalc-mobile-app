@@ -1,4 +1,4 @@
-// ManageCategories.js
+// UploadArticle.js
 import React from 'react'
 import {
     View,
@@ -9,12 +9,12 @@ import {
 } from 'react-native'
 import Anchor from '../../components/anchor';
 
-export default class ManageCategories extends React.Component {
+export default class UploadArticle extends React.Component {
     static get options() {
         return {
             topBar: {
                 title: {
-                    text: 'Manage Categories'
+                    text: 'Upload Article'
                 },
             }
         };
@@ -24,7 +24,7 @@ export default class ManageCategories extends React.Component {
         return (
             <View style={styles.container}>
 
-                <Text>Hello from Manage Categories screen.</Text>
+                <Text>Hello from Upload Article screen.</Text>
 
             </View>
         )
