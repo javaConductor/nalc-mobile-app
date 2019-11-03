@@ -81,7 +81,7 @@ export default class EditAdmin extends React.Component {
         hash.update(password);
         return hash.hex();
     }
-    onSave(admin) {
+    async onSave(admin) {
         let newAdmin;
         let newPswd;
         if (this.state.password1.length > 0){
@@ -91,9 +91,10 @@ export default class EditAdmin extends React.Component {
         }else{
             newAdmin = {...this.state.admin, passwordHash: null};
         }
-        this.setState((prevState) => ({...prevState, newAdmin}));
+        this.setState((prevState) => ({...prevState, admin: newAdmin}));
         /// Use Users service to save the admin
         console.log(`Saving admin: ${newPswd? 'pass: '+ newPswd : ''} ${JSON.stringify(newAdmin)}`);
+        await Users.updateAdmin(newAdmin);
     }
 
     validEmail(email) {
@@ -198,7 +199,7 @@ export default class EditAdmin extends React.Component {
                 </View>
                 <View>
                     <Button
-                        disabled={!(hasValidEmail && passwordsMatch)}
+                        disabled={!(hasValidEmail && passwordsOk)}
                         title={'Save'}
                         raised={true}
                         onPress={() => this.onSave(this.state.admin)}/>
