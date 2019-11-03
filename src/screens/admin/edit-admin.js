@@ -12,6 +12,7 @@ import {Col, Row, Grid} from "react-native-easy-grid";
 import Users from '../../services/users';
 //import TextInput from "react-native-web/src/exports/TextInput";
 import InputPassword from 'react-native-elements-input-password';
+import sha256 from 'js-sha256';
 
 function remove_character(str_to_remove, str) {
     let reg = new RegExp(str_to_remove)
@@ -75,8 +76,24 @@ export default class EditAdmin extends React.Component {
         this.setState((prevState) => ({...prevState, password2: password}));
     }
 
+    passwordHash(password){
+        var hash = sha256.create();
+        hash.update(password);
+        return hash.hex();
+    }
     onSave(admin) {
-        console.log(`Saving admin: ${JSON.stringify(admin)}`);
+        let newAdmin;
+        let newPswd;
+        if (this.state.password1.length > 0){
+            var hash = this.passwordHash(this.state.password1);
+            newPswd = this.state.password1;
+             newAdmin = {...this.state.admin, passwordHash: hash};
+        }else{
+            newAdmin = {...this.state.admin, passwordHash: null};
+        }
+        this.setState((prevState) => ({...prevState, newAdmin}));
+        /// Use Users service to save the admin
+        console.log(`Saving admin: ${newPswd? 'pass: '+ newPswd : ''} ${JSON.stringify(newAdmin)}`);
     }
 
     validEmail(email) {
