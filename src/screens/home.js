@@ -21,7 +21,7 @@ class HomeScreen extends React.Component {
         const {navigate} = this.props.navigation;
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>NALC Mobile in view</Text>
+                <Text>N A L C   M o b i l e</Text>
                 <Button
                     onPress={() => {
                         navigate("Admin", {});

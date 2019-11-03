@@ -3,27 +3,28 @@ import React from 'react'
 import {
     View,
     Text,
-    Button,
+    Button, TextInput,
     StyleSheet, Switch,
     AsyncStorage
 } from 'react-native'
 import {SocialIcon, CheckBox} from 'react-native-elements';
 import {Col, Row, Grid} from "react-native-easy-grid";
 import Users from '../../services/users';
-import TextInput from "react-native-web/src/exports/TextInput";
+//import TextInput from "react-native-web/src/exports/TextInput";
+import InputPassword from 'react-native-elements-input-password';
 
- function remove_character(str_to_remove, str) {
+function remove_character(str_to_remove, str) {
     let reg = new RegExp(str_to_remove)
     return str.replace(reg, '')
 }
 
 export default class EditAdmin extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        const {navigation:{state:{params:{admin}}}} = props;
-        console.log(`EditAdmin(${JSON.stringify( admin)})`);
-        this.state = { admin };
+        const {navigation: {state: {params: {admin}}}} = props;
+        console.log(`EditAdmin(${JSON.stringify(admin)})`);
+        this.state = {admin, password1:'', password2:''};
     }
 
     static get options() {
@@ -36,106 +37,154 @@ export default class EditAdmin extends React.Component {
         };
     }
 
-    updateEmail(email){
+    updateEmail(email) {
         console.log(`updateEmail: email:${email}`);
         const admin = {...this.state.admin, email};
-        this.setState((prevState) => ({ ...prevState, admin })  );
+        this.setState((prevState) => ({...prevState, admin}));
     }
 
-    updateManageAdmins(canManage){
+    updateManageAdmins(canManage) {
         console.log(`updateManageAdmins: canManage:${canManage}`);
         this.setState((prevState) => {
             const {admin} = prevState;
             const permissions = (canManage && !admin.permissions.includes('M')) ? admin.permissions + 'M'
-                :  ( admin.permissions.includes('M') ? remove_character('M', admin.permissions) : admin.permissions );
+                : (admin.permissions.includes('M') ? remove_character('M', admin.permissions) : admin.permissions);
             console.log(`updateManageAdmins: admin.permissions: ${permissions}`);
             const newAdmin = {...this.state.admin, permissions};
-            return { ...prevState, admin : newAdmin};
+            return {...prevState, admin: newAdmin};
         });
-
     }
 
-    // updateEmail(firstName){
-    //     const admin = {...this.state.admin, firstName};
-    //     this.setState((prevState) => ({ ...prevState, admin})  );
-    // }
-    //
-    // updateEmail(firstName){
-    //     const admin = {...this.state.admin, firstName};
-    //     this.setState((prevState) => ({ ...prevState, admin})  );
-    // }
+    updateFirstName(firstName) {
+        const admin = {...this.state.admin, firstName};
+        this.setState((prevState) => ({...prevState, admin}));
+    }
 
+    updateLastName(lastName) {
+        const admin = {...this.state.admin, lastName};
+        this.setState((prevState) => ({...prevState, admin}));
+    }
 
-    onSave(admin){
+    updatePassword1(password) {
+        console.log(`updatePassword1: ${password}`);
+        this.setState((prevState) => ({...prevState, password1: password}));
+    }
 
+    updatePassword2(password) {
+        console.log(`updatePassword2: ${password}`);
+        this.setState((prevState) => ({...prevState, password2: password}));
+    }
+
+    onSave(admin) {
         console.log(`Saving admin: ${JSON.stringify(admin)}`);
+    }
+
+    validEmail(email) {
+        function hasWhiteSpace(s) {
+            return /\s/g.test(s);
+        }
+
+        return email.includes('@') && !hasWhiteSpace(email);
     }
 
     render() {
         const {admin} = this.state;
 
+        /// Email error indicator
+        const hasValidEmail = this.validEmail(admin.email);
+        const emailBackgroundColor = (hasValidEmail ? 'white' : 'red');
+
+        /// Password error indicator
+        const passwordsMatch = this.state.password1 === this.state.password2;
+        const passwordsOk = passwordsMatch && (this.state.password1.length == 0 || this.state.password1.length > 5);
+        const passwordBackgroundColor = (passwordsOk ? 'white' : 'red');
+
+        console.log(`render(): emailBackgroundColor: ${emailBackgroundColor} `);
+        console.log(`render(): passwordBackgroundColor: ${passwordBackgroundColor} `);
         return <View style={styles.container}>
-            <Text>{admin.id ? 'Edit' : 'Add'} Administrator</Text>
+            <Text style={{color: 'white'}}>{admin.id ? 'Edit' : 'Add'} Administrator</Text>
             <View style={styles.form}>
                 <View style={styles.formRow}>
-                    <View  style={styles.formLabel}>
+                    <View style={styles.formLabel}>
                         <Text>First Name</Text>
                     </View>
-                    <View>
+                    <View style={styles.formInput}>
                         <Text style={styles.formInput}>
-                        <TextInput value={admin.firstName} />
+                            <TextInput
+                                value={admin.firstName}
+                                onChangeText={this.updateFirstName.bind(this)}/>
                         </Text>
                     </View>
                 </View>
                 <View style={styles.formRow}>
-                    <View  style={styles.formLabel}>
+                    <View style={styles.formLabel}>
                         <Text>Last Name</Text>
                     </View>
-                    <View>
+                    <View style={styles.formInput}>
                         <Text style={styles.formInput}>
-                            <TextInput value={admin.lastName}/></Text>
-                    </View>
-                </View>
-                <View style={styles.formRow}>
-                    <View  style={styles.formLabel}>
-                        <Text>Email</Text>
-                    </View>
-                    <View>
-                        <Text style={styles.formInput}>
-                        <TextInput  value={admin.email}  onChangeText={ this.updateEmail.bind(this)} />
+                            <TextInput
+                                value={admin.lastName}
+                                onChangeText={this.updateLastName.bind(this)}/>
                         </Text>
                     </View>
                 </View>
                 <View style={styles.formRow}>
-                    <View  style={styles.formLabel}>
+                    <View style={styles.formLabel}>
+                        <Text>Email</Text>
+                    </View>
+                    <View style={styles.formInput}>
+                        <Text style={{...styles.formEmailInput, color: 'white', backgroundColor: emailBackgroundColor}}>
+                            <TextInput
+                                style={{...styles.formInput,}}
+                                value={admin.email}
+                                onChangeText={this.updateEmail.bind(this)}/>
+                        </Text>
+                    </View>
+                </View>
+                <View style={styles.formRow}>
+                    <View style={styles.formLabel}>
                         <Text>Password</Text>
                     </View>
-                    <View>
-                        <TextInput style={styles.formInput} />
+                    <View style={styles.formInput}>
+                        <Text style={{...styles.formInput, backgroundColor: passwordBackgroundColor}}>
+                            <TextInput
+                                secureTextEntry={true}
+                                style={{...styles.formInput,}}
+                                onChangeText={this.updatePassword1.bind(this)}/>
+                        </Text>
                     </View>
                 </View>
                 <View style={styles.formRow}>
                     <View style={styles.formLabel}>
                         <Text>Retype Password</Text>
                     </View>
-                    <View>
-                        <TextInput style={styles.formInput} />
+                    <View style={styles.formInput}>
+                        <Text style={{...styles.formInput, backgroundColor: passwordBackgroundColor}}>
+                            <TextInput
+                                secureTextEntry={true}
+                                style={{...styles.formInput}}
+                                onChangeText={this.updatePassword2.bind(this)}
+                            /></Text>
                     </View>
                 </View>
                 <View style={styles.formRow}>
                     <View style={styles.formLabel}>
                         <Text>Manage Admins</Text>
                     </View>
-                    <View style={styles.formInput} >
+                    <View style={styles.formInput}>
                         <Switch
-                            onValueChange={ this.updateManageAdmins.bind(this) }
+                            onValueChange={this.updateManageAdmins.bind(this)}
                             value={admin.permissions.includes('M')}
                         />
                     </View>
 
                 </View>
                 <View>
-                    <Button title={'Save'} onPress={ () => this.onSave(this.state.admin)} />
+                    <Button
+                        disabled={!(hasValidEmail && passwordsMatch)}
+                        title={'Save'}
+                        raised={true}
+                        onPress={() => this.onSave(this.state.admin)}/>
                 </View>
             </View>
 
@@ -145,8 +194,11 @@ export default class EditAdmin extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        //justifyContent: 'center',
+        //alignItems: 'center',
+        backgroundColor: 'navy',
+        width: '100%'
+
     },
     form: {
         flex: 1,
@@ -186,19 +238,23 @@ const styles = StyleSheet.create({
         borderWidth: 1,
 
         backgroundColor: 'white',
-        width: '50%'
+        width: '100%'
+    },
+    formEmailInput: {
+        flex: 1,
+        borderWidth: 1,
+        backgroundColor: 'white',
+        width: '100%'
     },
     formRow: {
+        margin: 2,
         flexDirection: 'row',
         justifyContent: 'space-between'
         // color: 'white'
     },
-    forPassword: {
+    formPassword: {
         //flexDirection: 'col',
         backgroundColor: 'navy',
-        autoCompleteType: 'password',
-        secureTextEntry: true,
-
         // color: 'white',
         // width: '50%'
     },
