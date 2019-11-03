@@ -8,10 +8,14 @@ import {
     AsyncStorage
 } from 'react-native'
 import Anchor from '../components/anchor';
+import {withNavigation} from "react-navigation";
 
 //import { USER_KEY } from '../config';
 
-export default class Admin extends React.Component {
+class Admin extends React.Component {
+
+
+
     static get options() {
         return {
             topBar: {
@@ -61,6 +65,7 @@ export default class Admin extends React.Component {
         )
     }
 }
+export default withNavigation(Admin);
 
 const styles = StyleSheet.create({
     container: {

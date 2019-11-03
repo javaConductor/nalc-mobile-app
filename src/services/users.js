@@ -7,14 +7,15 @@ const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config
 const storeAdminsLocally = (admins) => {
   AsyncStorage.setItem()
 };
-module.exports = {
+export default {
 
     getAdmins: () => {
         return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`)
+            // .then((response) => response.json())
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(JSON.stringify(responseJson));
-                storage.storeAdminList()
+                storage.storeAdminList(responseJson);
                 return responseJson;
             })
             .catch((error) =>{

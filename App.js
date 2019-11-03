@@ -5,6 +5,7 @@ import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import HomeScreen from './src/screens/home';
 import AdminScreen from './src/screens/admin';
+import EditAdminScreen from './src/screens/admin/edit-admin';
 import PostListScreen from './src/screens/post-list';
 import ManageInterestsScreen from './src/screens/manage-interests';
 import ManageAdminsScreen from './src/screens/admin/manage-admins';
@@ -17,6 +18,7 @@ const MainNavigator = createStackNavigator({
             ManageInterests: {screen: ManageInterestsScreen},
             Admin: {screen: AdminScreen},
                 ManageAdmins: {screen: ManageAdminsScreen},
+                    EditAdmin: {screen: EditAdminScreen},
                 ManageCategories: {screen: ManageCategoriesScreen},
                 UploadArticle: {screen: UploadArticleScreen},
     },
