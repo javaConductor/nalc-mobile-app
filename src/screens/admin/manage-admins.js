@@ -12,25 +12,6 @@ import {Col, Row, Grid} from "react-native-easy-grid";
 import Users from '../../services/users';
 import { withNavigation } from 'react-navigation';
 
-const fakeData = [{
-    id: 1,
-    firstName: "Lee",
-    lastName: "Collins",
-    permissions: "AM"
-},
-    {
-        id: 2,
-        firstName: "Kathy",
-        lastName: "Raby",
-        permissions: "AM"
-    }, {
-        id: 3,
-        firstName: "David",
-        lastName: "Collins",
-        permissions: "A"
-    }];
-
-
 function remove_character(str_to_remove, str) {
     let reg = new RegExp(str_to_remove)
     return str.replace(reg, '')
@@ -95,6 +76,7 @@ class ManageAdmins extends React.Component {
             return this.renderError(e);
         if (isLoading)
             return this.renderLoading();
+        const {navigate} = this.props.navigation;
 
         const adminList = admins.map((admin) => this.renderAdmin(admin, this.props));
         const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : "";
@@ -107,6 +89,7 @@ class ManageAdmins extends React.Component {
                     <Text>Actions</Text>
                 </View>
             </View>
+            <Button title={"New Admin"}  onPress={() => {navigate('EditAdmin', {})}} />
             {adminList}
         </View>
     }

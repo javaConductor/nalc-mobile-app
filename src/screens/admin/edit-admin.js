@@ -10,7 +10,6 @@ import {
 import {SocialIcon, CheckBox} from 'react-native-elements';
 import {Col, Row, Grid} from "react-native-easy-grid";
 import Users from '../../services/users';
-//import TextInput from "react-native-web/src/exports/TextInput";
 import InputPassword from 'react-native-elements-input-password';
 import sha256 from 'js-sha256';
 
@@ -23,7 +22,8 @@ export default class EditAdmin extends React.Component {
 
     constructor(props) {
         super(props);
-        const {navigation: {state: {params: {admin}}}} = props;
+        const admin = props.navigation.state.params.admin || {permissions: 'A', status: 'Active'};
+        //const {navigation: {state: {params: {admin}}}} = props;
         console.log(`EditAdmin(${JSON.stringify(admin)})`);
         this.state = {admin, password1:'', password2:''};
     }
@@ -94,7 +94,8 @@ export default class EditAdmin extends React.Component {
         this.setState((prevState) => ({...prevState, admin: newAdmin}));
         /// Use Users service to save the admin
         console.log(`Saving admin: ${newPswd? 'pass: '+ newPswd : ''} ${JSON.stringify(newAdmin)}`);
-        await Users.updateAdmin(newAdmin);
+
+        await admin.id ? Users.updateAdmin(newAdmin) : Users.addAdmin(newAdmin);
     }
 
     validEmail(email) {
@@ -102,19 +103,30 @@ export default class EditAdmin extends React.Component {
             return /\s/g.test(s);
         }
 
-        return email.includes('@') && !hasWhiteSpace(email);
+        return email &&  email.includes('@') && !hasWhiteSpace(email);
+    }
+
+    isPasswordOk(state){
+        console.log(`isPasswordOk: ${state.password1} === ${state.password2} = ${state.password1===state.password2}`);
+        console.log(`isPasswordOk: length: ${state.password1.length} and ${state.password2.length}`);
+        const passwordsMatch = state.password1 === state.password2;
+        const passwordsOk = state.admin.id
+            ? (passwordsMatch && ( state.password1.length > 5 || state.password1.length == 0 ))
+            : passwordsMatch && ( state.password1.length > 5);
+        return passwordsOk;
     }
 
     render() {
-        const {admin} = this.state;
+        const {admin = {permissions: 'A'}} = this.state;
+
+        console.log(`EditAdmin.render: admin:${JSON.stringify(admin)}`);
 
         /// Email error indicator
         const hasValidEmail = this.validEmail(admin.email);
         const emailBackgroundColor = (hasValidEmail ? 'white' : 'red');
 
         /// Password error indicator
-        const passwordsMatch = this.state.password1 === this.state.password2;
-        const passwordsOk = passwordsMatch && (this.state.password1.length == 0 || this.state.password1.length > 5);
+        const passwordsOk = this.isPasswordOk( this.state );
         const passwordBackgroundColor = (passwordsOk ? 'white' : 'red');
 
         console.log(`render(): emailBackgroundColor: ${emailBackgroundColor} `);

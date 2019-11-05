@@ -22,7 +22,30 @@ export default {
                 console.error(error);
             });
     },
-    addAdmin: (adminData) => {},
+    addAdmin: (adminData) => {
+        const getAdmins = this.getAdmins;
+        return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({...adminData, id: undefined}),
+        })
+            .then((resp) => {
+                return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`);
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(JSON.stringify(responseJson));
+                return responseJson;
+            })
+            .catch((error) =>{
+                console.error(error);
+            });
+
+
+    },
 
     /**
      *
@@ -51,9 +74,6 @@ export default {
             .catch((error) =>{
                 console.error(error);
             });
-
-
-
     },
     removeAdmin: (adminId) => {},
     addAdminPhoto: (adminId, buffer) => {},
