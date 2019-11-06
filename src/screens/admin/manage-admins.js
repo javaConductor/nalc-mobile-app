@@ -22,7 +22,7 @@ const STATUS_ACTIVE = "Active";
 class ManageAdmins extends React.Component {
 
     constructor(props){
-        console.log(`ManageAdmins: props: ${JSON.stringify(props)}`);
+        console.log(`ManageAdmins.constructor(props: ${JSON.stringify(props)})`);
         super(props);
     }
 
@@ -43,17 +43,19 @@ class ManageAdmins extends React.Component {
     }
 
     async componentWillMount() {
-        console.log("ManageAdmins: componentWillMount");
+        console.log("ManageAdmins.componentWillMount");
         try {
-            // this.setState({admins: fakeData, isLoading: false});
-            // console.log(`ManageAdmins: componentWillMount: fakeData: ${JSON.stringify(fakeData)}`);
-
-            /// uncomment this after tests
-            const admins = await Users.getAdmins();
+            const admins = this.props.navigation.state.params.admins ||  await Users.getAdmins();
+            console.log(`ManageAdmins.componentWillMount(): admins: (${JSON.stringify(admins, null,2)})`);
             this.setState({admins, isLoading: false});
         } catch (e) {
+            console.log(`ManageAdmins.componentWillMount(): error: (${JSON.stringify(e, null,2)})`);
             this.setState({...this.state, errLoading: true, error: e});
         }
+    }
+
+    componentDidMount(){
+        console.log(`ManageAdmins.componentDidMount(): admins: (${JSON.stringify(this.props, null,2)})`);
     }
 
     renderError(e) {
@@ -69,6 +71,7 @@ class ManageAdmins extends React.Component {
 
     render() {
         console.log(`ManageAdmins.render: props: ${JSON.stringify(this.props)}`);
+        console.log(`ManageAdmins.render: state: ${JSON.stringify(this.state)}`);
 
         const {admins, isLoading, errLoading, error} = this.state;
 
@@ -100,16 +103,19 @@ class ManageAdmins extends React.Component {
     }
     async onRemoveAdmin(admin) {
         const {navigate} = this.props.navigation;
-        await Users.removeAdmin(admin.id);
-        const newList = this.state.admins.filter((adm) => {adm.id !== admin.id});
-        this.setState((prevState,props) => {  return {...prevState, admins: newList} } );
+        console.log(`ManageAdmins.onRemoveAdmin(${JSON.stringify(admin, null,2)})`);
+
+        const newList = await Users.removeAdmin(admin.id);
+        this.setState((prevState) => {  return {...prevState, admins: newList} } );
+        console.log(`ManageAdmins.onRemoveAdmin(${JSON.stringify(admin, null,2)}): newList: (${JSON.stringify(newList, null,2)})`);
+        navigate('ManageAdmins',{admins: newList });
     }
 
     renderAdmin(admin, props) {
-        console.log(`ManageAdmins.renderAdmin: props: ${JSON.stringify(props)}`);
-        console.log(`ManageAdmins.renderAdmin: state: ${JSON.stringify(this.state)}`);
+//        console.log(`ManageAdmins.renderAdmin: props: ${JSON.stringify(props)}`);
+  //      console.log(`ManageAdmins.renderAdmin: state: ${JSON.stringify(this.state)}`);
 
-        console.log(`renderAdmin(${JSON.stringify(admin)})`);
+        console.log(`ManageAdmins.renderAdmin(${JSON.stringify(admin)})`);
         const {navigate} = props.navigation;
 
         const {id, firstName, lastName, permissions} = admin;

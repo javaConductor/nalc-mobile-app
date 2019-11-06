@@ -95,7 +95,12 @@ export default class EditAdmin extends React.Component {
         /// Use Users service to save the admin
         console.log(`Saving admin: ${newPswd? 'pass: '+ newPswd : ''} ${JSON.stringify(newAdmin)}`);
 
-        await admin.id ? Users.updateAdmin(newAdmin) : Users.addAdmin(newAdmin);
+        const p = admin.id ? Users.updateAdmin(newAdmin) : Users.addAdmin(newAdmin);
+        p.catch((err) => {}).then((admins) => {
+            //this.props.navigation.goBack().goBack();
+            this.props.navigation.navigate('Admin', {});
+        });
+
     }
 
     validEmail(email) {

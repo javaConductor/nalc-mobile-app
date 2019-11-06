@@ -75,6 +75,31 @@ export default {
                 console.error(error);
             });
     },
-    removeAdmin: (adminId) => {},
+    removeAdmin: (adminId) => {
+        const getAdmins = this.getAdmins;
+        console.log(`removeAdmin: ${adminId}` );
+
+        return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}/${adminId}`, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((resp) => {
+                //console.log(JSON.stringify(resp));
+
+                return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`);
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                //console.log(JSON.stringify(responseJson));
+                return responseJson;
+            })
+            .catch((error) =>{
+                console.error(error);
+                throw error;
+            });
+    },
     addAdminPhoto: (adminId, buffer) => {},
 };
