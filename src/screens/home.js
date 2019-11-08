@@ -4,6 +4,7 @@ import {View, Text, Button} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import systemCheck from "../services/system-check";
+import auth from '../services/auth';
 
 class HomeScreen extends React.Component {
     async componentDidMount() {
@@ -19,9 +20,11 @@ class HomeScreen extends React.Component {
 
     render() {
         const {navigate} = this.props.navigation;
+        const logoffComponent = auth.isUserAuthenticated() ? <Button title={'Sign Out'} onPress={() => auth.logoff() }/> : null;
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Text>N A L C   M o b i l e</Text>
+                {logoffComponent}
                 <Button
                     onPress={() => {
                         navigate("Admin", {});

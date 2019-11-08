@@ -1,20 +1,27 @@
 // Admin.js
 import React from 'react'
-import {
-    View,
-    Text,
-    Button,
-    StyleSheet,
-    AsyncStorage
-} from 'react-native'
-import Anchor from '../components/anchor';
+import {Button, StyleSheet, View} from 'react-native'
 import {withNavigation} from "react-navigation";
+import auth from '../services/auth';
 
 //import { USER_KEY } from '../config';
 
 class Admin extends React.Component {
 
+    constructor(props) {
+        super(props);
 
+    }
+
+    componentWillMount() {
+        const {navigate} = this.props.navigation;
+
+        auth.isUserAuthenticated().then((authenticated) => {
+            console.log(`componentWillMount: isAuthenticated: ${authenticated}`);
+            if (!authenticated)
+                navigate('Login', {target: 'Admin', targetData: {}});
+        })
+    }
 
     static get options() {
         return {
@@ -25,6 +32,7 @@ class Admin extends React.Component {
             }
         };
     }
+
     // logout = async () => {
     //     try {
     //         await AsyncStorage.removeItem(USER_KEY);
@@ -65,6 +73,7 @@ class Admin extends React.Component {
         )
     }
 }
+
 export default withNavigation(Admin);
 
 const styles = StyleSheet.create({

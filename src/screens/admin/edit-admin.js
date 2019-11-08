@@ -1,16 +1,7 @@
 // EditAdmin.js
 import React from 'react'
-import {
-    View,
-    Text,
-    Button, TextInput,
-    StyleSheet, Switch,
-    AsyncStorage
-} from 'react-native'
-import {SocialIcon, CheckBox} from 'react-native-elements';
-import {Col, Row, Grid} from "react-native-easy-grid";
+import {Button, StyleSheet, Switch, Text, TextInput, View} from 'react-native'
 import Users from '../../services/users';
-import InputPassword from 'react-native-elements-input-password';
 import sha256 from 'js-sha256';
 
 function remove_character(str_to_remove, str) {
@@ -39,7 +30,7 @@ export default class EditAdmin extends React.Component {
     }
 
     updateEmail(email) {
-        console.log(`updateEmail: email:${email}`);
+        // console.log(`updateEmail: email:${email}`);
         const admin = {...this.state.admin, email};
         this.setState((prevState) => ({...prevState, admin}));
     }
@@ -67,12 +58,12 @@ export default class EditAdmin extends React.Component {
     }
 
     updatePassword1(password) {
-        console.log(`updatePassword1: ${password}`);
+        //console.log(`updatePassword1: ${password}`);
         this.setState((prevState) => ({...prevState, password1: password}));
     }
 
     updatePassword2(password) {
-        console.log(`updatePassword2: ${password}`);
+        //console.log(`updatePassword2: ${password}`);
         this.setState((prevState) => ({...prevState, password2: password}));
     }
 
@@ -112,8 +103,8 @@ export default class EditAdmin extends React.Component {
     }
 
     isPasswordOk(state){
-        console.log(`isPasswordOk: ${state.password1} === ${state.password2} = ${state.password1===state.password2}`);
-        console.log(`isPasswordOk: length: ${state.password1.length} and ${state.password2.length}`);
+        // console.log(`isPasswordOk: ${state.password1} === ${state.password2} = ${state.password1===state.password2}`);
+        // console.log(`isPasswordOk: length: ${state.password1.length} and ${state.password2.length}`);
         const passwordsMatch = state.password1 === state.password2;
         const passwordsOk = state.admin.id
             ? (passwordsMatch && ( state.password1.length > 5 || state.password1.length == 0 ))
@@ -124,7 +115,7 @@ export default class EditAdmin extends React.Component {
     render() {
         const {admin = {permissions: 'A'}} = this.state;
 
-        console.log(`EditAdmin.render: admin:${JSON.stringify(admin)}`);
+        //console.log(`EditAdmin.render: admin:${JSON.stringify(admin)}`);
 
         /// Email error indicator
         const hasValidEmail = this.validEmail(admin.email);
@@ -134,8 +125,8 @@ export default class EditAdmin extends React.Component {
         const passwordsOk = this.isPasswordOk( this.state );
         const passwordBackgroundColor = (passwordsOk ? 'white' : 'red');
 
-        console.log(`render(): emailBackgroundColor: ${emailBackgroundColor} `);
-        console.log(`render(): passwordBackgroundColor: ${passwordBackgroundColor} `);
+        // console.log(`render(): emailBackgroundColor: ${emailBackgroundColor} `);
+        // console.log(`render(): passwordBackgroundColor: ${passwordBackgroundColor} `);
         return <View style={styles.container}>
             <Text style={{color: 'white'}}>{admin.id ? 'Edit' : 'Add'} Administrator</Text>
             <View style={styles.form}>
