@@ -45,6 +45,8 @@ export default {
     ///////// SELECTED CATEGORIES
     //////////////////////////////
     storeSelectedCategories: async (selectedCategories) => {
+        console.log(`storage.storeSelectedCategories(): Storing: ${JSON.stringify(selectedCategories, null, 2)} `);
+
         return AsyncStorage.setItem(SELECTED_CATEGORIES, JSON.stringify(selectedCategories))
             .catch((e) => {
                 console.error(`storage.storeSelectedCategories(): Error storing Selected Categories ${e} `);

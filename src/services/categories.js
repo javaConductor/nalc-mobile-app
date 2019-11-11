@@ -19,14 +19,17 @@ export default {
 
     getCategories: () => {
         return fetch(`${backEndURL}/${config.BACKEND_CATEGORIES_PATH}`)
-        // .then((response) => response.json())
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(`categories: getCateories: ${JSON.stringify(responseJson, null, 2)}`);
-                return responseJson;
+                console.log(`categories: getCategories: ${JSON.stringify(responseJson, null, 2)}`);
+                const filtered = responseJson.filter((cat) => {return cat.name.toLowerCase() !== 'uncategorized'});
+                console.log(`categories: getCategories filtered: ${JSON.stringify(filtered, null, 2)}`);
+                return filtered;
             })
-            .catch((error) => {
-                console.error(error);
+            .catch(( error ) => {
+                //log and rethrow
+                console.log(`categories: getCategories filtered: ${JSON.stringify(error, null, 2)}`);
+                throw error;
             });
     },
     addCategory: (categoryData) => {

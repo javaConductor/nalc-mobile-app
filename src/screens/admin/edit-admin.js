@@ -3,11 +3,8 @@ import React from 'react'
 import {Button, StyleSheet, Switch, Text, TextInput, View} from 'react-native'
 import Users from '../../services/users';
 import sha256 from 'js-sha256';
-
-function remove_character(str_to_remove, str) {
-    let reg = new RegExp(str_to_remove)
-    return str.replace(reg, '')
-}
+import styles from '../../screens/main-styles';
+import utils from '../../services/util';
 
 export default class EditAdmin extends React.Component {
 
@@ -31,7 +28,7 @@ export default class EditAdmin extends React.Component {
 
     updateEmail(email) {
         // console.log(`updateEmail: email:${email}`);
-        const admin = {...this.state.admin, email};
+        const admin = {...this.state.admin, email: email};
         this.setState((prevState) => ({...prevState, admin}));
     }
 
@@ -40,7 +37,7 @@ export default class EditAdmin extends React.Component {
         this.setState((prevState) => {
             const {admin} = prevState;
             const permissions = (canManage && !admin.permissions.includes('M')) ? admin.permissions + 'M'
-                : (admin.permissions.includes('M') ? remove_character('M', admin.permissions) : admin.permissions);
+                : (admin.permissions.includes('M') ? utils.removeCharacter('M', admin.permissions) : admin.permissions);
             console.log(`updateManageAdmins: admin.permissions: ${permissions}`);
             const newAdmin = {...this.state.admin, permissions};
             return {...prevState, admin: newAdmin};
@@ -75,7 +72,6 @@ export default class EditAdmin extends React.Component {
     async onSave(admin) {
         let newAdmin;
         let newPswd;
-
 
         Users.checkEmailUsed(this.state.admin.id || -1, this.state.admin.email).then((emailAlreadyUsed) => {
             if ( emailAlreadyUsed ){
@@ -227,77 +223,3 @@ export default class EditAdmin extends React.Component {
         </View>
     }
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        //justifyContent: 'center',
-        //alignItems: 'center',
-        backgroundColor: 'navy',
-        width: '100%'
-
-    },
-    form: {
-        flex: 1,
-        flexDirection: 'column',
-        //backgroundColor: 'navy',
-        // color: 'white'
-    },
-    formLabel: {// View
-        flex: 1,
-        //flexDirection: 'col',
-
-        backgroundColor: 'white',
-        // color: 'white',
-        width: '50%'
-    },
-    formValue: {//View
-        flex: 1,
-        //flexDirection: 'col',
-        // color: 'navy',
-        borderRadius: 4,
-        borderWidth: 0.5,
-        borderColor: 'navy',
-        backgroundColor: 'white',
-        width: '50%'
-    },
-    formName: {
-        //flexDirection: 'col',
-        backgroundColor: 'navy',
-        // color: 'white',
-        // width: '50%'
-    },
-    formInput: {
-        flex: 1,
-        //flexDirection: 'col',
-        // color: 'navy',
-        borderColor: 'navy',
-        borderWidth: 1,
-
-        backgroundColor: 'white',
-        width: '100%'
-    },
-    formEmailInput: {
-        flex: 1,
-        borderWidth: 1,
-        backgroundColor: 'white',
-        width: '100%'
-    },
-    formRow: {
-        margin: 2,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-        // color: 'white'
-    },
-    formPassword: {
-        //flexDirection: 'col',
-        backgroundColor: 'navy',
-        // color: 'white',
-        // width: '50%'
-    },
-    error: {
-        //flexDirection: 'col',
-        backgroundColor: 'red',
-        // color: 'white',
-        // width: '50%'
-    },
-});
