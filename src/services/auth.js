@@ -18,6 +18,18 @@ const self = {
     logoff: () => {
         return storage.storeAuthInfo({});
     },
+    currentUserCanManageAdmins: () => {
+        if (!self.isUserAuthenticated())
+            return false;
+        return storage.getAuthInfo()
+            .then(authInfo => {
+                console.log(`currentUserCanManageAdmins: user ${authInfo.username} has permissions: ${authInfo.permissions}` );
+                return  (authInfo.permissions && authInfo.permissions.includes('M'));
+            })
+            .catch((err) => {
+                console.error(`currentUserCanManageAdmins: Error checking user permissions ${err}` );
+            });
+    },
 
     authenticate: (email, passwordHash) => {
             return storage.storeAuthInfo({})

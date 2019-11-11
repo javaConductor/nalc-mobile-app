@@ -22,6 +22,7 @@ export default {
                 console.error(error);
             });
     },
+
     addAdmin: (adminData) => {
         const getAdmins = this.getAdmins;
         return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`, {
@@ -43,8 +44,6 @@ export default {
             .catch((error) =>{
                 console.error(error);
             });
-
-
     },
 
     /**
@@ -75,6 +74,7 @@ export default {
                 console.error(error);
             });
     },
+
     removeAdmin: (adminId) => {
         const getAdmins = this.getAdmins;
         console.log(`removeAdmin: ${adminId}` );
@@ -101,5 +101,27 @@ export default {
                 throw error;
             });
     },
+
+    checkEmailUsed: (id, email) => {
+        return storage.getAdminList()
+            .then((adminList) => {
+                const found = adminList.some( (adm) => {
+                    console.log(`checkEmailUsed(${id}, ${email}): comparing ${JSON.stringify(adm)} == ${adm.email.toUpperCase() === email.toUpperCase() && adm.id !== id}`);
+                    //console.log(`checkEmailUsed(${id}, ${email}): comparing ids ${adm.id !== id}`);
+                    //console.log(`checkEmailUsed(${id}, ${email}): comparing emails ${adm.email.toUpperCase() === email.toUpperCase()}`);
+
+                    return adm.email.toUpperCase() === email.toUpperCase() && adm.id !== id
+                });
+                console.log(`checkEmailUsed(${id}, ${email}): found: ${JSON.stringify(found)}`);
+                return found;
+            })
+            .catch((error) => {
+                // log and rethrow
+                console.error(`Error checking if email is used: ${error}`);
+                throw error;
+            });
+
+    },
+
     addAdminPhoto: (adminId, buffer) => {},
 };

@@ -39,13 +39,13 @@ class Login extends React.Component {
     }
 
     updateEmail(email) {
-        console.log(`updateEmail: email:${email}`);
+        //console.log(`updateEmail: email:${email}`);
         const auth = {...this.state.auth, email};
         this.setState((prevState) => ({...prevState, auth}));
     }
 
     updatePassword(password) {
-        console.log(`updatePassword: password:${password}`);
+        //console.log(`updatePassword: password:${password}`);
         const auth = {...this.state.auth, password};
         this.setState((prevState) => ({...prevState, auth}));
     }

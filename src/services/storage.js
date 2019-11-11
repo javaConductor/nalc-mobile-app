@@ -37,7 +37,7 @@ export default {
 
     getAuthInfo: async () => {
         const authInfoStr = await AsyncStorage.getItem(AUTH_INFO);
-        console.log(`storage.getAuthInfo(): Auth Info String: ${authInfoStr} `);
+        //console.log(`storage.getAuthInfo(): Auth Info String: ${authInfoStr} `);
         return JSON.parse(authInfoStr);
     },
 

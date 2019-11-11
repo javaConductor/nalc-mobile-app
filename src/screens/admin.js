@@ -1,26 +1,41 @@
 // Admin.js
 import React from 'react'
 import {Button, StyleSheet, View} from 'react-native'
-import {withNavigation} from "react-navigation";
+import {withNavigation, NavigationEvents} from "react-navigation";
 import auth from '../services/auth';
-
-//import { USER_KEY } from '../config';
-
 class Admin extends React.Component {
 
     constructor(props) {
         super(props);
-
+        this.state = {canManage: false};
     }
 
-    componentWillMount() {
+    async componentDidMount() {
         const {navigate} = this.props.navigation;
+        console.log(`admin.componentDidMount: state: ${JSON.stringify(this.state)}`);
 
-        auth.isUserAuthenticated().then((authenticated) => {
-            console.log(`componentWillMount: isAuthenticated: ${authenticated}`);
-            if (!authenticated)
-                navigate('Login', {target: 'Admin', targetData: {}});
-        })
+        this.setState((prevState) => {
+            return {...prevState, initializing: true};
+        });
+
+        return auth.isUserAuthenticated()
+            .then((authenticated) => {
+                console.log(`admin.componentDidMount: isAuthenticated: ${authenticated}`);
+                if (!authenticated) {
+                    console.log(`componentDidMount: navigating to Login screen.`);
+                    navigate('Login', {target: 'Admin', targetData: {}});
+                    return false;
+                } else {
+                    return auth.currentUserCanManageAdmins();
+                }
+            })
+            .then((canManage) => {
+                console.log(`admin.componentDidMount: canManage: ${canManage}`);
+                this.setState((prevState) => {
+                    return {...prevState, canManage: canManage, initializing: false};
+                });
+                return this.state;
+            });
     }
 
     static get options() {
@@ -33,35 +48,31 @@ class Admin extends React.Component {
         };
     }
 
-    // logout = async () => {
-    //     try {
-    //         await AsyncStorage.removeItem(USER_KEY);
-    //         //goToAuth()
-    //     } catch (err) {
-    //         console.log('error signing out...: ', err)
-    //     }
-    // };
     render() {
         const {navigate} = this.props.navigation;
+        if (this.state.initializing)
+            return null;
+        console.log(`admin.render: canManage: ${this.state.canManage}`);
+        const manageButton = this.state.canManage ? <Button
+            //const manageButton = (true) ? <Button
+            onPress={() => {
+                navigate("ManageAdmins", {});
+            }}
+            title="Manage Administators"
+        /> : null;
 
         return (
+
             <View style={styles.container}>
+                <NavigationEvents onDidFocus={this.componentDidMount.bind(this)} />
 
-                <Button
-                    onPress={() => {
-                        navigate("ManageAdmins", {});
-                    }}
-                    title="Manage Administators"
-                />
-
-
+                {manageButton}
                 <Button
                     onPress={() => {
                         navigate("ManageCategories", {});
                     }}
                     title="Manage Categories"
                 />
-
 
                 <Button
                     onPress={() => {

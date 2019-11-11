@@ -115,7 +115,7 @@ class ManageAdmins extends React.Component {
 //        console.log(`ManageAdmins.renderAdmin: props: ${JSON.stringify(props)}`);
   //      console.log(`ManageAdmins.renderAdmin: state: ${JSON.stringify(this.state)}`);
 
-        console.log(`ManageAdmins.renderAdmin(${JSON.stringify(admin)})`);
+        //console.log(`ManageAdmins.renderAdmin(${JSON.stringify(admin)})`);
         const {navigate} = props.navigation;
 
         const {id, firstName, lastName, permissions} = admin;

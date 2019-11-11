@@ -36,7 +36,7 @@ export default class EditAdmin extends React.Component {
     }
 
     updateManageAdmins(canManage) {
-        console.log(`updateManageAdmins: canManage:${canManage}`);
+        console.log(`updateManageAdmins: canManage: ${canManage}`);
         this.setState((prevState) => {
             const {admin} = prevState;
             const permissions = (canManage && !admin.permissions.includes('M')) ? admin.permissions + 'M'
@@ -75,30 +75,37 @@ export default class EditAdmin extends React.Component {
     async onSave(admin) {
         let newAdmin;
         let newPswd;
-        if (this.state.password1.length > 0){
-            var hash = this.passwordHash(this.state.password1);
-            newPswd = this.state.password1;
-             newAdmin = {...this.state.admin, passwordHash: hash};
-        }else{
-            newAdmin = {...this.state.admin, passwordHash: null};
-        }
-        this.setState((prevState) => ({...prevState, admin: newAdmin}));
-        /// Use Users service to save the admin
-        console.log(`Saving admin: ${newPswd? 'pass: '+ newPswd : ''} ${JSON.stringify(newAdmin)}`);
 
-        const p = admin.id ? Users.updateAdmin(newAdmin) : Users.addAdmin(newAdmin);
-        p.catch((err) => {}).then((admins) => {
-            //this.props.navigation.goBack().goBack();
-            this.props.navigation.navigate('Admin', {});
+
+        Users.checkEmailUsed(this.state.admin.id || -1, this.state.admin.email).then((emailAlreadyUsed) => {
+            if ( emailAlreadyUsed ){
+                this.setState((prevState) => { return {...prevState, message: `Email '${this.state.admin.email}' already registered to another user.` } })
+            }else{
+                if (this.state.password1.length > 0){
+                    var hash = this.passwordHash(this.state.password1);
+                    newPswd = this.state.password1;
+                    newAdmin = {...this.state.admin, passwordHash: hash};
+                }else{
+                    newAdmin = {...this.state.admin, passwordHash: null};
+                }
+                this.setState((prevState) => ({...prevState, admin: newAdmin}));
+                /// Use Users service to save the admin
+                console.log(`Saving admin: ${newPswd? 'pass: '+ newPswd : ''} ${JSON.stringify(newAdmin)}`);
+
+                const p = admin.id ? Users.updateAdmin(newAdmin) : Users.addAdmin(newAdmin);
+                p.catch((err) => {}).then((admins) => {
+                    //this.props.navigation.goBack().goBack();
+                    this.props.navigation.navigate('Admin', {});
+                });
+                return p;
+            }
         });
-
     }
 
     validEmail(email) {
         function hasWhiteSpace(s) {
             return /\s/g.test(s);
         }
-
         return email &&  email.includes('@') && !hasWhiteSpace(email);
     }
 
@@ -125,10 +132,13 @@ export default class EditAdmin extends React.Component {
         const passwordsOk = this.isPasswordOk( this.state );
         const passwordBackgroundColor = (passwordsOk ? 'white' : 'red');
 
+        const messageComponent = this.state.message ? <Text style={styles.error}>{this.state.message}</Text> : null;
+
         // console.log(`render(): emailBackgroundColor: ${emailBackgroundColor} `);
         // console.log(`render(): passwordBackgroundColor: ${passwordBackgroundColor} `);
         return <View style={styles.container}>
             <Text style={{color: 'white'}}>{admin.id ? 'Edit' : 'Add'} Administrator</Text>
+            { messageComponent }
             <View style={styles.form}>
                 <View style={styles.formRow}>
                     <View style={styles.formLabel}>
@@ -281,6 +291,12 @@ const styles = StyleSheet.create({
     formPassword: {
         //flexDirection: 'col',
         backgroundColor: 'navy',
+        // color: 'white',
+        // width: '50%'
+    },
+    error: {
+        //flexDirection: 'col',
+        backgroundColor: 'red',
         // color: 'white',
         // width: '50%'
     },
