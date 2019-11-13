@@ -66,7 +66,7 @@ class Login extends React.Component {
         }
         else{
             if (authInfo)
-                this.setState((prevState) => { return { ...prevState, message: authInfo.message}})
+                this.setState((prevState) => { return { ...prevState, message: authInfo.message}});
             else
                 this.setState((prevState) => { return { ...prevState, message: "Not authenticated!!"}})
 
@@ -84,7 +84,6 @@ class Login extends React.Component {
     }
 
     render() {
-        const {navigate} = this.props.navigation;
         const {email, password} = this.state.auth;
         const msgComponent = this.state.message ? <Text style={styles.errorText}>{this.state.message}</Text> : null;
         return (
@@ -108,8 +107,6 @@ class Login extends React.Component {
                             <Text>PASSWORD</Text>
                         </View>
                         <View style={styles.formInput}>
-
-
                             <Text style={ styles.formInput }>
                                 <TextInput
                                     secureTextEntry={true}

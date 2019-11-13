@@ -1,20 +1,9 @@
 import React from 'react';
-import {AsyncStorage} from 'react-native';
 import config from '../config';
-import storage from '../services/storage';
+import auth from '../services/auth';
 
 const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config.BACKEND_PORT}`;
-const storeAdminsLocally = (admins) => {
-    AsyncStorage.setItem()
-};
-const currentAccessToken = async () => {
-    const authInfo = await storage.getAuthInfo();
-    console.log(`categories: currentAccessToken(): ${authInfo}`);
 
-    if (!authInfo) return Promise.reject("User Not Authenticated !!");
-    if (!authInfo.accessToken) return Promise.reject("User Not Authenticated !!");
-    return authInfo.accessToken;
-};
 export default {
 
     getCategories: () => {
@@ -22,18 +11,21 @@ export default {
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(`categories: getCategories: ${JSON.stringify(responseJson, null, 2)}`);
-                const filtered = responseJson.filter((cat) => {return cat.name.toLowerCase() !== 'uncategorized'});
+                const filtered = responseJson.filter((cat) => {
+                    return cat.name.toLowerCase() !== 'uncategorized'
+                });
                 console.log(`categories: getCategories filtered: ${JSON.stringify(filtered, null, 2)}`);
                 return filtered;
             })
-            .catch(( error ) => {
+            .catch((error) => {
                 //log and rethrow
-                console.log(`categories: getCategories filtered: ${JSON.stringify(error, null, 2)}`);
+                console.error(`categories: getCategories: ERROR: ${JSON.stringify(error, null, 2)}`);
                 throw error;
             });
     },
+
     addCategory: (categoryData) => {
-        currentAccessToken().then((accessToken) => {
+        auth.currentAccessToken().then((accessToken) => {
             console.log(`categories.addCategory: ${JSON.stringify(categoryData)}`);
             return fetch(`${backEndURL}/${config.BACKEND_CATEGORIES_PATH}`, {
                 method: 'POST',
@@ -80,6 +72,7 @@ export default {
                 console.error(error);
             });
     },
+
     removeAdmin: (adminId) => {
         const getAdmins = this.getAdmins;
         console.log(`removeAdmin: ${adminId}`);
@@ -106,6 +99,7 @@ export default {
                 throw error;
             });
     },
+
     addAdminPhoto: (adminId, buffer) => {
     },
 };

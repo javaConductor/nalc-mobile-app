@@ -5,20 +5,20 @@ import storage from '../services/storage';
 
 const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config.BACKEND_PORT}`;
 const storeAdminsLocally = (admins) => {
-  AsyncStorage.setItem()
+    AsyncStorage.setItem()
 };
 export default {
 
     getAdmins: () => {
         return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`)
-            // .then((response) => response.json())
+        // .then((response) => response.json())
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(JSON.stringify(responseJson));
                 storage.storeAdminList(responseJson);
                 return responseJson;
             })
-            .catch((error) =>{
+            .catch((error) => {
                 console.error(error);
             });
     },
@@ -41,7 +41,7 @@ export default {
                 console.log(JSON.stringify(responseJson));
                 return responseJson;
             })
-            .catch((error) =>{
+            .catch((error) => {
                 console.error(error);
             });
     },
@@ -70,14 +70,14 @@ export default {
                 console.log(JSON.stringify(responseJson));
                 return responseJson;
             })
-            .catch((error) =>{
+            .catch((error) => {
                 console.error(error);
             });
     },
 
     removeAdmin: (adminId) => {
         const getAdmins = this.getAdmins;
-        console.log(`removeAdmin: ${adminId}` );
+        console.log(`removeAdmin: ${adminId}`);
 
         return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}/${adminId}`, {
             method: 'DELETE',
@@ -96,7 +96,7 @@ export default {
                 //console.log(JSON.stringify(responseJson));
                 return responseJson;
             })
-            .catch((error) =>{
+            .catch((error) => {
                 console.error(error);
                 throw error;
             });
@@ -105,7 +105,7 @@ export default {
     checkEmailUsed: (id, email) => {
         return storage.getAdminList()
             .then((adminList) => {
-                const found = adminList.some( (adm) => {
+                const found = adminList.some((adm) => {
                     console.log(`checkEmailUsed(${id}, ${email}): comparing ${JSON.stringify(adm)} == ${adm.email.toUpperCase() === email.toUpperCase() && adm.id !== id}`);
                     //console.log(`checkEmailUsed(${id}, ${email}): comparing ids ${adm.id !== id}`);
                     //console.log(`checkEmailUsed(${id}, ${email}): comparing emails ${adm.email.toUpperCase() === email.toUpperCase()}`);
@@ -123,5 +123,6 @@ export default {
 
     },
 
-    addAdminPhoto: (adminId, buffer) => {},
+    addAdminPhoto: (adminId, buffer) => {
+    },
 };

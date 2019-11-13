@@ -1,15 +1,7 @@
 // ManageCategories.js
 import React from 'react'
-import {
-    View,
-    Text,
-    Button,
-    StyleSheet,
-    AsyncStorage
-} from 'react-native'
-import Anchor from '../../components/anchor';
-import storage from '../../services/storage';
-import categoryService  from '../../services/categories';
+import {Button, StyleSheet, Text, View} from 'react-native'
+import categoryService from '../../services/categories';
 
 export default class ManageCategories extends React.Component {
 

@@ -1,14 +1,30 @@
 import React from 'react';
 import {AsyncStorage} from 'react-native';
-import config from '../config';
-import App from "../../App";
 
 //// Storage KEYS
 const ADMIN_LIST = "admins-list";
 const AUTH_INFO = "auth-info";
 const SELECTED_CATEGORIES = "SELECTED-CATEGORIES";
+const NEWS_POSTS = "NEWS_POSTS";
+const NEWS_POSTS_LAST_READ = "NEWS_POSTS_LAST_READ";
+const SETUP_FLAG = "SETUP";
 
 export default {
+
+    ////////////////////
+    //////// SETUP FLAG
+    ////////////////////
+    storeSetupFlag: async (setupFlag) => {
+        AsyncStorage.setItem(SETUP_FLAG, setupFlag)
+            .catch((e) => {
+                console.error(`Error storing Setup Flag ${e} `);
+            });
+    },
+    getSetupFlag: async () => {
+        const setupFlag = await AsyncStorage.getItem(SETUP_FLAG);
+        return (setupFlag);
+    },
+
     ////////////////////
     //////// ADMIN LIST
     ////////////////////
@@ -30,9 +46,9 @@ export default {
         console.log(`storage.storeAuthInfo(): Storing Auth Info: ${JSON.stringify(authInfo, null, 2)} `);
 
         return AsyncStorage.setItem(AUTH_INFO, JSON.stringify(authInfo))
-                .catch((e) => {
-                    console.error(`storage.storeAuthInfo(): Error storing Auth Info: ${e} `);
-                });
+            .catch((e) => {
+                console.error(`storage.storeAuthInfo(): Error storing Auth Info: ${e} `);
+            });
     },
 
     getAuthInfo: async () => {
@@ -69,12 +85,55 @@ export default {
     },
 
     updateAdmin: (adminId, adminData) => {
-      /// get the admin list
-      /// find the one with id == adminId
-      /// overwrite its data with adminData
-      /// store the list again
+        /// get the admin list
+        /// find the one with id == adminId
+        /// overwrite its data with adminData
+        /// store the list again
     },
     addAdmin: (adminData) => {
 
     },
+    storeNewsPosts: (posts) => {
+        // store posts and time
+        console.log(`storage.storeNewsPosts(): Storing: ${JSON.stringify(posts, null, 2)} `);
+        return AsyncStorage.setItem(NEWS_POSTS, JSON.stringify(posts))
+            .then(() => {
+                return AsyncStorage.setItem(NEWS_POSTS_LAST_READ, new Date().toISOString())
+            })
+            .catch((e) => {
+                console.error(`storage.storeNewsPosts(): Error storing News Posts ${e} `);
+            });
+    },
+    getNewsPosts: () => {
+        return AsyncStorage.getItem(NEWS_POSTS)
+            .then((newsStr) => {
+                console.log(`storage.getNewsPosts() newsStr: ${newsStr}`);
+                return newsStr ? JSON.parse(newsStr ) : [];
+            })
+            .catch((e) => {
+                console.error(`storage.getNewsPosts() Error getting News Posts: ${e} `);
+                throw e;
+            });
+    },
+    getNewsPostsLastReadDate: () => {
+        return AsyncStorage.getItem(NEWS_POSTS_LAST_READ)
+            .then((isoDateString) => {
+                /// if no date found then go back a month
+                if (!isoDateString) {
+                    var d = new Date();
+                    // d.setDate( d.getDate() -7);
+                    //d.setMonth(d.getMonth() - 5);
+                    d.setFullYear(d.getFullYear() - 1);
+                    isoDateString = d.toISOString();
+                }
+                const dt = new Date(isoDateString);
+                console.log(`storage.getNewsPostsLastReadDate(): Post last read on: ${dt.toISOString()} `);
+                return dt;
+            })
+            .catch((e) => {
+                console.error(`storage.getNewsPostsLastReadDate() Error getting News Posts Lst Read Date: ${e} `);
+                throw e;
+            });
+    },
+
 };
