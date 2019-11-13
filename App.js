@@ -13,9 +13,15 @@ import ManageCategoriesScreen from "./src/screens/admin/manage-categories";
 import EditCategoryScreen from "./src/screens/admin/categories/edit-category";
 import UploadArticleScreen from "./src/screens/admin/upload-article";
 import LoginScreen from './src/screens/login';
+import InitScreen from './src/screens/init-app';
+import TesterScreen from './src/screens/tester';
+import SplashScreen from './src/screens/splash';
 
 const MainNavigator = createStackNavigator({
+        Tester: { screen: TesterScreen},
+        Splash: { screen: SplashScreen},
         Home: {screen: HomeScreen},
+            InitApp: {screen: InitScreen},
             Login: {screen: LoginScreen},
             PostList: {screen: PostListScreen},
             ManageInterests: {screen: ManageInterestsScreen},
@@ -27,9 +33,8 @@ const MainNavigator = createStackNavigator({
                 UploadArticle: {screen: UploadArticleScreen},
     },
     {
-        initialRouteName: 'Home',
+        initialRouteName: 'InitApp',
     });
 
 const App = createAppContainer(MainNavigator);
 export default App;
-
