@@ -7,6 +7,11 @@ import systemCheck from "../services/system-check";
 import auth from '../services/auth';
 
 class HomeScreen extends React.Component {
+    static navigationOptions = {
+        title: 'Home',
+        headerLeft: null
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -15,18 +20,25 @@ class HomeScreen extends React.Component {
     }
 
     async componentDidMount() {
+        this._isMounted = true;
         try {
             console.log("Home.componentDidMount");
             await systemCheck.check();
             console.log("Home.componentDidMount: check OK");
             const isAuthenticated = await auth.isUserAuthenticated();
             console.log(`Home.componentDidMount: setting isAuthenticated: ${isAuthenticated }`);
-            this.setState((prevState ) => { return {...prevState, isAuthenticated } });
+            if (this._isMounted)
+                this.setState((prevState ) => { return {...prevState, isAuthenticated } });
+
         } catch (e) {
             console.log("Home.componentDidMount: check FAILED!!!");
             throw e;
         }
     }
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     onLogOff(){
         auth.logoff();
         this.setState((prevState ) => { return {...prevState, isAuthenticated:false} })

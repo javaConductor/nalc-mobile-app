@@ -1,7 +1,7 @@
 // Splash.js
 import React from 'react'
 import {Button, StyleSheet, Text, View} from 'react-native'
-import {withNavigation, NavigationEvents} from "react-navigation";
+import {withNavigation, NavigationEvents, StackActions, NavigationActions} from "react-navigation";
 import auth from '../services/auth';
 import initApp from '../services/initApp';
 
@@ -15,7 +15,14 @@ class Splash extends React.Component {
         const splashDisplayTime = 5;
         const {navigate} = this.props.navigation;
         setTimeout(() => {
-            navigate('Home', {});
+            const resetAction = StackActions.reset({
+                index: 0, // <-- currect active route from actions array
+                actions: [
+                    NavigationActions.navigate({ routeName: 'Home' }),
+                ],
+            });
+
+            this.props.navigation.dispatch(resetAction);
         }, splashDisplayTime * 1000)
     }
 

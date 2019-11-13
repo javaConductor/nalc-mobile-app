@@ -41,12 +41,12 @@ export default class ManageInterests extends React.Component {
                     .then((userInterests) => {
                         //console.log(`componentDidMount: Got userInterests: ${JSON.stringify(userInterests, null,2)}`);
                         const obj = categories.reduce((acc, cur) => {
-                            const currentId = ""+(cur.id);
+                            const currentId = (cur.id);
                             const userInterestsTable = {...acc, [currentId]: (userInterests || []).includes(currentId)};
                             //console.log(`componentDidMount: reduce: ${JSON.stringify(userInterests, null,2)} current: ${cur.id} includes: ${(userInterests || []).includes(currentId)}`);
                             return userInterestsTable;
                         }, {});
-                        //console.log(`componentDidMount: Created userInterests table: ${JSON.stringify(obj, null,2)}`);
+                        console.log(`componentDidMount: Created userInterests table: ${JSON.stringify(obj, null,2)}`);
                         this.setState((prevState) => {
                             return {...prevState, userInterests: obj, isInitializing: false}
                         });

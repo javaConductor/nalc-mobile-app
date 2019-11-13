@@ -9,6 +9,8 @@ import {
 } from 'react-native'
 import Anchor from '../components/anchor';
 import storage from '../services/storage';
+import HTML from 'react-native-render-html';
+
 
 export default class PostList extends React.Component {
 
@@ -59,7 +61,14 @@ export default class PostList extends React.Component {
     }
 
     renderPost(post) {
-        return <Text >{post.title}</Text>
+        const dateStr = new Date(post.date).toLocaleDateString();
+        return <View style={styles.post}> 
+            <Text >{dateStr}</Text>
+            <Text style={styles.postTitle}>{post.title}</Text>
+            <Text style={styles.postContent}>
+            <HTML  html={post.content}></HTML>
+            </Text>
+            </View>
     }
 
 
@@ -75,5 +84,26 @@ const styles = StyleSheet.create({
     wrapper: {
         justifyContent: 'center',
         alignItems: 'center'
+    },
+     post: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    postTitle: {
+        color: 'maroon',
+        fontSize: 20,
+        backgroundColor: 'white',
+        // borderColor: 'navy',
+        // borderWidth: 3,
+        //width: '100%',
+        marginLeft: 'auto', 
+        marginRight: 'auto',
+        
+    },
+    postContent: {
+        color: 'navy',
+        backgroundColor: 'white',
+        marginLeft:5,
+        marginRight:5,
     },
 });
