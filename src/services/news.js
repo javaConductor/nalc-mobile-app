@@ -7,9 +7,10 @@ const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config
 
 const self = {
     getNewsByDateAndCategories: (isoDateString, categories) => {
-        const categoryIds = categories.map(cat => cat.id);
-        console.log(`news: getNewsByDateAndCategories(${ isoDateString }, ${ JSON.stringify(categoryIds)  }) fetching ${backEndURL}/${config.BACKEND_NEWS_PATH}/${isoDateString}/${categoryIds.join(',')}`);
-        return fetch(`${backEndURL}/${config.BACKEND_NEWS_PATH}/${isoDateString}/${categoryIds.join(',')}`, {
+       // const categoryIds = categories.map(cat => cat.id);
+        const url = `${backEndURL}/${config.BACKEND_NEWS_PATH}/${isoDateString}/${categories.join(',')}`;
+        console.log(`news: getNewsByDateAndCategories(${ isoDateString }, ${ JSON.stringify(categories)  }) fetching ${url}`);
+        return fetch(url, {
             method: 'GET',
             headers: {
                 // 'x-access-token': accessToken,
@@ -24,8 +25,8 @@ const self = {
                 const filtered = responseJson
                     .map((post) => {
                         console.log(`news: getNewsByDateAndCategories: map categories ${JSON.stringify(post.title, null, 2)} `);
-                        const {id, date, modified, title: {rendered: title}, content: {rendered: content}, excerpt: {rendered: excerpt}, author} = post;
-                        const smaller = {id, date, modified, title, content, excerpt, author};
+                        const {id, date, modified, title: {rendered: title}, content: {rendered: content}, excerpt: {rendered: excerpt}, author:authorId} = post;
+                        const smaller = {id, date, modified, title, content, excerpt, authorId};
                         console.log(`news: getNewsByDateAndCategories: smaller category ${JSON.stringify(smaller, null, 2)} `);
                         return smaller;
                     });
@@ -117,7 +118,7 @@ const checkForNewPosts = () => {
             /// get the categories we care about
             return storage.getSelectedCategories()
                 .then((categoryIds) => {
-                    console.log(`news.checkForNewPosts: selected categories: ${JSON.stringify(categoryIds, null, 2)}`);
+                    console.log(`news.checkForNewPosts: selected categories: ${JSON.stringify(categoryIds)}`);
                     /// get any new posts since dt in the categories we care about
                     return self.getNewsByDateAndCategories(dt.toISOString(), categoryIds)
                         .then((newPosts) => {
@@ -143,7 +144,7 @@ const checkForNewPosts = () => {
         });
 };
 
-//checkForNewPosts();
+checkForNewPosts();
 startCheckForNewPosts();
 
 export default self;

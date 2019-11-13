@@ -27,8 +27,9 @@ export default {
 
             const dt = new Date();
             dt.setFullYear(dt.getFullYear() - 1);
-            console.log(`initApp: getting posts from ${dt.toISOString()} with categories ${JSON.stringify(categories)}.`);
-            const posts = await news.getNewsByDateAndCategories(dt.toISOString(), categories);
+            const categoryIds = categories.map(cat => cat.id);
+            console.log(`initApp: getting posts from ${dt.toISOString()} with categories ${JSON.stringify(categoryIds)}.`);
+            const posts = await news.getNewsByDateAndCategories(dt.toISOString(), categoryIds);
             console.log(`initApp: got posts ${JSON.stringify(posts, null,2)}. storing posts in storage.`);
             await storage.storeNewsPosts(posts);
             console.log(`initApp: storing setupFlag: true`);

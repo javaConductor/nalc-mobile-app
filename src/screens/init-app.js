@@ -5,29 +5,30 @@ import initApp from '../services/initApp';
 
 class InitApp extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {isLoading: true}
+    }
+
     async componentDidMount() {
         const {navigate} = this.props.navigation;
-
+        const firstTimeRun = await initApp.initApp();
+        console.log(`InitAppScreen.componentDidMount: firstTimeRun: ${firstTimeRun}`);
+        if (firstTimeRun)
+            navigate('Splash', {});
+        else
+            navigate('Home', {});
+        console.log(`InitAppScreen.componentDidMount: navigated away`);
         this.setState((prevState) => {
-            return {...prevState, isLoading: true}
-        });
-        await initApp.initApp()
-            .then((firstTimeRun) => {
-                console.log(`InitApp.componentDidMount: firstTimeRun: ${firstTimeRun}`);
-                if (firstTimeRun)
-                    navigate('Splash', {});
-                else
-                    navigate('Home', {});
-                console.log(`InitApp.componentDidMount: navigated away`);
-                this.setState((prevState) => {
-                    return {...prevState, isLoading: false}
-                })
-            });
-
+            return {...prevState, isLoading: false}
+        })
     }
 
     render() {
-        return <ActivityIndicator size="large" color="#0000ff"/>;
+        const {navigate} = this.props.navigation;
+        if (this.state.isLoading)
+            return <ActivityIndicator size="large" color="#0000ff"/>;
+       return null;
     }
 }
 

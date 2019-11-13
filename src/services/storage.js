@@ -15,7 +15,8 @@ export default {
     //////// SETUP FLAG
     ////////////////////
     storeSetupFlag: async (setupFlag) => {
-        AsyncStorage.setItem(SETUP_FLAG, setupFlag)
+        console.log(`storage.storeSetupFlag(${setupFlag})`);
+        (setupFlag ? AsyncStorage.setItem(SETUP_FLAG, setupFlag) : AsyncStorage.removeItem(SETUP_FLAG))
             .catch((e) => {
                 console.error(`Error storing Setup Flag ${e} `);
             });
