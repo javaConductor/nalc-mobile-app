@@ -109,7 +109,7 @@ export default {
         return AsyncStorage.getItem(NEWS_POSTS)
             .then((newsStr) => {
                 console.log(`storage.getNewsPosts() newsStr: ${newsStr}`);
-                return newsStr ? JSON.parse(newsStr ) : [];
+                return newsStr ? JSON.parse(newsStr) : [];
             })
             .catch((e) => {
                 console.error(`storage.getNewsPosts() Error getting News Posts: ${e} `);

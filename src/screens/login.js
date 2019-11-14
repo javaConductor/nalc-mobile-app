@@ -1,16 +1,7 @@
 // Login.js
 import React from 'react'
-import {
-    View,
-    Text,
-    Button,
-    StyleSheet,
-    AsyncStorage
-} from 'react-native'
-import Anchor from '../components/anchor';
-import {withNavigation} from "react-navigation";
+import {Button, StyleSheet, Text, View} from 'react-native'
 import TextInput from "react-native-web/dist/exports/TextInput";
-import sha256 from 'js-sha256';
 import util from '../services/util';
 import auth from '../services/auth';
 
@@ -85,6 +76,7 @@ class Login extends React.Component {
 
     render() {
         const {email, password} = this.state.auth;
+        const canLogin = email && email.trim().length > 0 && password && password.trim().length > 0;
         const msgComponent = this.state.message ? <Text style={styles.errorText}>{this.state.message}</Text> : null;
         return (
             <View style={styles.container}>
@@ -118,6 +110,7 @@ class Login extends React.Component {
                     </View>
 
                     <Button
+                        disabled={!canLogin}
                         onPress={ this.onLogin.bind(this) }
                         title="Login"
                     />

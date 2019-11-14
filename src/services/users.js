@@ -1,12 +1,9 @@
 import React from 'react';
-import {AsyncStorage} from 'react-native';
 import config from '../config';
 import storage from '../services/storage';
 
 const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config.BACKEND_PORT}`;
-const storeAdminsLocally = (admins) => {
-    AsyncStorage.setItem()
-};
+
 export default {
 
     getAdmins: () => {
@@ -120,7 +117,6 @@ export default {
                 console.error(`Error checking if email is used: ${error}`);
                 throw error;
             });
-
     },
 
     addAdminPhoto: (adminId, buffer) => {

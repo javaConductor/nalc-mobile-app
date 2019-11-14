@@ -7,9 +7,9 @@ const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config
 
 const self = {
     getNewsByDateAndCategories: (isoDateString, categories) => {
-       // const categoryIds = categories.map(cat => cat.id);
+        // const categoryIds = categories.map(cat => cat.id);
         const url = `${backEndURL}/${config.BACKEND_NEWS_PATH}/${isoDateString}/${categories.join(',')}`;
-        console.log(`news: getNewsByDateAndCategories(${ isoDateString }, ${ JSON.stringify(categories)  }) fetching ${url}`);
+        console.log(`news: getNewsByDateAndCategories(${isoDateString}, ${JSON.stringify(categories)}) fetching ${url}`);
         return fetch(url, {
             method: 'GET',
             headers: {
@@ -21,11 +21,11 @@ const self = {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(`news: getNewsByDateAndCategories: ${ responseJson }`);
+                console.log(`news: getNewsByDateAndCategories: ${responseJson}`);
                 const filtered = responseJson
                     .map((post) => {
                         console.log(`news: getNewsByDateAndCategories: map categories ${JSON.stringify(post.title, null, 2)} `);
-                        const {id, date, modified, title: {rendered: title}, content: {rendered: content}, excerpt: {rendered: excerpt}, author:authorId} = post;
+                        const {id, date, modified, title: {rendered: title}, content: {rendered: content}, excerpt: {rendered: excerpt}, author: authorId} = post;
                         const smaller = {id, date, modified, title, content, excerpt, authorId};
                         console.log(`news: getNewsByDateAndCategories: smaller category ${JSON.stringify(smaller, null, 2)} `);
                         return smaller;
@@ -130,7 +130,7 @@ const checkForNewPosts = () => {
                                     /// append the newPost to the list and store it
                                     const newPostList = [...oldPosts, ...newPosts];
                                     console.log(`news.checkForNewPosts: storing new and Old Posts: ${JSON.stringify(newPostList, null, 2)}`);
-                                    return  storage.storeNewsPosts(newPostList).then(() => {
+                                    return storage.storeNewsPosts(newPostList).then(() => {
                                         console.log(`news.checkForNewPosts: stored new and Old Posts`);
                                         return newPostList;
                                     });
