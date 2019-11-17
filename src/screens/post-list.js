@@ -1,6 +1,7 @@
 // PostList.js
 import React from 'react'
 import {ListView, StyleSheet, Text, View} from 'react-native'
+import {WebView} from 'react-native-webview';
 import storage from '../services/storage';
 import HTML from 'react-native-render-html';
 
@@ -63,6 +64,10 @@ export default class PostList extends React.Component {
             <Text>{dateStr}</Text>
             <Text style={styles.postTitle}>{post.title}</Text>
             <Text style={styles.postContent}>
+                <WebView
+                    originWhitelist={['*']}
+                    source={{html: post.content}}
+                />
                 <HTML html={post.content}/>
             </Text>
         </View>

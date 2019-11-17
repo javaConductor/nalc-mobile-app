@@ -50,9 +50,10 @@ export default class EditCategory extends React.Component {
         const p = (category.id)
             ? categoryService.updateCategory(category)
             : categoryService.addCategory(category);
-        p
-            .catch((err) => {
-            })
+        p.catch((err) => {
+            console.error(`onSave: Error: ${err})`);
+            throw err;
+        })
             .then((savedCategory) => {
                 console.log(`Saved category: ${JSON.stringify(savedCategory)}`);
                 this.props.navigation.navigate('ManageCategories', {});
@@ -61,7 +62,6 @@ export default class EditCategory extends React.Component {
 
     render() {
         const {category = {}} = this.state;
-
         console.log(`EditCategory.render: category:${JSON.stringify(category)}`);
 
         /// Email error indicator

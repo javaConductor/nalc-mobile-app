@@ -42,7 +42,8 @@ export default {
                     return responseJson;
                 })
                 .catch((error) => {
-                    console.error(`categories.addCategory: ERROR: ${JSON.stringify(error)}`);
+//                    console.error(`categories.addCategory: ERROR: ${JSON.stringify(error)}`);
+                    console.error(`categories.addCategory: ERROR: ${error}`);
                     throw error;
                 });
         });

@@ -1,6 +1,6 @@
 // ManageInterests.js
 import React from 'react'
-import {Button, StyleSheet, Switch, Text, View} from 'react-native'
+import {Button, Switch, Text, View} from 'react-native'
 import categoryService from '../services/categories';
 import storage from '../services/storage';
 import styles from '../screens/main-styles';
@@ -20,14 +20,13 @@ export default class ManageInterests extends React.Component {
             return {...prevState, isInitializing: true}
         });
 
-
         /// get list of categories/interests
         const p = categoryService.getCategories()
             .then((categories) => {
                 this.setState((prevState) => {
                     return {...prevState, categories}
                 });
-                console.log(`componentDidMount: Got categories: ${JSON.stringify(categories, null,2)}`);
+                //console.log(`componentDidMount: Got categories: ${JSON.stringify(categories, null, 2)}`);
                 return categories;
             })
             .catch((error) => {
@@ -35,28 +34,26 @@ export default class ManageInterests extends React.Component {
                 throw error;
             });
         /// create a table based on users interests : {interest: true/false}
-        p
-            .then((categories) => {
-                return storage.getSelectedCategories()
-                    .then((userInterests) => {
-                        //console.log(`componentDidMount: Got userInterests: ${JSON.stringify(userInterests, null,2)}`);
-                        const obj = categories.reduce((acc, cur) => {
-                            const currentId = (cur.id);
-                            const userInterestsTable = {...acc, [currentId]: (userInterests || []).includes(currentId)};
-                            //console.log(`componentDidMount: reduce: ${JSON.stringify(userInterests, null,2)} current: ${cur.id} includes: ${(userInterests || []).includes(currentId)}`);
-                            return userInterestsTable;
-                        }, {});
-                        console.log(`componentDidMount: Created userInterests table: ${JSON.stringify(obj, null,2)}`);
-                        this.setState((prevState) => {
-                            return {...prevState, userInterests: obj, isInitializing: false}
-                        });
-
-                    })
-                    .catch((error) => {
-                        console.error(`Error make user interests map: ${error}`);
-                        throw error;
+        p.then((categories) => {
+            return storage.getSelectedCategories()
+                .then((userInterests) => {
+                    //console.log(`componentDidMount: Got userInterests: ${JSON.stringify(userInterests, null,2)}`);
+                    const obj = categories.reduce((acc, cur) => {
+                        const currentId = (cur.id);
+                        //console.log(`componentDidMount: reduce: ${JSON.stringify(userInterests, null,2)} current: ${cur.id} includes: ${(userInterests || []).includes(currentId)}`);
+                        return {...acc, [currentId]: (userInterests || []).includes(currentId)};
+                    }, {});
+                    console.log(`componentDidMount: Created userInterests table: ${JSON.stringify(obj, null, 2)}`);
+                    this.setState((prevState) => {
+                        return {...prevState, userInterests: obj, isInitializing: false}
                     });
-            });
+
+                })
+                .catch((error) => {
+                    console.error(`Error make user interests map: ${error}`);
+                    throw error;
+                });
+        });
         return p;
     };
 
@@ -65,7 +62,7 @@ export default class ManageInterests extends React.Component {
         this.setState((prevState) => {
             return {...prevState, userInterests: interests}
         });
-        console.log(`updateUserInterest: userInterests table: ${JSON.stringify(interests, null,2)}`);
+        console.log(`updateUserInterest: userInterests table: ${JSON.stringify(interests, null, 2)}`);
 
     }
 
@@ -73,23 +70,24 @@ export default class ManageInterests extends React.Component {
         //console.log(`createSelectedCategoriesList: ${JSON.stringify(userInterests, null,2)}`);
         const keys = Object.keys(userInterests);
         // console.log(`createSelectedCategoriesList: keys: ${JSON.stringify(keys, null,2)}`);
-        const selected = keys.filter((interest) => {return userInterests[interest]});
         // console.log(`createSelectedCategoriesList: selected: ${JSON.stringify(selected, null,2)}`);
 
-        return selected;
+        return keys.filter((interest) => {
+            return userInterests[interest]
+        });
     }
 
-    async onSave(){
+    async onSave() {
         console.log(`onSave()`);
 
         const newList = this.createSelectedCategoriesList(this.state.userInterests);
         try {
-            console.log(`onSave: storing table: ${JSON.stringify(newList, null,2)}`);
+            console.log(`onSave: storing table: ${JSON.stringify(newList, null, 2)}`);
             await storage.storeSelectedCategories(newList);
             this.setState((prevState) => {
                 return {...prevState, message: 'Changes saved.'}
             });
-        }catch (e) {
+        } catch (e) {
             throw e;
         }
     }
@@ -103,7 +101,7 @@ export default class ManageInterests extends React.Component {
         const rows = this.state.categories.map((cat) => {
             return this.renderRow(cat, this.state.userInterests[cat.id])
         });
-        const msgCtrl =  this.state.message ? <Text>{this.state.message}</Text> : null;
+        const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
         return (
             <View style={styles.container}>
                 {msgCtrl}
@@ -112,7 +110,7 @@ export default class ManageInterests extends React.Component {
                     <Button
                         title={'Save'}
                         raised={true}
-                        onPress={ this.onSave.bind(this)}/>
+                        onPress={this.onSave.bind(this)}/>
                 </View>
             </View>
         )

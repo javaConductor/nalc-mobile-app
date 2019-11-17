@@ -1,6 +1,4 @@
 import React from 'react'
-import {View, Text, Button} from 'react-native';
-
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import HomeScreen from './src/screens/home';
@@ -18,10 +16,15 @@ import TesterScreen from './src/screens/tester';
 import SplashScreen from './src/screens/splash';
 
 const MainNavigator = createStackNavigator({
-        Tester: { screen: TesterScreen},
-        Splash: { screen: SplashScreen},
-        Home: {screen: HomeScreen},
-            InitApp: {screen: InitScreen},
+        InitApp: {screen: InitScreen},
+        Splash: {screen: SplashScreen},
+        Tester: {screen: TesterScreen},
+        Home: {
+            screen: HomeScreen,
+            navigationOptions: ({navigation}) => ({
+                title: `Home`,
+            })
+        },
             Login: {screen: LoginScreen},
             PostList: {screen: PostListScreen},
             ManageInterests: {screen: ManageInterestsScreen},

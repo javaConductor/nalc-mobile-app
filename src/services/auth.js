@@ -7,7 +7,7 @@ const self = {
 
     currentAccessToken: async () => {
         const authInfo = await storage.getAuthInfo();
-        console.log(`auth: currentAccessToken(): ${authInfo}`);
+        console.log(`auth: currentAccessToken(): ${JSON.stringify(authInfo)}`);
 
         if (!authInfo) throw "User Not Authenticated !!"; //return Promise.reject("User Not Authenticated !!");
         if (!authInfo.accessToken) throw "User Not Authenticated !!";//return Promise.reject("User Not Authenticated !!");

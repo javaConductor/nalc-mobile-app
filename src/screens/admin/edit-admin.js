@@ -1,6 +1,6 @@
 // EditAdmin.js
 import React from 'react'
-import {Button, StyleSheet, Switch, Text, TextInput, View} from 'react-native'
+import {Button, Switch, Text, TextInput, View} from 'react-native'
 import Users from '../../services/users';
 import sha256 from 'js-sha256';
 import styles from '../../screens/main-styles';
@@ -13,7 +13,7 @@ export default class EditAdmin extends React.Component {
         const admin = props.navigation.state.params.admin || {permissions: 'A', status: 'Active'};
         //const {navigation: {state: {params: {admin}}}} = props;
         console.log(`EditAdmin(${JSON.stringify(admin)})`);
-        this.state = {admin, password1:'', password2:''};
+        this.state = {admin, password1: '', password2: ''};
     }
 
     static get options() {
@@ -64,32 +64,39 @@ export default class EditAdmin extends React.Component {
         this.setState((prevState) => ({...prevState, password2: password}));
     }
 
-    passwordHash(password){
+    passwordHash(password) {
         var hash = sha256.create();
         hash.update(password);
         return hash.hex();
     }
+
     async onSave(admin) {
         let newAdmin;
         let newPswd;
 
         Users.checkEmailUsed(this.state.admin.id || -1, this.state.admin.email).then((emailAlreadyUsed) => {
-            if ( emailAlreadyUsed ){
-                this.setState((prevState) => { return {...prevState, message: `Email '${this.state.admin.email}' already registered to another user.` } })
-            }else{
-                if (this.state.password1.length > 0){
+            if (emailAlreadyUsed) {
+                this.setState((prevState) => {
+                    return {
+                        ...prevState,
+                        message: `Email '${this.state.admin.email}' already registered to another user.`
+                    }
+                })
+            } else {
+                if (this.state.password1.length > 0) {
                     var hash = this.passwordHash(this.state.password1);
                     newPswd = this.state.password1;
                     newAdmin = {...this.state.admin, passwordHash: hash};
-                }else{
+                } else {
                     newAdmin = {...this.state.admin, passwordHash: null};
                 }
                 this.setState((prevState) => ({...prevState, admin: newAdmin}));
                 /// Use Users service to save the admin
-                console.log(`Saving admin: ${newPswd? 'pass: '+ newPswd : ''} ${JSON.stringify(newAdmin)}`);
+                console.log(`Saving admin: ${newPswd ? 'pass: ' + newPswd : ''} ${JSON.stringify(newAdmin)}`);
 
                 const p = admin.id ? Users.updateAdmin(newAdmin) : Users.addAdmin(newAdmin);
-                p.catch((err) => {}).then((admins) => {
+                p.catch((err) => {
+                }).then((admins) => {
                     //this.props.navigation.goBack().goBack();
                     this.props.navigation.navigate('Admin', {});
                 });
@@ -102,16 +109,17 @@ export default class EditAdmin extends React.Component {
         function hasWhiteSpace(s) {
             return /\s/g.test(s);
         }
-        return email &&  email.includes('@') && !hasWhiteSpace(email);
+
+        return email && email.includes('@') && !hasWhiteSpace(email);
     }
 
-    isPasswordOk(state){
+    isPasswordOk(state) {
         // console.log(`isPasswordOk: ${state.password1} === ${state.password2} = ${state.password1===state.password2}`);
         // console.log(`isPasswordOk: length: ${state.password1.length} and ${state.password2.length}`);
         const passwordsMatch = state.password1 === state.password2;
         const passwordsOk = state.admin.id
-            ? (passwordsMatch && ( state.password1.length > 5 || state.password1.length == 0 ))
-            : passwordsMatch && ( state.password1.length > 5);
+            ? (passwordsMatch && (state.password1.length > 5 || state.password1.length == 0))
+            : passwordsMatch && (state.password1.length > 5);
         return passwordsOk;
     }
 
@@ -125,7 +133,7 @@ export default class EditAdmin extends React.Component {
         const emailBackgroundColor = (hasValidEmail ? 'white' : 'red');
 
         /// Password error indicator
-        const passwordsOk = this.isPasswordOk( this.state );
+        const passwordsOk = this.isPasswordOk(this.state);
         const passwordBackgroundColor = (passwordsOk ? 'white' : 'red');
 
         const messageComponent = this.state.message ? <Text style={styles.error}>{this.state.message}</Text> : null;
@@ -134,7 +142,7 @@ export default class EditAdmin extends React.Component {
         // console.log(`render(): passwordBackgroundColor: ${passwordBackgroundColor} `);
         return <View style={styles.container}>
             <Text style={{color: 'white'}}>{admin.id ? 'Edit' : 'Add'} Administrator</Text>
-            { messageComponent }
+            {messageComponent}
             <View style={styles.form}>
                 <View style={styles.formRow}>
                     <View style={styles.formLabel}>
@@ -196,7 +204,8 @@ export default class EditAdmin extends React.Component {
                                 secureTextEntry={true}
                                 style={{...styles.formInput}}
                                 onChangeText={this.updatePassword2.bind(this)}
-                            /></Text>
+                            />
+                        </Text>
                     </View>
                 </View>
                 <View style={styles.formRow}>
