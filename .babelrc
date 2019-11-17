@@ -1,3 +1,6 @@
 {
-  "presets": ["react-native", "module:react-native-dotenv"]
+  "presets": [
+    "react-native",
+    "module:react-native-dotenv"
+  ]
 }
