@@ -73,7 +73,7 @@ const self = {
     },
     /**
      *
-     * @param postData = {content: }
+     * @param postData = {content, title, categories}
      */
     addNewsPost: (postData) => {
         return auth.currentAccessToken().then((accessToken) => {
