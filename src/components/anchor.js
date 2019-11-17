@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linking, Text } from 'react-native';
+import {Linking, Text} from 'react-native';
 
 export default class Anchor extends React.Component {
     _handlePress = () => {

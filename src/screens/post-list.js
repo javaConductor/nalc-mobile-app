@@ -1,7 +1,6 @@
 // PostList.js
 import React from 'react'
-import {ListView, StyleSheet, Text, View} from 'react-native'
-import {WebView} from 'react-native-webview';
+import {Linking, ListView, StyleSheet, Text, View} from 'react-native'
 import storage from '../services/storage';
 import HTML from 'react-native-render-html';
 
@@ -20,6 +19,7 @@ export default class PostList extends React.Component {
 
         storage.getNewsPosts()
             .then((posts) => {
+                posts = posts.reverse();
                 console.log(`PostList: componentDidMount loaded posts: ${JSON.stringify(posts, null, 2)}`);
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
                 const otherState = {
@@ -64,17 +64,16 @@ export default class PostList extends React.Component {
             <Text>{dateStr}</Text>
             <Text style={styles.postTitle}>{post.title}</Text>
             <Text style={styles.postContent}>
-                <WebView
-                    originWhitelist={['*']}
-                    source={{html: post.content}}
-                />
-                <HTML html={post.content}/>
+                <HTML html={post.content}
+                      onLinkPress={(evt, href) => {
+                          Linking.openURL(href);
+                      }}/>
             </Text>
         </View>
     }
 
-
 }
+
 const styles = StyleSheet.create({
 
     separator: {

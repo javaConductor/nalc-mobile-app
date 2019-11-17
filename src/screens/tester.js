@@ -1,7 +1,7 @@
 // Tester.js
 import React from 'react'
 import {Button, StyleSheet, View} from 'react-native'
-import {withNavigation, NavigationEvents} from "react-navigation";
+import {withNavigation} from "react-navigation";
 import auth from '../services/auth';
 import storage from '../services/storage';
 
@@ -39,7 +39,7 @@ class Tester extends React.Component {
             });
     }
 
-    async removeSetupFlag(){
+    async removeSetupFlag() {
         await storage.storeSetupFlag(false);
     }
 

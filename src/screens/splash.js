@@ -1,9 +1,7 @@
 // Splash.js
 import React from 'react'
-import {Button, StyleSheet, Text, View} from 'react-native'
-import {withNavigation, NavigationEvents, StackActions, NavigationActions} from "react-navigation";
-import auth from '../services/auth';
-import initApp from '../services/initApp';
+import {StyleSheet, Text, View} from 'react-native'
+import {NavigationActions, StackActions} from "react-navigation";
 
 class Splash extends React.Component {
 
@@ -18,7 +16,7 @@ class Splash extends React.Component {
             const resetAction = StackActions.reset({
                 index: 0, // <-- currect active route from actions array
                 actions: [
-                    NavigationActions.navigate({ routeName: 'Home' }),
+                    NavigationActions.navigate({routeName: 'Home'}),
                 ],
             });
 
@@ -26,8 +24,8 @@ class Splash extends React.Component {
         }, splashDisplayTime * 1000)
     }
 
-     render() {
-               return <View style={styles.container}><Text>Welcome to the NALC Mobile App</Text></View>;
+    render() {
+        return <View style={styles.container}><Text>Welcome to the NALC Mobile App</Text></View>;
     }
 }
 

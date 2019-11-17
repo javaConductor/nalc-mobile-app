@@ -74,7 +74,7 @@ export default class UploadArticle extends React.Component {
         const {navigate} = this.props.navigation;
         const {content, url, title} = this.state;
         const categories = this.selectedIdList(this.state.selectedCategories);
-        const contentLink = `<a href='${url}'> Link...</a>`;
+        const contentLink = `<a target='_blank' href='${url}'> Link...</a>`;
         try {
             const response = await newsService.addNewsPost({content: contentLink, title, categories});
             const selectedCategories = this.createSelectedCategories(this.state.categories);
@@ -95,6 +95,8 @@ export default class UploadArticle extends React.Component {
 
     render() {
         const {title, url, selectedCategories} = this.state;
+        const selected = this.selectedIdList(selectedCategories);
+        const canSave = title && title.trim().length > 0 && selected.length > 0;
         const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
         return (
             <View style={{flex: 1}}>
@@ -132,7 +134,7 @@ export default class UploadArticle extends React.Component {
                         {this.renderCategoryChoices()}
                     </View>
                 </View>
-                <Button title={'Save'} onPress={this.onSave.bind(this)}/>
+                <Button disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
             </View>
         )
     }

@@ -1,13 +1,24 @@
 // Admin.js
 import React from 'react'
 import {Button, StyleSheet, View} from 'react-native'
-import {withNavigation, NavigationEvents} from "react-navigation";
+import {NavigationEvents, withNavigation} from "react-navigation";
 import auth from '../services/auth';
+
 class Admin extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {canManage: false};
+    }
+
+    static get options() {
+        return {
+            topBar: {
+                title: {
+                    text: 'Admin'
+                },
+            }
+        };
     }
 
     async componentDidMount() {
@@ -38,16 +49,6 @@ class Admin extends React.Component {
             });
     }
 
-    static get options() {
-        return {
-            topBar: {
-                title: {
-                    text: 'Admin'
-                },
-            }
-        };
-    }
-
     render() {
         const {navigate} = this.props.navigation;
         if (this.state.initializing)
@@ -64,7 +65,7 @@ class Admin extends React.Component {
         return (
 
             <View style={styles.container}>
-                <NavigationEvents onDidFocus={this.componentDidMount.bind(this)} />
+                <NavigationEvents onDidFocus={this.componentDidMount.bind(this)}/>
 
                 {manageButton}
                 <Button

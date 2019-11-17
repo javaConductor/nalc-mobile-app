@@ -19,7 +19,7 @@ class Login extends React.Component {
             },
         };
         /// store the actual target in the state
-        if (this.props.navigation.state.params.target){
+        if (this.props.navigation.state.params.target) {
 
             this.state.targetInfo = {
                 target: this.props.navigation.state.params.target,
@@ -27,6 +27,16 @@ class Login extends React.Component {
             };
             console.log(`login with target: ${JSON.stringify(this.state.targetInfo)}`);
         }
+    }
+
+    static get options() {
+        return {
+            topBar: {
+                title: {
+                    text: 'Login'
+                },
+            }
+        };
     }
 
     updateEmail(email) {
@@ -41,39 +51,33 @@ class Login extends React.Component {
         this.setState((prevState) => ({...prevState, auth}));
     }
 
-    async onLogin(){
+    async onLogin() {
         /// Hash password
         const passwordHash = util.passwordHash(this.state.auth.password);
-        const authInfo  = await auth.authenticate(this.state.auth.email, passwordHash)
+        const authInfo = await auth.authenticate(this.state.auth.email, passwordHash)
             .catch((err) => {
-                this.setState((prevState) => { return { ...prevState, message: err}})
+                this.setState((prevState) => {
+                    return {...prevState, message: err}
+                })
             });
-        if( authInfo && authInfo.authenticated ) {
+        if (authInfo && authInfo.authenticated) {
             const {navigate} = this.props.navigation;
-            if (this.state.targetInfo){
-             const {target, targetData} = this.state.targetInfo;
+            if (this.state.targetInfo) {
+                const {target, targetData} = this.state.targetInfo;
                 navigate(target, targetData);
             } else navigate('Admin', {});
-        }
-        else{
+        } else {
             if (authInfo)
-                this.setState((prevState) => { return { ...prevState, message: authInfo.message}});
+                this.setState((prevState) => {
+                    return {...prevState, message: authInfo.message}
+                });
             else
-                this.setState((prevState) => { return { ...prevState, message: "Not authenticated!!"}})
+                this.setState((prevState) => {
+                    return {...prevState, message: "Not authenticated!!"}
+                })
 
         }
     }
-
-    static get options() {
-        return {
-            topBar: {
-                title: {
-                    text: 'Login'
-                },
-            }
-        };
-    }
-
 
     render() {
         const {email, password} = this.state.auth;
@@ -100,7 +104,7 @@ class Login extends React.Component {
                             <Text>PASSWORD</Text>
                         </View>
                         <View style={styles.formInput}>
-                            <Text style={ styles.formInput }>
+                            <Text style={styles.formInput}>
                                 <TextInput
                                     secureTextEntry={true}
                                     style={{...styles.formInput,}}
@@ -112,7 +116,7 @@ class Login extends React.Component {
 
                     <Button
                         disabled={!canLogin}
-                        onPress={ this.onLogin.bind(this) }
+                        onPress={this.onLogin.bind(this)}
                         title="Login"
                     />
 

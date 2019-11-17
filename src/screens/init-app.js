@@ -9,6 +9,7 @@ class InitApp extends React.Component {
     static navigationOptions = {
         title: 'Initializing App ...',
     };
+
     constructor(props) {
         super(props);
         this.state = {isLoading: true}
@@ -26,18 +27,17 @@ class InitApp extends React.Component {
             const resetAction = StackActions.reset({
                 index: 0, // <-- currect active route from actions array
                 actions: [
-                    NavigationActions.navigate({ routeName: 'Splash' }),
+                    NavigationActions.navigate({routeName: 'Splash'}),
                 ],
             });
             this.props.navigation.dispatch(resetAction);
-        }
-        else {
+        } else {
             //navigate('Home', {});
 
             const resetAction = StackActions.reset({
                 index: 0, // <-- currect active route from actions array
                 actions: [
-                    NavigationActions.navigate({ routeName: 'Home' }),
+                    NavigationActions.navigate({routeName: 'Home'}),
                 ],
             });
 
@@ -53,10 +53,10 @@ class InitApp extends React.Component {
         const {navigate} = this.props.navigation;
         if (this.state.isLoading)
             return <View>
-                <NavigationEvents onDidFocus={this.componentDidMount.bind(this)} />
+                <NavigationEvents onDidFocus={this.componentDidMount.bind(this)}/>
                 <ActivityIndicator size="large" color="#0000ff"/>
             </View>;
-       return null;
+        return null;
     }
 }
 

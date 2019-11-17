@@ -16,15 +16,19 @@ export default class ManageCategories extends React.Component {
     }
 
     async componentWillMount() {
-        this.setState((prevState) => { return {...prevState, isLoading:true} });
-        const  categories = await categoryService.getCategories();
+        this.setState((prevState) => {
+            return {...prevState, isLoading: true}
+        });
+        const categories = await categoryService.getCategories();
         console.log(`EditCategory.componentWillMount: categories: (${JSON.stringify(categories)})`);
 
-        this.setState((prevState) => { return {...prevState, isLoading:false, categories} });
+        this.setState((prevState) => {
+            return {...prevState, isLoading: false, categories}
+        });
     }
 
     render() {
-        if( this.state.isLoading)
+        if (this.state.isLoading)
             return null;
         const {navigate} = this.props.navigation;
 
@@ -32,15 +36,15 @@ export default class ManageCategories extends React.Component {
             <View style={styles.container}>
 
                 <Text>Manage Categories</Text>
-                <Button onPress={() => navigate('EditCategory', {})} title={"Add New Category"} />
-                {this.state.categories.map(this.renderRow.bind(this)) }
+                <Button onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
+                {this.state.categories.map(this.renderRow.bind(this))}
 
 
             </View>
         )
     }
 
-    onRemove(categoryId){
+    onRemove(categoryId) {
 
     }
 
@@ -48,17 +52,16 @@ export default class ManageCategories extends React.Component {
         const {navigate} = this.props.navigation;
 
         return (
-            <View style={styles.row} key={category.id} >
-                <Button title={category.name} onPress={() => navigate('EditCategory', {category})} />
-                <Button title={category.slug} onPress={() => navigate('EditCategory', {category})} />
+            <View style={styles.row} key={category.id}>
+                <Button title={category.name} onPress={() => navigate('EditCategory', {category})}/>
+                <Button title={category.slug} onPress={() => navigate('EditCategory', {category})}/>
 
             </View>
         )
 
     }
-        addNewCategory() {
 
-
+    addNewCategory() {
 
 
     }
