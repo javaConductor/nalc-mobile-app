@@ -1,28 +1,27 @@
-// PostList.js
+// ShowPost.js
 import React from 'react'
 import {Linking, ListView, StyleSheet, Text, View} from 'react-native'
 import storage from '../services/storage';
 import HTML from 'react-native-render-html';
 
 
-export default class PostList extends React.Component {
+export default class ShowPost extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: true
-        }
+            isLoading: true,
+            post: this.props.navigation.state.params.post || this.props.post
+        };
     }
 
     async componentDidMount() {
-        console.log(`PostList: componentDidMount loading posts.`);
+        console.log(`ShowPost: componentDidMount loading posts.`);
 
         storage.getNewsPosts()
             .then((posts) => {
-                posts = posts.sort((a, b) => {
-                    return (a.date.valueOf() < b.date.valueOf()) ? 1 : -1;
-                });
-                //console.log(`PostList: componentDidMount loaded posts: ${JSON.stringify(posts, null, 2)}`);
+                posts = posts.reverse();
+                console.log(`PostList: componentDidMount loaded posts: ${JSON.stringify(posts, null, 2)}`);
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
                 const otherState = {
                     newsPosts: posts,
@@ -40,24 +39,8 @@ export default class PostList extends React.Component {
     }
 
     render() {
-        if (this.state.isLoading)
-            return null;
-
-        return (
-            <ListView
-                contentContainerStyle={styles.wrapper}
-                style={styles.container}
-                dataSource={this.state.dataSource}
-                renderRow={this.renderPost.bind(this)}
-                renderSeparator={(sectionId, rowId) =>
-                    <View key={rowId} style={styles.separator}/>}//adding separation
-            />
-        )
-    }
-
-    renderPost(post) {
-        var options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
-        const dateStr = new Date(post.date).toLocaleString("en-US", options);
+        const post = this.state.post;
+        const dateStr = new Date(post.date).toLocaleDateString();
         return <View style={styles.post}>
             <Text>{dateStr}</Text>
             <Text style={styles.postTitle}>{post.title}</Text>
@@ -67,29 +50,21 @@ export default class PostList extends React.Component {
                           Linking.openURL(href);
                       }}/>
             </Text>
-            {/*<View key={post.id} style={styles.separator}/>*/}
         </View>
     }
+
 }
 
 const styles = StyleSheet.create({
 
     separator: {
         flex: 1,
-        width: '100%',
-//        height: 10,//StyleSheet.hairlineWidth,
-        //      backgroundColor: '#8E8E8E',
-        borderBottomColor: 'black',
-        borderBottomWidth: 1,
-        marginBottom: 10,
-        marginTop: 5,
-
+        height: StyleSheet.hairlineWidth,
+        backgroundColor: '#8E8E8E',
     },
     wrapper: {
         justifyContent: 'center',
-        alignItems: 'stretch',
-        width: '100%',
-
+        alignItems: 'center'
     },
     post: {
         justifyContent: 'center',
@@ -100,9 +75,8 @@ const styles = StyleSheet.create({
         color: 'maroon',
         fontSize: 20,
         backgroundColor: 'white',
-        marginLeft: 10,
-        marginRight: 20,
-        alignSelf: 'center'
+        marginLeft: 'auto',
+        marginRight: 'auto',
     },
     postContent: {
         color: 'navy',

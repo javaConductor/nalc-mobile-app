@@ -1,6 +1,6 @@
 // Home.js
 import React from 'react';
-import {Button, Text, View} from 'react-native';
+import {Button, Dimensions, Text, View} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import systemCheck from "../services/system-check";
@@ -22,7 +22,9 @@ class HomeScreen extends React.Component {
     async componentDidMount() {
         this._isMounted = true;
         try {
+
             console.log("Home.componentDidMount");
+            console.log(`Home.componentDidMount: dim.screen ${JSON.stringify(Dimensions.get('screen'), null, 2)}  dim.window ${JSON.stringify(Dimensions.get('window'))}`);
             await systemCheck.check();
             console.log("Home.componentDidMount: check OK");
             const isAuthenticated = await auth.isUserAuthenticated();

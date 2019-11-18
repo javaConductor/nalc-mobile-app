@@ -37,7 +37,10 @@ export default class ManageInterests extends React.Component {
         p.then((categories) => {
             return storage.getSelectedCategories()
                 .then((userInterests) => {
-                    //console.log(`componentDidMount: Got userInterests: ${JSON.stringify(userInterests, null,2)}`);
+                    return userInterests.map(n => +n)
+                })
+                .then((userInterests) => {
+                    console.log(`componentDidMount: Got userInterests: ${JSON.stringify(userInterests, null, 2)}`);
                     const obj = categories.reduce((acc, cur) => {
                         const currentId = (cur.id);
                         //console.log(`componentDidMount: reduce: ${JSON.stringify(userInterests, null,2)} current: ${cur.id} includes: ${(userInterests || []).includes(currentId)}`);
@@ -58,7 +61,7 @@ export default class ManageInterests extends React.Component {
     };
 
     updateUserInterest(categoryId, hasInterest) {
-        const interests = {...this.state.userInterests, [categoryId]: hasInterest};
+        const interests = {...this.state.userInterests, [+categoryId]: hasInterest};
         this.setState((prevState) => {
             return {...prevState, userInterests: interests}
         });
@@ -67,14 +70,17 @@ export default class ManageInterests extends React.Component {
     }
 
     createSelectedCategoriesList(userInterests) {
-        //console.log(`createSelectedCategoriesList: ${JSON.stringify(userInterests, null,2)}`);
+        console.log(`ManageInterests.createSelectedCategoriesList: ${JSON.stringify(userInterests, null, 2)}`);
         const keys = Object.keys(userInterests);
         // console.log(`createSelectedCategoriesList: keys: ${JSON.stringify(keys, null,2)}`);
         // console.log(`createSelectedCategoriesList: selected: ${JSON.stringify(selected, null,2)}`);
 
-        return keys.filter((interest) => {
+        const list = keys.filter((interest) => {
             return userInterests[interest]
-        });
+        }).map(n => +n);
+
+        console.log(`ManageInterests.createSelectedCategoriesList: selected: ${JSON.stringify(list, null, 2)}`);
+        return list;
     }
 
     async onSave() {
@@ -82,7 +88,7 @@ export default class ManageInterests extends React.Component {
 
         const newList = this.createSelectedCategoriesList(this.state.userInterests);
         try {
-            console.log(`onSave: storing table: ${JSON.stringify(newList, null, 2)}`);
+            console.log(`ManageInterests.onSave: storing table: ${JSON.stringify(newList, null, 2)}`);
             await storage.storeSelectedCategories(newList);
             this.setState((prevState) => {
                 return {...prevState, message: 'Changes saved.'}
@@ -97,7 +103,6 @@ export default class ManageInterests extends React.Component {
             return null;
 
         // console.log(`render: categories: ${JSON.stringify(this.state.categories, null,2)}`);
-
         const rows = this.state.categories.map((cat) => {
             return this.renderRow(cat, this.state.userInterests[cat.id])
         });

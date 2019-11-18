@@ -4,7 +4,6 @@ import storage from '../services/storage';
 import auth from '../services/auth';
 
 const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config.BACKEND_PORT}`;
-const MEDIA_PATH = "news/media";
 
 /**
  *
@@ -49,7 +48,7 @@ const self = {
 
     },
     getNewsByDateAndCategories: (isoDateString, categories) => {
-        const url = `${backEndURL}/${config.BACKEND_NEWS_PATH}/${isoDateString}/${categories.join(',')}`;
+        const url = `${backEndURL}/${config.BACKEND_NEWS_READ_PATH}/${isoDateString}/${categories.join(',')}`;
         console.log(`news: getNewsByDateAndCategories(${isoDateString}, ${JSON.stringify(categories)}) fetching ${url}`);
         return fetch(url, {
             method: 'GET',
@@ -155,12 +154,12 @@ const checkForNewPosts = () => {
                             /// get newPosts we have so far
                             return storage.getNewsPosts()
                                 .then((oldPosts) => {
-                                    console.log(`news.checkForNewPosts: oldPosts: ${JSON.stringify(oldPosts, null, 2)}`);
+                                    //console.log(`news.checkForNewPosts: oldPosts: ${JSON.stringify(oldPosts, null, 2)}`);
                                     /// append the newPost to the list and store it
                                     const newPostList = [...oldPosts, ...newPosts];
-                                    console.log(`news.checkForNewPosts: storing new and Old Posts: ${JSON.stringify(newPostList, null, 2)}`);
+                                    //console.log(`news.checkForNewPosts: storing new and Old Posts: ${JSON.stringify(newPostList, null, 2)}`);
                                     return storage.storeNewsPosts(newPostList).then(() => {
-                                        console.log(`news.checkForNewPosts: stored new and Old Posts`);
+                                        //console.log(`news.checkForNewPosts: stored new and Old Posts`);
                                         return newPostList;
                                     });
                                 })

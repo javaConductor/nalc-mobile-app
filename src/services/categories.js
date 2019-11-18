@@ -25,7 +25,7 @@ export default {
     },
 
     addCategory: (categoryData) => {
-        auth.currentAccessToken().then((accessToken) => {
+        return auth.currentAccessToken().then((accessToken) => {
             console.log(`categories.addCategory: ${JSON.stringify(categoryData)}`);
             return fetch(`${backEndURL}/${config.BACKEND_CATEGORIES_PATH}`, {
                 method: 'POST',
@@ -34,11 +34,11 @@ export default {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({...categoryData, id: undefined}),
+                body: JSON.stringify(categoryData),
             })
                 .then((response) => response.json())
                 .then((responseJson) => {
-                    console.log(`categories.addCategory: ${JSON.stringify(responseJson)}`);
+                    console.log(`categories.addCategory: response: ${JSON.stringify(responseJson)}`);
                     return responseJson;
                 })
                 .catch((error) => {
@@ -56,22 +56,27 @@ export default {
      * TODO: Change the backend to return the new list so we don't have to refetch
      */
     updateCategory: (categoryData) => {
-        return fetch(`${backEndURL}/${config.BACKEND_CATEGORIES_PATH}/${categoryData.id}`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({...categoryData, id: undefined}),
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.log(JSON.stringify(responseJson));
-                return responseJson;
+        return auth.currentAccessToken().then((accessToken) => {
+            console.log(`categories.updateCategory: ${JSON.stringify(categoryData)}`);
+            return fetch(`${backEndURL}/${config.BACKEND_CATEGORIES_PATH}/${categoryData.id}`, {
+                method: 'POST',
+                headers: {
+                    'x-access-token': accessToken,
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({...categoryData, id: undefined}),
             })
-            .catch((error) => {
-                console.error(error);
-            });
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    console.log(JSON.stringify(responseJson));
+                    return responseJson;
+                })
+                .catch((error) => {
+                    console.log(`categories.updateCategory: ERROR: ${JSON.stringify(error)}`);
+                    throw error;
+                });
+        });
     },
 
     removeAdmin: (adminId) => {

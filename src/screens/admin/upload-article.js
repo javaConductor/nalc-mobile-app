@@ -47,13 +47,12 @@ export default class UploadArticle extends React.Component {
     }
 
     updateTitle(title) {
-        this.setState((prevState) => ({...prevState, title: title.trim()}));
+        this.setState((prevState) => ({...prevState, title: title}));
     }
 
     updateUrl(url) {
         this.setState((prevState) => ({...prevState, url: url.trim()}));
     }
-
 
     updateSelectedCategories(categoryId, selected) {
         const selectCats = {...this.state.selectedCategories, [categoryId]: selected};

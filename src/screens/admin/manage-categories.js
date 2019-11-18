@@ -2,8 +2,17 @@
 import React from 'react'
 import {Button, StyleSheet, Text, View} from 'react-native'
 import categoryService from '../../services/categories';
+import {NavigationEvents} from "react-navigation";
 
 export default class ManageCategories extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: true
+        }
+    }
+
 
     static get options() {
         return {
@@ -15,7 +24,7 @@ export default class ManageCategories extends React.Component {
         };
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         this.setState((prevState) => {
             return {...prevState, isLoading: true}
         });
@@ -34,12 +43,10 @@ export default class ManageCategories extends React.Component {
 
         return (
             <View style={styles.container}>
-
+                <NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
                 <Text>Manage Categories</Text>
                 <Button onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
                 {this.state.categories.map(this.renderRow.bind(this))}
-
-
             </View>
         )
     }

@@ -45,18 +45,18 @@ export default class EditCategory extends React.Component {
     }
 
     async onSave(category) {
-        console.log(`Saving category: ${JSON.stringify(category)}`);
+        console.log(`EditCategory.onSave: Saving category: ${JSON.stringify(category)}`);
 
         const p = (category.id)
             ? categoryService.updateCategory(category)
             : categoryService.addCategory(category);
-        p.catch((err) => {
-            console.error(`onSave: Error: ${err})`);
-            throw err;
+        p.then((savedCategory) => {
+            console.log(`EditCategory.onSave: Saved category: ${JSON.stringify(savedCategory)}`);
+            this.props.navigation.navigate('ManageCategories', {});
         })
-            .then((savedCategory) => {
-                console.log(`Saved category: ${JSON.stringify(savedCategory)}`);
-                this.props.navigation.navigate('ManageCategories', {});
+            .catch((err) => {
+                console.error(`EditCategory.onSave: Error: ${err})`);
+                throw err;
             });
     }
 
