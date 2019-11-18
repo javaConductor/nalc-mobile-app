@@ -37,11 +37,6 @@ export default class PostList extends React.Component {
             })
     }
 
-    //handling onPress action
-    getListViewItem = (rowData) => {
-        Alert.alert(rowData);
-    };
-
     render() {
         if (this.state.isLoading)
             return null;

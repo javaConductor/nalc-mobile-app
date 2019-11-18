@@ -4,10 +4,51 @@ import storage from '../services/storage';
 import auth from '../services/auth';
 
 const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config.BACKEND_PORT}`;
+const MEDIA_PATH = "news/media";
+
+/**
+ *
+ * @param post  { ..., featuredMediaId}
+ * @returns Promise <{ ..., featuredMediaId, featuredMedia}>
+ */
+const updateMedia = (post) => {
+    console.log(`news.updateMedia ${post.id}: mediaId: ${post.featured_media}`);
+    const p = post.featured_media <= 0 ? Promise.resolve(post)
+        : self.getMedia(post.featured_media)
+            .then((mediaObj) => {
+                //const {guid: {rendered: mediaUrl}} = mediaObj;
+                const mediaUrl = mediaObj.guid.rendered;
+                console.log(`news.updateMedia ${post.id}: ${mediaUrl}`);
+                return {...post, featuredMedia: mediaUrl};
+            })
+            .catch((err) => {
+                console.error(`news:updateMedia: ERROR ${err}`);
+                throw err;
+            });
+    return p;
+};
 
 const self = {
+
+    getMedia: (mediaId) => {
+        const url = `${backEndURL}/${config.BACKEND_MEDIA_PATH}/${mediaId}`;
+        console.log(`news: getMedia(${mediaId}) fetching ${url}`);
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                // 'x-access-token': accessToken,
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                //console.log(`news: getMedia(${mediaId}) response ${JSON.stringify(responseJson, null, 2)}`);
+                return responseJson;
+            })
+
+    },
     getNewsByDateAndCategories: (isoDateString, categories) => {
-        // const categoryIds = categories.map(cat => cat.id);
         const url = `${backEndURL}/${config.BACKEND_NEWS_PATH}/${isoDateString}/${categories.join(',')}`;
         console.log(`news: getNewsByDateAndCategories(${isoDateString}, ${JSON.stringify(categories)}) fetching ${url}`);
         return fetch(url, {
@@ -20,56 +61,46 @@ const self = {
             //body: JSON.stringify({date: isoDateString, categories: categories}),
         })
             .then((response) => response.json())
+            ///  Add featuredMedia to post if any
+            .then((postList) => {
+                //console.log(`news: getNewsByDateAndCategories: ${JSON.stringify(postList, null, 2)}`);
+                const promiseList = postList.map(updateMedia);
+                return Promise.all(promiseList)
+            })
+            /// Get the needed fields from the post
             .then((responseJson) => {
-                console.log(`news: getNewsByDateAndCategories: ${responseJson}`);
+                //console.log(`news: getNewsByDateAndCategories: ${responseJson}`);
                 const filtered = responseJson
                     .map((post) => {
-                        console.log(`news: getNewsByDateAndCategories: map categories ${JSON.stringify(post.title, null, 2)} `);
-                        const {id, date, modified, title: {rendered: title}, content: {rendered: content}, excerpt: {rendered: excerpt}, author: authorId} = post;
-                        const smaller = {id, date, modified, title, content, excerpt, authorId};
-                        console.log(`news: getNewsByDateAndCategories: smaller category ${JSON.stringify(smaller, null, 2)} `);
+                        //console.log(`news: getNewsByDateAndCategories: map post ${JSON.stringify(post.title, null, 2)} `);
+                        const {id, date, modified, title: {rendered: title}, content: {rendered: content}, excerpt: {rendered: excerpt}, author: authorId, featured_media: featuredMediaId, featuredMedia} = post;
+                        const smaller = {
+                            id,
+                            date,
+                            modified,
+                            title,
+                            content,
+                            excerpt,
+                            authorId,
+                            featuredMediaId,
+                            featuredMedia
+                        };
+                        //console.log(`news: getNewsByDateAndCategories: smaller post ${JSON.stringify(smaller, null, 2)} `);
                         return smaller;
                     });
-                console.log(`news: getNewsByDateAndCategories filtered: ${JSON.stringify(filtered, null, 2)}`);
+                //console.log(`news: getNewsByDateAndCategories filtered: ${JSON.stringify(filtered, null, 2)}`);
                 return filtered;
             })
+
+            // .then((postsWithMedia) => {
+            //     console.log(`news: getNewsByDateAndCategories posts With Media: ${JSON.stringify(postsWithMedia, null, 2)}`);
+            //     return postsWithMedia;
+            // })
             .catch((error) => {
                 //log and rethrow
                 console.error(`news: getNewsByDateAndCategories: ERROR: ${JSON.stringify(error, null, 2)}`);
                 throw error;
             });
-
-    },
-    getNewsByDateAndCategoriesOLD: (isoDateString, categories) => {
-        return fetch(`${backEndURL}/${config.BACKEND_NEWS_PATH}`, {
-            method: 'POST',
-            headers: {
-                // 'x-access-token': accessToken,
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({date: isoDateString, categories: categories}),
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.log(`news: getNewsByDateAndCategories: ${JSON.stringify(responseJson, null, 2)}`);
-                const filtered = responseJson
-                    .filter((cat) => {
-                        return cat.name.toLowerCase() !== 'uncategorized'
-                    })
-                    .map((cat) => {
-                        return (({id, date, modified, title: {rendered: title}, content: {rendered: content}, excerpt: {rendered: excerpt}, author}) =>
-                            ({id, date, modified, title, content, excerpt, author}))(cat);
-                    });
-                console.log(`news: getNewsByDateAndCategories filtered: ${JSON.stringify(filtered, null, 2)}`);
-                return filtered;
-            })
-            .catch((error) => {
-                //log and rethrow
-                console.error(`news: getNewsByDateAndCategories: ERROR: ${JSON.stringify(error, null, 2)}`);
-                throw error;
-            });
-
     },
     /**
      *
@@ -98,8 +129,6 @@ const self = {
                 });
         });
     },
-
-
 };
 
 // create function read posts every N minutes after NEWS_POST_LAST_READ_DATE

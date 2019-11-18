@@ -3,6 +3,7 @@ import {
     BACKEND_AUTH_PATH,
     BACKEND_CATEGORIES_PATH,
     BACKEND_HOST,
+    BACKEND_MEDIA_PATH,
     BACKEND_NEWS_PATH,
     BACKEND_PORT,
     BACKEND_PROTOCOL,
@@ -16,10 +17,13 @@ const cfg = {
     BACKEND_ADMINS_PATH,
     BACKEND_CATEGORIES_PATH,
     BACKEND_NEWS_PATH,
+    BACKEND_MEDIA_PATH,
     BACKEND_AUTH_PATH,
     NEWS_CHECK_INTERVAL_SECONDS,
     USER_KEY
 };
+
+console.log(`config:${cfg.BACKEND_MEDIA_PATH}`);
 console.log(`config:${JSON.stringify(cfg, null, 2)}`);
 
 export default cfg;

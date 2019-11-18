@@ -90,7 +90,6 @@ export default class UploadArticle extends React.Component {
         } catch (e) {
             this.setState((prevState) => ({...prevState, message: `Error uploading article: ${e}`}));
         }
-
     }
 
     render() {
@@ -104,7 +103,6 @@ export default class UploadArticle extends React.Component {
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
 
                     <View style={styles.leftSide}>
-                        <Text>Left side of screen.</Text>
                         <View style={styles.formRow}>
                             <View style={styles.formLabel}>
                                 <Text>Title</Text>

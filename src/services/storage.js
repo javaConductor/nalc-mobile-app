@@ -96,7 +96,7 @@ export default {
     },
     storeNewsPosts: (posts) => {
         // store posts and time
-        console.log(`storage.storeNewsPosts(): Storing: ${JSON.stringify(posts, null, 2)} `);
+        //console.log(`storage.storeNewsPosts(): Storing: ${JSON.stringify(posts, null, 2)} `);
         return AsyncStorage.setItem(NEWS_POSTS, JSON.stringify(posts))
             .then(() => {
                 return AsyncStorage.setItem(NEWS_POSTS_LAST_READ, new Date().toISOString())
@@ -108,7 +108,7 @@ export default {
     getNewsPosts: () => {
         return AsyncStorage.getItem(NEWS_POSTS)
             .then((newsStr) => {
-                console.log(`storage.getNewsPosts() newsStr: ${newsStr}`);
+                //console.log(`storage.getNewsPosts() newsStr: ${newsStr}`);
                 return newsStr ? JSON.parse(newsStr) : [];
             })
             .catch((e) => {
