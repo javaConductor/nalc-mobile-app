@@ -5,9 +5,14 @@ const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config
 
 const self = {
 
-    currentAccessToken: async () => {
+    currentUser: async () => {
         const authInfo = await storage.getAuthInfo();
-        console.log(`auth: currentAccessToken(): ${JSON.stringify(authInfo)}`);
+        console.log(`auth: currentUser(): ${JSON.stringify(authInfo)}`);
+        return authInfo;
+    },
+
+    currentAccessToken: async () => {
+        const authInfo = await self.currentUser();
 
         if (!authInfo) throw "User Not Authenticated !!"; //return Promise.reject("User Not Authenticated !!");
         if (!authInfo.accessToken) throw "User Not Authenticated !!";//return Promise.reject("User Not Authenticated !!");
@@ -56,6 +61,9 @@ const self = {
                     .then((response) => response.json())
                     .then((responseJson) => {
                         console.log(`auth: authenicate: response: ${JSON.stringify(responseJson, null, 2)}`);
+                        if (!responseJson.authenticated) {
+                            throw responseJson.message;
+                        }
                         storage.storeAuthInfo(responseJson);
                         return responseJson;
                     })

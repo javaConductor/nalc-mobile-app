@@ -17,7 +17,6 @@ export default class UploadArticle extends React.Component {
             selectedCategories: {},//{categoryId: true/false}
             categories: []// name, id
         }
-
     }
 
     async componentDidMount() {
@@ -85,7 +84,6 @@ export default class UploadArticle extends React.Component {
                 title: null,
                 selectedCategories
             }));
-//            navigate("Admin", { });
         } catch (e) {
             this.setState((prevState) => ({...prevState, message: `Error uploading article: ${e}`}));
         }
@@ -172,11 +170,13 @@ const localStyles = StyleSheet.create({
     },
     leftSide: {
         alignSelf: 'flex-start',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        width: '50%'
     },
     rightSide: {
         alignSelf: 'flex-end',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        width: '50%'
     },
 
 });

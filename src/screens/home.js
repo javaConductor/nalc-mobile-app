@@ -62,6 +62,7 @@ class HomeScreen extends React.Component {
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <Text>N A L C M o b i l e</Text>
                 {logoffComponent}
+
                 <Button
                     onPress={() => {
                         navigate("Admin", {});
@@ -86,7 +87,6 @@ class HomeScreen extends React.Component {
                     }}
                     title="Tester"
                 />
-
             </View>
         );
     }

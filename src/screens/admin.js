@@ -81,6 +81,12 @@ class Admin extends React.Component {
                     }}
                     title="Upload Article"
                 />
+                <Button
+                    onPress={() => {
+                        navigate("ChangePassword", {});
+                    }}
+                    title="Change Password"
+                />
             </View>
         )
     }

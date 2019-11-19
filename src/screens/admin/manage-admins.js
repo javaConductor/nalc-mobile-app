@@ -61,7 +61,7 @@ class ManageAdmins extends React.Component {
         console.log(`ManageAdmins.render: props: ${JSON.stringify(this.props)}`);
         console.log(`ManageAdmins.render: state: ${JSON.stringify(this.state)}`);
 
-        const {admins, isLoading, errLoading, error} = this.state;
+        const {admins = [], isLoading, errLoading, error} = this.state;
 
         if (errLoading)
             return this.renderError(e);
