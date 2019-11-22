@@ -4,84 +4,86 @@ import {Button, StyleSheet, Text, View} from 'react-native'
 import categoryService from '../../services/categories';
 import {NavigationEvents} from "react-navigation";
 
+
 export default class ManageCategories extends React.Component {
+	static navigationOptions = {
+		title: 'Manage Categories',
+	};
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoading: true
-        }
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			isLoading: true
+		}
+	}
 
+	static get options() {
+		return {
+			topBar: {
+				title: {
+					text: 'Manage Categories'
+				},
+			}
+		};
+	}
 
-    static get options() {
-        return {
-            topBar: {
-                title: {
-                    text: 'Manage Categories'
-                },
-            }
-        };
-    }
+	async componentDidMount() {
+		this.setState((prevState) => {
+			return {...prevState, isLoading: true}
+		});
+		const categories = await categoryService.getCategories();
+		console.log(`EditCategory.componentWillMount: categories: (${JSON.stringify(categories)})`);
 
-    async componentDidMount() {
-        this.setState((prevState) => {
-            return {...prevState, isLoading: true}
-        });
-        const categories = await categoryService.getCategories();
-        console.log(`EditCategory.componentWillMount: categories: (${JSON.stringify(categories)})`);
+		this.setState((prevState) => {
+			return {...prevState, isLoading: false, categories}
+		});
+	}
 
-        this.setState((prevState) => {
-            return {...prevState, isLoading: false, categories}
-        });
-    }
+	render() {
+		if (this.state.isLoading)
+			return null;
+		const {navigate} = this.props.navigation;
 
-    render() {
-        if (this.state.isLoading)
-            return null;
-        const {navigate} = this.props.navigation;
+		return (
+			<View style={styles.container}>
+				<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
+				<Text>Manage Categories</Text>
+				<Button onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
+				{this.state.categories.map(this.renderRow.bind(this))}
+			</View>
+		)
+	}
 
-        return (
-            <View style={styles.container}>
-                <NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
-                <Text>Manage Categories</Text>
-                <Button onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
-                {this.state.categories.map(this.renderRow.bind(this))}
-            </View>
-        )
-    }
+	onRemove(categoryId) {
 
-    onRemove(categoryId) {
+	}
 
-    }
+	renderRow(category) {
+		const {navigate} = this.props.navigation;
 
-    renderRow(category) {
-        const {navigate} = this.props.navigation;
+		return (
+			<View style={styles.row} key={category.id}>
+				<Button title={category.name} onPress={() => navigate('EditCategory', {category})}/>
+				<Button title={category.slug} onPress={() => navigate('EditCategory', {category})}/>
 
-        return (
-            <View style={styles.row} key={category.id}>
-                <Button title={category.name} onPress={() => navigate('EditCategory', {category})}/>
-                <Button title={category.slug} onPress={() => navigate('EditCategory', {category})}/>
+			</View>
+		)
 
-            </View>
-        )
+	}
 
-    }
+	addNewCategory() {
 
-    addNewCategory() {
-
-
-    }
+	}
 }
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    row: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    }
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	row: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	}
 });
