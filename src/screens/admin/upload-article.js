@@ -5,6 +5,7 @@ import TextInput from "react-native-web/dist/exports/TextInput";
 import categoryService from '../../services/categories';
 import mainStyles from '../main-styles';
 import newsService from '../../services/news';
+import {Col, Grid, Row} from "react-native-easy-grid";
 
 
 export default class UploadArticle extends React.Component {
@@ -100,38 +101,52 @@ export default class UploadArticle extends React.Component {
 		return (
 			<View style={{flex: 1}}>
 				{msgCtrl}
-				<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+				<Grid style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+					<Col size={2}>
+						{/*<View style={styles.leftSide}>*/}
+						<Row size={1}>
+							<Col size={1}>
+								<View style={styles.formLabel}>
+									<Text>Title</Text>
+								</View>
+							</Col>
+							<Col size={3}>
+								<View style={styles.formInput}>
+									<Text style={styles.formInput}>
+										<TextInput style={{borderWidth: 4, borderColor: 'black'}}
+										           value={title}
+										           onChangeText={this.updateTitle.bind(this)}/>
+									</Text>
+								</View>
+							</Col>
+						</Row>
+						<Row size={1}>
+							{/*<View style={styles.formRow}>*/}
+							<Col size={1}>
+								<View style={styles.formLabel}>
+									<Text>URL</Text>
+								</View>
+							</Col>
+							<Col size={3}>
+								<View style={styles.formInput}>
+									<Text style={styles.formInput}>
+										<TextInput style={{borderWidth: 4, borderColor: 'black'}}
+										           value={url}
+										           onChangeText={this.updateUrl.bind(this)}/>
+									</Text>
+								</View>
+							</Col>
+							{/*</View>*/}
 
-					<View style={styles.leftSide}>
-						<View style={styles.formRow}>
-							<View style={styles.formLabel}>
-								<Text>Title</Text>
-							</View>
-							<View style={styles.formInput}>
-								<Text style={styles.formInput}>
-									<TextInput
-										value={title}
-										onChangeText={this.updateTitle.bind(this)}/>
-								</Text>
-							</View>
-						</View>
-						<View style={styles.formRow}>
-							<View style={styles.formLabel}>
-								<Text>URL</Text>
-							</View>
-							<View style={styles.formInput}>
-								<Text style={styles.formInput}>
-									<TextInput
-										value={url}
-										onChangeText={this.updateUrl.bind(this)}/>
-								</Text>
-							</View>
-						</View>
-					</View>
-					<View style={styles.rightSide}>
-						{this.renderCategoryChoices()}
-					</View>
-				</View>
+						</Row>
+						<Row size={5}/>
+						{/*</View>*/}
+					</Col><Col size={2}>
+					{/*<View style={styles.rightSide}>*/}
+					{this.renderCategoryChoices()}
+					{/*</View>*/}
+				</Col>
+				</Grid>
 				<Button disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
 			</View>
 		)
@@ -148,17 +163,25 @@ export default class UploadArticle extends React.Component {
 	renderRow(category, inCategory) {
 		const updateSelectedCategories = this.updateSelectedCategories.bind(this);
 		return (
-			<View key={category.slug} style={styles.formRow}>
-				<Text style={styles.formLabel}>{category.name}</Text>
-				<View style={styles.formValue}>
-					<Switch
-						onValueChange={(isInCategory) => {
-							updateSelectedCategories(category.id, isInCategory)
-						}}
-						value={inCategory}
-					/>
-				</View>
-			</View>
+			<Row style={{marginLeft: 5}}>
+				<Col size={1}>
+					<View style={styles.formValue}>
+						<Switch
+							onValueChange={(isInCategory) => {
+								updateSelectedCategories(category.id, isInCategory)
+							}}
+							value={inCategory}
+						/>
+					</View>
+				</Col>
+				<Col size={2}>
+					<View style={styles.formLabel}>
+						<Text style={{alignSelf: 'flex-start'}}>{category.name}</Text>
+					</View>
+				</Col>
+
+				<Col size={1}/>
+			</Row>
 		)
 	}
 }
@@ -179,7 +202,14 @@ const localStyles = StyleSheet.create({
 		justifyContent: 'center',
 		width: '70%'
 	},
-
+	item: {
+		flex: 1,
+		height: 160,
+		margin: 1
+	},
+	list: {
+		flex: 1
+	}
 });
 
 const styles = StyleSheet.compose(mainStyles, localStyles);
