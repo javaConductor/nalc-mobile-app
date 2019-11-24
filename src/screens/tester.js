@@ -44,6 +44,13 @@ class Tester extends React.Component {
 		await storage.storeSetupFlag(false);
 	}
 
+	async invalidateToken() {
+		const authInfo = await storage.getAuthInfo();
+		authInfo.accessTokenExpires = new Date(-7).valueOf();
+		return storage.storeAuthInfo(authInfo);
+
+	}
+
 	render() {
 		return (
 
@@ -52,6 +59,10 @@ class Tester extends React.Component {
 				<Button
 					onPress={this.removeSetupFlag.bind(this)}
 					title="Remove Setup Flag"
+				/>
+				<Button
+					onPress={this.invalidateToken.bind(this)}
+					title="Invalidate Token"
 				/>
 			</View>
 		)

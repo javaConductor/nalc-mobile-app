@@ -58,8 +58,11 @@ export default class EditCategory extends React.Component {
 			this.props.navigation.navigate('ManageCategories', {});
 		})
 			.catch((err) => {
-				console.error(`EditCategory.onSave: Error: ${err})`);
-				throw err;
+				console.error(`EditCategory.onSave: Error: ${JSON.stringify(err)})`);
+				if (typeof err === 'object' && (err.authenticationRequired || e.badToken)) {
+					this.props.navigation.navigate("Login", {target: "ManageCategories"});
+				}
+				// throw err;
 			});
 	}
 

@@ -45,7 +45,6 @@ export default {
 	////////////////////
 	storeAuthInfo: async (authInfo) => {
 		console.log(`storage.storeAuthInfo(): Storing Auth Info: ${JSON.stringify(authInfo, null, 2)} `);
-
 		return AsyncStorage.setItem(AUTH_INFO, JSON.stringify(authInfo))
 			.catch((e) => {
 				console.error(`storage.storeAuthInfo(): Error storing Auth Info: ${e} `);
@@ -85,15 +84,15 @@ export default {
 			});
 	},
 
-	updateAdmin: (adminId, adminData) => {
-		/// get the admin list
-		/// find the one with id == adminId
-		/// overwrite its data with adminData
-		/// store the list again
-	},
-	addAdmin: (adminData) => {
-
-	},
+	// updateAdmin: (adminId, adminData) => {
+	// 	/// get the admin list
+	// 	/// find the one with id == adminId
+	// 	/// overwrite its data with adminData
+	// 	/// store the list again
+	// },
+	// addAdmin: (adminData) => {
+	//
+	// },
 	storeNewsPosts: (posts) => {
 		// store posts and time
 		//console.log(`storage.storeNewsPosts(): Storing: ${JSON.stringify(posts, null, 2)} `);
@@ -122,8 +121,6 @@ export default {
 				/// if no date found then go back a month
 				if (!isoDateString) {
 					var d = new Date();
-					// d.setDate( d.getDate() -7);
-					//d.setMonth(d.getMonth() - 5);
 					d.setFullYear(d.getFullYear() - 1);
 					isoDateString = d.toISOString();
 				}

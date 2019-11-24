@@ -30,7 +30,7 @@ export default class UploadArticle extends React.Component {
 				const selectedCategories = this.createSelectedCategories(categories);
 				if (this.mounted)
 					this.setState((prevState) => {
-						return {...prevState, categories}
+						return {...prevState, categories, selectedCategories}
 					});
 			})
 			.catch((error) => {
@@ -78,7 +78,7 @@ export default class UploadArticle extends React.Component {
 		const categories = this.selectedIdList(this.state.selectedCategories);
 		const contentLink = `<a target='_blank' href='${url}'> Link...</a>`;
 		try {
-			const response = await newsService.addNewsPost({content: contentLink, title, categories});
+			await newsService.addNewsPost({content: contentLink, title, categories});
 			const selectedCategories = this.createSelectedCategories(this.state.categories);
 			this.setState((prevState) => ({
 				...prevState,
@@ -90,6 +90,9 @@ export default class UploadArticle extends React.Component {
 			}));
 		} catch (e) {
 			this.setState((prevState) => ({...prevState, message: `Error uploading article: ${e}`}));
+			if (typeof e === 'object' && (e.authenticationRequired || e.badToken)) {
+				navigate("Login", {target: "UploadArticle"});
+			}
 		}
 	}
 
@@ -163,7 +166,7 @@ export default class UploadArticle extends React.Component {
 	renderRow(category, inCategory) {
 		const updateSelectedCategories = this.updateSelectedCategories.bind(this);
 		return (
-			<Row style={{marginLeft: 5}}>
+			<Row key={category.id} style={{marginLeft: 5}}>
 				<Col size={1}>
 					<View style={styles.formValue}>
 						<Switch

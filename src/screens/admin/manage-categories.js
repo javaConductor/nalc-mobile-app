@@ -17,32 +17,30 @@ export default class ManageCategories extends React.Component {
 		}
 	}
 
-	static get options() {
-		return {
-			topBar: {
-				title: {
-					text: 'Manage Categories'
-				},
-			}
-		};
-	}
-
 	async componentDidMount() {
 		this.setState((prevState) => {
 			return {...prevState, isLoading: true}
 		});
-		const categories = await categoryService.getCategories();
-		console.log(`EditCategory.componentWillMount: categories: (${JSON.stringify(categories)})`);
+		const {navigate} = this.props.navigation;
+		try {
+			const categories = await categoryService.getCategories();
+			console.log(`ManageCategories.componentDidMount: categories: (${JSON.stringify(categories)})`);
 
-		this.setState((prevState) => {
-			return {...prevState, isLoading: false, categories}
-		});
+			this.setState((prevState) => {
+				return {...prevState, isLoading: false, categories}
+			});
+		} catch (e) {
+			if (typeof e === 'object' && (e.authenticationRequired || e.badToken)) {
+				navigate("Login", {target: "ManageCategories"});
+			}
+		}
 	}
 
 	render() {
 		if (this.state.isLoading)
 			return null;
 		const {navigate} = this.props.navigation;
+		console.log(`ManageCategories.render: categories: (${JSON.stringify(this.state.categories)})`);
 
 		return (
 			<View style={styles.container}>

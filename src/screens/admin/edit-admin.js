@@ -77,7 +77,6 @@ export default class EditAdmin extends React.Component {
 	async onSave(admin) {
 		let newAdmin;
 		let newPswd;
-
 		Users.checkEmailUsed(this.state.admin.id || -1, this.state.admin.email).then((emailAlreadyUsed) => {
 			if (emailAlreadyUsed) {
 				this.setState((prevState) => {
@@ -121,10 +120,9 @@ export default class EditAdmin extends React.Component {
 		// console.log(`isPasswordOk: ${state.password1} === ${state.password2} = ${state.password1===state.password2}`);
 		// console.log(`isPasswordOk: length: ${state.password1.length} and ${state.password2.length}`);
 		const passwordsMatch = state.password1 === state.password2;
-		const passwordsOk = state.admin.id
+		return state.admin.id
 			? (passwordsMatch && (state.password1.length > 5 || state.password1.length == 0))
 			: passwordsMatch && (state.password1.length > 5);
-		return passwordsOk;
 	}
 
 	render() {

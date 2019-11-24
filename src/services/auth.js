@@ -1,5 +1,6 @@
 import config from "../config";
 import storage from "./storage";
+import utils from './util';
 
 
 const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config.BACKEND_PORT}`;
@@ -35,6 +36,7 @@ const self = {
 	logoff: () => {
 		return storage.storeAuthInfo({});
 	},
+
 	currentUserCanManageAdmins: () => {
 		if (!self.isUserAuthenticated())
 			return false;
@@ -72,6 +74,31 @@ const self = {
 						console.error(`auth.authenticate(): ERROR: ${JSON.stringify(error, null, 2)}`);
 					});
 			});
+	},
+
+	refreshToken: async () => {
+		/// get the current authInfo
+		const authInfo = await self.currentUser();
+		/// send {refreshToken, username, accessToken}  to the /auth/refreshToken
+		const {refreshToken, username, accessToken} = authInfo;
+		const response = await fetch(`${backEndURL}/${config.BACKEND_REFRESH_TOKEN_PATH}`, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({refreshToken, username, accessToken}),
+		});
+		/// check for bad status
+		if (!response.ok) {
+			return utils.handleHttpError(response, 'refresh token');
+		}
+
+		const responseJson = await response.json();
+		authInfo.accessToken = responseJson.accessToken;
+		authInfo.accessTokenExpire = responseJson.accessTokenExpire;
+		storage.storeAuthInfo(authInfo);
+		return responseJson;
 	},
 };
 export default self;

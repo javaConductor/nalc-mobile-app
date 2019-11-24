@@ -8,6 +8,7 @@ import {
 	BACKEND_NEWS_READ_PATH,
 	BACKEND_PORT,
 	BACKEND_PROTOCOL,
+	BACKEND_REFRESH_TOKEN_PATH,
 	NEWS_CHECK_INTERVAL_SECONDS,
 	USER_KEY
 } from 'react-native-dotenv';
@@ -23,11 +24,13 @@ const cfg = {
 	BACKEND_NEWS_READ_PATH,
 	BACKEND_MEDIA_PATH,
 	BACKEND_AUTH_PATH,
+	BACKEND_REFRESH_TOKEN_PATH,
+
 	NEWS_CHECK_INTERVAL_SECONDS,
 	USER_KEY
 };
 
-console.log(`config:${cfg.BACKEND_MEDIA_PATH}`);
+console.log(`config:${cfg.BACKEND_REFRESH_TOKEN_PATH}`);
 console.log(`config:${JSON.stringify(cfg, null, 2)}`);
 
 export default cfg;
