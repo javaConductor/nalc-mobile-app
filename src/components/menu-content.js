@@ -12,6 +12,7 @@ class MenuContent extends Component {
 			isAuthenticated: false,
 			closeMenu: this.props.closeCallback
 		};
+		this._isMounted = false;
 		this.renderAdminOptions = this.renderAdminOptions.bind(this);
 		const {navigate} = this.props.navigation;
 		this.state.navigate = navigate;
@@ -22,12 +23,20 @@ class MenuContent extends Component {
 		this.state.navigate(screenName, {});
 	}
 
+	componentWillUnmount() {
+		this._isMounted = false;
+
+	}
+
 	async componentDidMount() {
+		this._isMounted = true;
 		const isAuthenticated = await auth.isUserAuthenticated();
 		const canManage = await auth.currentUserCanManageAdmins();
-		this.setState((prevState) => {
-			return {...prevState, isAuthenticated, canManage}
-		});
+		if (this._isMounted) {
+			this.setState((prevState) => {
+				return {...prevState, isAuthenticated, canManage}
+			});
+		}
 	}
 
 	renderAdminOptions() {

@@ -3,6 +3,7 @@ import React from 'react'
 import {Button, StyleSheet, Text, View} from 'react-native'
 import Users from '../../services/users';
 import {withNavigation} from 'react-navigation';
+import {Col, Grid, Row} from "react-native-easy-grid";
 
 
 const STATUS_SUSPENDED = "Suspended";
@@ -62,18 +63,22 @@ class ManageAdmins extends React.Component {
 		const adminList = admins.map((admin) => this.renderAdmin(admin, this.props));
 		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : "";
 		return <View style={styles.container}>
-			<View style={styles.adminRow}>
-				<View style={styles.adminName}>
-					<Text>Admin Name</Text>
-				</View>
-				<View style={styles.adminActions}>
-					<Text>Actions</Text>
-				</View>
-			</View>
-			<Button title={"New Admin"} onPress={() => {
-				navigate('EditAdmin', {})
-			}}/>
-			{adminList}
+			<Grid>
+				<Row>
+					{/*<View style={styles.adminRow}>*/}
+					<Col size={5}>
+						<Text style={styles.rowHeader}>Administrator Name</Text>
+					</Col>
+					<Col size={1}>
+						<Text style={styles.rowHeader}>Actions</Text>
+					</Col>
+					{/*</View>*/}
+				</Row>
+				<Button style={{alignSelf: 'center'}} title={"New Admin"} onPress={() => {
+					navigate('EditAdmin', {})
+				}}/>
+				{adminList}
+			</Grid>
 		</View>
 	}
 
@@ -83,19 +88,18 @@ class ManageAdmins extends React.Component {
 		//console.log(`ManageAdmins.renderAdmin(${JSON.stringify(admin)})`);
 		const {navigate} = props.navigation;
 		const {id, firstName, lastName, permissions, email} = admin;
-		return (
-			<View key={admin.id} style={styles.adminRow}>
-				<View style={styles.adminName}>
-					<Text onPress={() => {
-						navigate('EditAdmin', {admin})
-					}}>{`${firstName} ${lastName}`}</Text>
-				</View>
-				<View style={styles.adminActions}>
-					{/*<Button title={'Suspend'} onPress={() => this.onSuspendAdmin(admin)}/>*/}
-					<Button style={{borderRadius: 20, justifySelf: 'flex-start', alignSelf: 'flex-start'}}
-					        title={'Remove'} onPress={() => this.onRemoveAdmin(admin)}/>
-				</View>
-			</View>);
+		return (<Row key={admin.id}>
+			<Col size={5} style={styles.rowCol}>
+				<Text onPress={() => {
+					navigate('EditAdmin', {admin})
+				}}>{`${firstName} ${lastName}`}</Text>
+			</Col>
+			<Col size={1} style={styles.rowCol}>
+				{/*<Button title={'Suspend'} onPress={() => this.onSuspendAdmin(admin)}/>*/}
+				<Button
+					title={'Remove'} onPress={() => this.onRemoveAdmin(admin)}/>
+			</Col>
+		</Row>);
 	}
 
 	onSuspendAdmin(admin) {
@@ -121,8 +125,10 @@ export default withNavigation(ManageAdmins);
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		width: '100%',
 		justifyContent: 'center',
-		alignItems: 'center'
+		//alignItems: 'stretch',
+		borderWidth: 1,
 	},
 	adminRow: {
 		flex: 1,
@@ -137,5 +143,24 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 		width: '20%',
 		flexDirection: 'row'
+	},
+	row: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	},
+	rowCol: {
+		borderWidth: 1,
+		borderColor: 'black'
+	},
+
+	rowHeader: {
+		fontWeight: 'bold',
+		alignSelf: 'center',
+	},
+	header: {
+		fontWeight: 'bold',
+		fontSize: 18,
+		alignSelf: 'center',
 	}
 });
