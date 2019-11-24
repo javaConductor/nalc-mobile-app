@@ -3,6 +3,7 @@ import React from 'react'
 import {Button, StyleSheet, Text, View} from 'react-native'
 import categoryService from '../../services/categories';
 import {NavigationEvents} from "react-navigation";
+import {Col, Grid, Row} from "react-native-easy-grid";
 
 
 export default class ManageCategories extends React.Component {
@@ -24,7 +25,7 @@ export default class ManageCategories extends React.Component {
 		const {navigate} = this.props.navigation;
 		try {
 			const categories = await categoryService.getCategories();
-			console.log(`ManageCategories.componentDidMount: categories: (${JSON.stringify(categories)})`);
+			//console.log(`ManageCategories.componentDidMount: categories: (${JSON.stringify(categories)})`);
 
 			this.setState((prevState) => {
 				return {...prevState, isLoading: false, categories}
@@ -40,14 +41,21 @@ export default class ManageCategories extends React.Component {
 		if (this.state.isLoading)
 			return null;
 		const {navigate} = this.props.navigation;
-		console.log(`ManageCategories.render: categories: (${JSON.stringify(this.state.categories)})`);
+		//console.log(`ManageCategories.render: categories: (${JSON.stringify(this.state.categories)})`);
 
 		return (
 			<View style={styles.container}>
 				<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
-				<Text>Manage Categories</Text>
+				<Text style={styles.header}>Manage Categories</Text>
 				<Button onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
-				{this.state.categories.map(this.renderRow.bind(this))}
+				<Grid>
+					<Row>
+						<Col size={1}><Text style={styles.rowHeader}>Name</Text></Col>
+						{/*<Col size={1}><Text>Slug</Text></Col>*/}
+						<Col size={2}><Text style={styles.rowHeader}>Description</Text></Col>
+					</Row>
+					{this.state.categories.map(this.renderRow.bind(this))}
+				</Grid>
 			</View>
 		)
 	}
@@ -59,13 +67,14 @@ export default class ManageCategories extends React.Component {
 	renderRow(category) {
 		const {navigate} = this.props.navigation;
 
-		return (
-			<View style={styles.row} key={category.id}>
-				<Button title={category.name} onPress={() => navigate('EditCategory', {category})}/>
-				<Button title={category.slug} onPress={() => navigate('EditCategory', {category})}/>
-
-			</View>
-		)
+		return (<Row key={category.id}>
+				<Col style={styles.rowCol} size={1}><Text
+					onPress={() => navigate('EditCategory', {category})}>{category.name}</Text></Col>
+				{/*<Col  size={1}><Button title={category.slug} onPress={() => navigate('EditCategory', {category})}/></Col>*/}
+				<Col style={styles.rowCol} size={2}><Text
+					onPress={() => navigate('EditCategory', {category})}>{category.description}</Text></Col>
+			</Row>
+		);
 
 	}
 
@@ -76,12 +85,28 @@ export default class ManageCategories extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		width: '100%',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'stretch',
+		borderWidth: 1,
 	},
 	row: {
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between'
+	},
+	rowCol: {
+		borderWidth: 1,
+		borderColor: 'black'
+	},
+
+	rowHeader: {
+		fontWeight: 'bold',
+		alignSelf: 'center',
+	},
+	header: {
+		fontWeight: 'bold',
+		fontSize: 18,
+		alignSelf: 'center',
 	}
 });
