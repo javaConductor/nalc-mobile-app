@@ -92,10 +92,6 @@ const self = {
 				return filtered;
 			})
 
-			// .then((postsWithMedia) => {
-			//     console.log(`news: getNewsByDateAndCategories posts With Media: ${JSON.stringify(postsWithMedia, null, 2)}`);
-			//     return postsWithMedia;
-			// })
 			.catch((error) => {
 				//log and rethrow
 				console.error(`news: getNewsByDateAndCategories: ERROR: ${JSON.stringify(error, null, 2)}`);

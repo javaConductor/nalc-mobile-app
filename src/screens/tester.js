@@ -1,6 +1,6 @@
 // Tester.js
 import React from 'react'
-import {Button, StyleSheet, View} from 'react-native'
+import {Button, Linking, StyleSheet, View} from 'react-native'
 import {withNavigation} from "react-navigation";
 import auth from '../services/auth';
 import storage from '../services/storage';
@@ -52,6 +52,7 @@ class Tester extends React.Component {
 	}
 
 	render() {
+		const {navigate} = this.props.navigation;
 		return (
 
 			<View style={styles.container}>
@@ -61,8 +62,12 @@ class Tester extends React.Component {
 					title="Remove Setup Flag"
 				/>
 				<Button
-					onPress={this.invalidateToken.bind(this)}
-					title="Invalidate Token"
+					onPress={() => navigate('FacebookView', {})}
+					title="facebook"
+				/>
+				<Button
+					onPress={() => Linking.openURL('http://facebook.com/LeeCollinsChicago')}
+					title="facebook link"
 				/>
 			</View>
 		)

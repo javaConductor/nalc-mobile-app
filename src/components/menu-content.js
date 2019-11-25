@@ -2,7 +2,8 @@ import React, {Component, Fragment} from 'react'
 import {NavigationEvents, withNavigation} from 'react-navigation';
 import auth from '../services/auth';
 import './menu-content.css';
-import {View} from "react-native";
+import {Linking, View} from "react-native";
+import {SocialIcon} from 'react-native-elements'
 
 
 class MenuContent extends Component {
@@ -119,12 +120,91 @@ class MenuContent extends Component {
 							News
 						</a>
 					</div>
+
+
+					{this.renderSocialMediaOptions()}
 					{this.renderAdminOptions()}
 					{logoffComponent}
 				</div>
 			</View>
 
 		)
+	}
+
+	renderSocialMediaOptions() {
+
+		return <Fragment>
+			<div className="menu-item" key={'Facebook'}>
+				<a onClick={this.gotoFacebook}>
+					<SocialIcon
+						title='NALC on Facebook'
+						button
+						type='facebook'
+					/>
+				</a>
+			</div>
+
+			<div className="menu-item" key={'Twitter'}>
+				<a onClick={this.gotoTwitter}>
+					<SocialIcon
+						title='NALC on Twitter'
+						button
+						type='twitter'
+					/>
+				</a>
+			</div>
+
+			<div className="menu-item" key={'Instagram'}>
+				<a onClick={this.gotoInstagram}>
+					<SocialIcon
+						title='NALC on Instagram'
+						button
+						type='instagram'
+					/>
+				</a>
+			</div>
+
+			<div className="menu-item" key={'Flickr'}>
+				<a onClick={this.gotoFlickr}>
+					<SocialIcon
+						title='NALC on Flickr'
+						button
+						type='flickr'
+					/>
+				</a>
+			</div>
+
+			<div className="menu-item" key={'youtube'}>
+				<a onClick={this.gotoYouTube}>
+					<SocialIcon
+						title='NALC on YouTube'
+						button
+						type='youtube'
+					/>
+				</a>
+			</div>
+
+		</Fragment>
+	}
+
+	gotoFacebook() {
+		Linking.openURL('https://www.facebook.com/nalc.national/');
+	}
+
+	gotoTwitter() {
+		Linking.openURL('https://twitter.com/NALC_National?lang=en');
+	}
+
+	gotoInstagram() {
+		Linking.openURL('https://www.instagram.com/lettercarriers/');
+	}
+
+	gotoFlickr() {
+		Linking.openURL('https://www.flickr.com/photos/nalc-usa/');
+	}
+
+	gotoYouTube() {
+		Linking.openURL('https://www.youtube.com/channel/UCKZJ1C15xMWWxLGIRRfCDIw');
 	}
 }
 
