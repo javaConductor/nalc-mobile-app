@@ -40,6 +40,82 @@ class MenuContent extends Component {
 		}
 	}
 
+	gotoFacebook() {
+		Linking.openURL('https://www.facebook.com/nalc.national/');
+	}
+
+	gotoTwitter() {
+		Linking.openURL('https://twitter.com/NALC_National?lang=en');
+	}
+
+	gotoInstagram() {
+		Linking.openURL('https://www.instagram.com/lettercarriers/');
+	}
+
+	gotoFlickr() {
+		Linking.openURL('https://www.flickr.com/photos/nalc-usa/');
+	}
+
+	gotoYouTube() {
+		Linking.openURL('https://www.youtube.com/channel/UCKZJ1C15xMWWxLGIRRfCDIw');
+	}
+
+	async onLogOff() {
+		await auth.logoff();
+		if (this._isMounted)
+			this.setState((prevState) => {
+				return {...prevState, isAuthenticated: false}
+			})
+	}
+
+	render() {
+		const {navigate} = this.state;
+		const logoffComponent = this.state.isAuthenticated
+			? <div className="menu-item" key={'Logoff'}>
+				<a onClick={this.onLogOff.bind(this)}>
+					<SocialIcon
+						fontWeight={'bold'}
+						style={{backgroundColor: 'maroon', fontSize: 16}}
+						title='Sign Out'
+						button
+					/>
+				</a>
+			</div>
+			: null;
+		return (
+			<View>
+				<div className="menu">
+					<NavigationEvents onDidFocus={this.componentDidMount.bind(this)}/>
+
+					<div className="menu-item" key={'ManageInterests'} z-index="2">
+						<a onClick={() => this.closeAndNavigate('ManageInterests')}>
+							<SocialIcon
+								fontWeight={'bold'}
+								style={{backgroundColor: 'navy', fontSize: 16}}
+								title='Manage Interests'
+								button
+							/>
+						</a>
+					</div>
+					<div className="menu-item" key={'News'}>
+						<a onClick={() => this.closeAndNavigate('PostList')}>
+							<SocialIcon
+								fontWeight={'bold'}
+								style={{backgroundColor: 'navy', fontSize: 16}}
+								title='News'
+								button
+							/>
+						</a>
+					</div>
+					{this.renderSocialMediaOptions()}
+					{this.renderAdminOptions()}
+					{logoffComponent}
+				</div>
+			</View>
+
+		)
+	}
+
 	renderAdminOptions() {
 		//const {navigate} = this.state;
 		if (!this.state.isAuthenticated)
@@ -47,7 +123,13 @@ class MenuContent extends Component {
 				<a onClick={() => {
 					this.closeAndNavigate('Admin')
 				}}>
-					Admin
+					<SocialIcon
+						fontWeight={'bold'}
+						style={{backgroundColor: 'maroon', fontSize: 16}}
+						title='Admin'
+						button
+					/>
+
 				</a>
 			</div>;
 
@@ -55,7 +137,13 @@ class MenuContent extends Component {
 			<a onClick={() => {
 				this.closeAndNavigate('ManageAdmins')
 			}}>
-				Manage Administrators
+				<SocialIcon
+					fontWeight={'bold'}
+					style={{backgroundColor: 'maroon', fontSize: 16}}
+					title='Manage Administrators'
+					button
+				/>
+
 			</a>
 		</div> : null;
 
@@ -67,17 +155,38 @@ class MenuContent extends Component {
 			{manageAdminsComponent}
 			<div className="menu-item" key={'ManageCategories'}>
 				<a onClick={() => this.closeAndNavigate('ManageCategories')}>
-					Manage Categories
+
+					<SocialIcon
+						fontWeight={'bold'}
+						style={{backgroundColor: 'maroon', fontSize: 16}}
+						title='Manage Categories'
+						button
+					/>
+
 				</a>
 			</div>
 			<div className="menu-item" key={'UploadArticle'}>
 				<a onClick={() => this.closeAndNavigate('UploadArticle')}>
-					Upload Article
+
+					<SocialIcon
+						fontWeight={'bold'}
+						style={{backgroundColor: 'maroon', fontSize: 16}}
+						title='Upload Article'
+						button
+					/>
+
 				</a>
 			</div>
 			<div className="menu-item" key={'ChangePassword'}>
 				<a onClick={() => this.closeAndNavigate('ChangePassword')}>
-					Change Password
+
+					<SocialIcon
+						fontWeight={'bold'}
+						style={{backgroundColor: 'maroon', fontSize: 16}}
+						title='Change Password'
+						button
+					/>
+
 				</a>
 			</div>
 			<div className={'menu-item'}>
@@ -86,49 +195,6 @@ class MenuContent extends Component {
 				</a>
 			</div>
 		</Fragment>
-	}
-
-	onLogOff() {
-		auth.logoff();
-		this.setState((prevState) => {
-			return {...prevState, isAuthenticated: false}
-		})
-	}
-
-	render() {
-		const {navigate} = this.state;
-		const logoffComponent = this.state.isAuthenticated
-			? <div className="menu-item" key={'Logoff'}>
-				{/*<Button title={'Sign Out'} onPress={this.onLogOff.bind(this)}/>*/}
-				<a onClick={this.onLogOff.bind(this)}>
-					Sign Out
-				</a>
-			</div>
-			: null;
-		return (
-			<View>
-				<div className="menu">
-					<NavigationEvents onDidFocus={this.componentDidMount.bind(this)}/>
-
-					<div className="menu-item" key={'ManageInterests'} z-index="2">
-						<a onClick={() => this.closeAndNavigate('ManageInterests')}>
-							Manage Interests
-						</a>
-					</div>
-					<div className="menu-item" key={'News'}>
-						<a onClick={() => this.closeAndNavigate('PostList')}>
-							News
-						</a>
-					</div>
-
-
-					{this.renderSocialMediaOptions()}
-					{this.renderAdminOptions()}
-					{logoffComponent}
-				</div>
-			</View>
-
-		)
 	}
 
 	renderSocialMediaOptions() {
@@ -187,25 +253,6 @@ class MenuContent extends Component {
 		</Fragment>
 	}
 
-	gotoFacebook() {
-		Linking.openURL('https://www.facebook.com/nalc.national/');
-	}
-
-	gotoTwitter() {
-		Linking.openURL('https://twitter.com/NALC_National?lang=en');
-	}
-
-	gotoInstagram() {
-		Linking.openURL('https://www.instagram.com/lettercarriers/');
-	}
-
-	gotoFlickr() {
-		Linking.openURL('https://www.flickr.com/photos/nalc-usa/');
-	}
-
-	gotoYouTube() {
-		Linking.openURL('https://www.youtube.com/channel/UCKZJ1C15xMWWxLGIRRfCDIw');
-	}
 }
 
 export default withNavigation(MenuContent);

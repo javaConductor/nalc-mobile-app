@@ -33,7 +33,7 @@ const self = {
 		return !!authInfo.accessToken;
 	},
 
-	logoff: () => {
+	logoff: async () => {
 		return storage.storeAuthInfo({});
 	},
 
