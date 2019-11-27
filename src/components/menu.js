@@ -32,7 +32,7 @@ class Menu extends React.Component {
 		this._isMounted = true;
 		try {
 			const isAuthenticated = await auth.isUserAuthenticated();
-			console.log(`Menu.componentDidMount: setting isAuthenticated: ${isAuthenticated}`);
+			//console.log(`Menu.componentDidMount: setting isAuthenticated: ${isAuthenticated}`);
 			if (this._isMounted)
 				this.setState((prevState) => {
 					return {...prevState, isAuthenticated}
@@ -56,7 +56,7 @@ class Menu extends React.Component {
 
 	render() {
 		const {navigate} = this.props.navigation;
-		console.log(`Home.render: userIsAuthenticated: ${this.state.isAuthenticated}`);
+		//console.log(`Menu.render: userIsAuthenticated: ${this.state.isAuthenticated}`);
 
 		return (
 			<View style={{alignSelf: 'flex-start', marginRight: 30, height: '500'}}>

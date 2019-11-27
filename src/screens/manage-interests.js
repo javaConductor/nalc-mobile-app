@@ -37,18 +37,16 @@ export default class ManageInterests extends React.Component {
 				console.error(`Error getting list of categories: ${error}`);
 				throw error;
 			});
-		/// create a table based on users interests : {interest: true/false}
+		/// create a table based on users interests: {interest: true/false}
 		p.then((categories) => {
 			return storage.getSelectedCategories()
 				.then((userInterests) => {
-					return userInterests.map(n => +n)
+					return userInterests.map(n => +n) /// make sure they are numbers
 				})
 				.then((userInterests) => {
 					console.log(`componentDidMount: Got userInterests: ${JSON.stringify(userInterests, null, 2)}`);
 					const obj = categories.reduce((acc, cur) => {
-						const currentId = (cur.id);
-						//console.log(`componentDidMount: reduce: ${JSON.stringify(userInterests, null,2)} current: ${cur.id} includes: ${(userInterests || []).includes(currentId)}`);
-						return {...acc, [currentId]: (userInterests || []).includes(currentId)};
+						return {...acc, [cur.id]: (userInterests || []).includes(cur.id)};
 					}, {});
 					console.log(`componentDidMount: Created userInterests table: ${JSON.stringify(obj, null, 2)}`);
 					this.setState((prevState) => {
@@ -105,11 +103,11 @@ export default class ManageInterests extends React.Component {
 		if (this.state.isInitializing)
 			return null;
 
-		// console.log(`render: categories: ${JSON.stringify(this.state.categories, null,2)}`);
+		/// create a row for each category
 		const rows = this.state.categories.map((cat) => {
 			return this.renderRow(cat, this.state.userInterests[cat.id])
 		});
-		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
+		const msgCtrl = this.state.message ? <Text style={styles.error}>{this.state.message}</Text> : null;
 		return (
 			<View style={styles.container}>
 				{msgCtrl}
@@ -124,6 +122,12 @@ export default class ManageInterests extends React.Component {
 		)
 	}
 
+	/**
+	 *
+	 * @param category
+	 * @param hasInterest
+	 * @returns <View>
+	 */
 	renderRow(category, hasInterest) {
 
 		const updateUserInterest = this.updateUserInterest.bind(this);

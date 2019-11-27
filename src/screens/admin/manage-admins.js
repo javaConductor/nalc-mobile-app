@@ -6,9 +6,6 @@ import {withNavigation} from 'react-navigation';
 import {Col, Grid, Row} from "react-native-easy-grid";
 
 
-const STATUS_SUSPENDED = "Suspended";
-const STATUS_ACTIVE = "Active";
-
 class ManageAdmins extends React.Component {
 	static navigationOptions = {
 		title: 'Manage Administrators',
@@ -59,25 +56,26 @@ class ManageAdmins extends React.Component {
 		if (isLoading)
 			return this.renderLoading();
 		const {navigate} = this.props.navigation;
-
 		const adminList = admins.map((admin) => this.renderAdmin(admin, this.props));
-		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : "";
+		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
 		return <View style={styles.container}>
+			{msgCtrl}
 			<Grid>
 				<Row>
-					{/*<View style={styles.adminRow}>*/}
 					<Col size={5}>
 						<Text style={styles.rowHeader}>Administrator Name</Text>
 					</Col>
 					<Col size={1}>
 						<Text style={styles.rowHeader}>Actions</Text>
 					</Col>
-					{/*</View>*/}
 				</Row>
-				<Button style={{alignSelf: 'center'}} title={"New Admin"} onPress={() => {
-					navigate('EditAdmin', {})
-				}}/>
 				{adminList}
+				<Button
+					style={{alignSelf: 'center'}}
+					title={"Add New Administrator"}
+					onPress={() => {
+						navigate('EditAdmin', {})
+					}}/>
 			</Grid>
 		</View>
 	}
@@ -87,26 +85,24 @@ class ManageAdmins extends React.Component {
 		//console.log(`ManageAdmins.renderAdmin: state: ${JSON.stringify(this.state)}`);
 		//console.log(`ManageAdmins.renderAdmin(${JSON.stringify(admin)})`);
 		const {navigate} = props.navigation;
-		const {id, firstName, lastName, permissions, email} = admin;
-		return (<Row key={admin.id}>
-			<Col size={5} style={styles.rowCol}>
-				<Text onPress={() => {
-					navigate('EditAdmin', {admin})
-				}}>{`${firstName} ${lastName}`}</Text>
-			</Col>
-			<Col size={1} style={styles.rowCol}>
-				{/*<Button title={'Suspend'} onPress={() => this.onSuspendAdmin(admin)}/>*/}
-				<Button
-					title={'Remove'} onPress={() => this.onRemoveAdmin(admin)}/>
-			</Col>
-		</Row>);
+		const {firstName, lastName} = admin;
+		return (
+			<Row key={admin.id}>
+				<Col size={5} style={styles.rowCol}>
+					<Text onPress={() => {
+						navigate('EditAdmin', {admin})
+					}}>
+						{`${firstName} ${lastName}`}
+					</Text>
+				</Col>
+				<Col size={1} style={styles.rowCol}>
+					<Button
+						title={'Remove'}
+						onPress={() => this.onRemoveAdmin(admin)}/>
+				</Col>
+			</Row>
+		);
 	}
-
-	onSuspendAdmin(admin) {
-		const {navigate} = this.props.navigation;
-		/// Set it to status ='Suspended'
-	}
-
 	async onRemoveAdmin(admin) {
 		const {navigate} = this.props.navigation;
 		console.log(`ManageAdmins.onRemoveAdmin(${JSON.stringify(admin, null, 2)})`);

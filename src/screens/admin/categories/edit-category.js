@@ -2,6 +2,7 @@
 import React from 'react'
 import {Button, StyleSheet, Text, TextInput, View} from 'react-native'
 import categoryService from '../../../services/categories';
+import {AutoGrowingTextInput} from "react-native-autogrow-textinput";
 
 
 export default class EditCategory extends React.Component {
@@ -17,16 +18,6 @@ export default class EditCategory extends React.Component {
 		const category = props.navigation.state.params.category || {};
 		console.log(`EditCategory(${JSON.stringify(category)})`);
 		this.state = {category};
-	}
-
-	static get options() {
-		return {
-			topBar: {
-				title: {
-					text: 'Edit Category Info'
-				},
-			}
-		};
 	}
 
 	updateName(name) {
@@ -59,7 +50,7 @@ export default class EditCategory extends React.Component {
 		})
 			.catch((err) => {
 				console.error(`EditCategory.onSave: Error: ${JSON.stringify(err)})`);
-				if (typeof err === 'object' && (err.authenticationRequired || e.badToken)) {
+				if (typeof err === 'object' && (err.authenticationRequired || err.badToken)) {
 					this.props.navigation.navigate("Login", {target: "ManageCategories"});
 				}
 				// throw err;
@@ -94,9 +85,15 @@ export default class EditCategory extends React.Component {
 					</View>
 					<View style={styles.formInput}>
 						<Text style={styles.formInput}>
-							<TextInput
+							{/*<TextInput*/}
+							{/*	value={category.description}*/}
+							{/*	onChangeText={this.updateDescription.bind(this)}/>*/}
+
+							<AutoGrowingTextInput
+								style={styles.formInput}
 								value={category.description}
 								onChangeText={this.updateDescription.bind(this)}/>
+
 						</Text>
 					</View>
 				</View>
@@ -182,7 +179,8 @@ const styles = StyleSheet.create({
 	formRow: {
 		margin: 2,
 		flexDirection: 'row',
-		justifyContent: 'space-between'
+//		justifyContent : 'space-between',
+		justifyContent: 'stretch',
 		// color: 'white'
 	},
 	formPassword: {

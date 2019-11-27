@@ -28,7 +28,7 @@ const self = {
 	_tokenValid: (authInfo) => {
 		if (!authInfo)
 			return false;
-		console.log(`auth: _tokenValid: authInfo: ${JSON.stringify(authInfo, null, 2)}`);
+		//console.log(`auth: _tokenValid: authInfo: ${JSON.stringify(authInfo, null, 2)}`);
 		/// check for valid token
 		return !!authInfo.accessToken;
 	},

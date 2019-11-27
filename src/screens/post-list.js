@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
 	},
 	postTitle: {
 		color: 'maroon',
+		fontFamily: "Oswald-Bold",
 		fontSize: 20,
 		backgroundColor: 'white',
 		marginLeft: 10,

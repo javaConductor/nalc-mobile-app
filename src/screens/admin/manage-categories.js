@@ -4,6 +4,7 @@ import {Button, StyleSheet, Text, View} from 'react-native'
 import categoryService from '../../services/categories';
 import {NavigationEvents} from "react-navigation";
 import {Col, Grid, Row} from "react-native-easy-grid";
+import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 
 
 export default class ManageCategories extends React.Component {
@@ -47,15 +48,18 @@ export default class ManageCategories extends React.Component {
 			<View style={styles.container}>
 				<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
 				<Text style={styles.header}>Manage Categories</Text>
-				<Button onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
 				<Grid>
 					<Row>
 						<Col size={1}><Text style={styles.rowHeader}>Name</Text></Col>
 						{/*<Col size={1}><Text>Slug</Text></Col>*/}
-						<Col size={2}><Text style={styles.rowHeader}>Description</Text></Col>
+						<Col size={2}>
+							<Text style={styles.rowHeader}>Description</Text>
+
+						</Col>
 					</Row>
 					{this.state.categories.map(this.renderRow.bind(this))}
 				</Grid>
+				<Button onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
 			</View>
 		)
 	}
@@ -71,8 +75,11 @@ export default class ManageCategories extends React.Component {
 				<Col style={styles.rowCol} size={1}><Text
 					onPress={() => navigate('EditCategory', {category})}>{category.name}</Text></Col>
 				{/*<Col  size={1}><Button title={category.slug} onPress={() => navigate('EditCategory', {category})}/></Col>*/}
-				<Col style={styles.rowCol} size={2}><Text
-					onPress={() => navigate('EditCategory', {category})}>{category.description}</Text></Col>
+				<Col style={styles.rowCol} size={2}>
+					<AutoGrowingTextInput
+						value={category.description}
+						onClick={() => navigate('EditCategory', {category})}/>
+				</Col>
 			</Row>
 		);
 
@@ -108,5 +115,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontSize: 18,
 		alignSelf: 'center',
+		borderBottom: 5,
+		borderBottomColor: 'navy',
 	}
 });

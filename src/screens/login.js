@@ -1,7 +1,6 @@
 // Login.js
 import React from 'react'
-import {Button, StyleSheet, Text, View} from 'react-native'
-import TextInput from "react-native-web/dist/exports/TextInput";
+import {Button, StyleSheet, Text, TextInput, View} from 'react-native'
 import util from '../services/util';
 import auth from '../services/auth';
 

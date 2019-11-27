@@ -1,7 +1,6 @@
 // UploadArticle.js
 import React from 'react'
-import {Button, StyleSheet, Switch, Text, View} from 'react-native'
-import TextInput from "react-native-web/dist/exports/TextInput";
+import {Button, StyleSheet, Switch, Text, TextInput, View} from 'react-native'
 import categoryService from '../../services/categories';
 import mainStyles from '../main-styles';
 import newsService from '../../services/news';
@@ -34,7 +33,8 @@ export default class UploadArticle extends React.Component {
 					});
 			})
 			.catch((error) => {
-				console.log(`UploadArticle.componentDidMount: ERROR: ${error}`);
+				const message = typeof error === 'object' ? error.message : error;
+				console.log(`UploadArticle.componentDidMount: ERROR: ${message}`);
 				throw error;
 			});
 	}
@@ -65,7 +65,7 @@ export default class UploadArticle extends React.Component {
 
 	selectedIdList(selectedCategories) {
 		const keys = Object.keys(selectedCategories);
-		console.log(`selectedIdList: keys: ${JSON.stringify(keys, null, 2)}`);
+		//console.log(`selectedIdList: keys: ${JSON.stringify(keys, null, 2)}`);
 		console.log(`selectedIdList: selected: ${JSON.stringify(selectedCategories, null, 2)}`);
 
 		/// keys are category ids
@@ -74,22 +74,24 @@ export default class UploadArticle extends React.Component {
 
 	async onSave() {
 		const {navigate} = this.props.navigation;
-		const {content, url, title} = this.state;
+		const {url, title} = this.state;
 		const categories = this.selectedIdList(this.state.selectedCategories);
 		const contentLink = `<a target='_blank' href='${url}'> Link...</a>`;
 		try {
 			await newsService.addNewsPost({content: contentLink, title, categories});
 			const selectedCategories = this.createSelectedCategories(this.state.categories);
-			this.setState((prevState) => ({
-				...prevState,
-				message: `Article '${title}' uploaded`,
-				url: null,
-				content: null,
-				title: null,
-				selectedCategories
-			}));
+			if (this.mounted)
+				this.setState((prevState) => ({
+					...prevState,
+					message: `Article '${title}' uploaded`,
+					url: '',
+					content: '',
+					title: '',
+					selectedCategories
+				}));
 		} catch (e) {
-			this.setState((prevState) => ({...prevState, message: `Error uploading article: ${e}`}));
+			if (this.mounted)
+				this.setState((prevState) => ({...prevState, message: `Error uploading article: ${e}`}));
 			if (typeof e === 'object' && (e.authenticationRequired || e.badToken)) {
 				navigate("Login", {target: "UploadArticle"});
 			}
@@ -106,17 +108,16 @@ export default class UploadArticle extends React.Component {
 				{msgCtrl}
 				<Grid style={{flexDirection: 'row', justifyContent: 'space-between'}}>
 					<Col size={2}>
-						{/*<View style={styles.leftSide}>*/}
 						<Row size={1}>
 							<Col size={1}>
 								<View style={styles.formLabel}>
 									<Text>Title</Text>
 								</View>
 							</Col>
-							<Col size={3}>
-								<View style={styles.formInput}>
-									<Text style={styles.formInput}>
-										<TextInput style={{borderWidth: 4, borderColor: 'black'}}
+							<Col size={4}>
+								<View style={{...styles.formInput, alignItems: 'stretch'}}>
+									<Text style={{...styles.formInput, alignItems: 'stretch'}}>
+										<TextInput style={{borderWidth: 4, borderColor: 'black', alignSelf: 'stretch'}}
 										           value={title}
 										           onChangeText={this.updateTitle.bind(this)}/>
 									</Text>
@@ -124,13 +125,12 @@ export default class UploadArticle extends React.Component {
 							</Col>
 						</Row>
 						<Row size={1}>
-							{/*<View style={styles.formRow}>*/}
 							<Col size={1}>
 								<View style={styles.formLabel}>
 									<Text>URL</Text>
 								</View>
 							</Col>
-							<Col size={3}>
+							<Col size={4}>
 								<View style={styles.formInput}>
 									<Text style={styles.formInput}>
 										<TextInput style={{borderWidth: 4, borderColor: 'black'}}
@@ -139,15 +139,11 @@ export default class UploadArticle extends React.Component {
 									</Text>
 								</View>
 							</Col>
-							{/*</View>*/}
-
 						</Row>
 						<Row size={5}/>
-						{/*</View>*/}
-					</Col><Col size={2}>
-					{/*<View style={styles.rightSide}>*/}
+					</Col>
+					<Col size={2}>
 					{this.renderCategoryChoices()}
-					{/*</View>*/}
 				</Col>
 				</Grid>
 				<Button disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
@@ -193,18 +189,8 @@ const localStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: 'row',
-		// justifyContent: 'space-between'
 	},
-	leftSide: {
-		alignSelf: 'flex-start',
-		justifyContent: 'center',
-		width: '30%'
-	},
-	rightSide: {
-		alignSelf: 'flex-end',
-		justifyContent: 'center',
-		width: '70%'
-	},
+
 	item: {
 		flex: 1,
 		height: 160,

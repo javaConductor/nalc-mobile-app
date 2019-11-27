@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import {NavigationEvents, withNavigation} from 'react-navigation';
 import auth from '../services/auth';
-import './menu-content.css';
+// import './menu-content.css';
 import {Linking, View} from "react-native";
 import {SocialIcon} from 'react-native-elements'
 
@@ -75,7 +75,7 @@ class MenuContent extends Component {
 				<a onClick={this.onLogOff.bind(this)}>
 					<SocialIcon
 						fontWeight={'bold'}
-						style={{backgroundColor: 'maroon', fontSize: 16}}
+						style={{backgroundColor: 'maroon'}}
 						title='Sign Out'
 						button
 					/>
@@ -91,7 +91,7 @@ class MenuContent extends Component {
 						<a onClick={() => this.closeAndNavigate('ManageInterests')}>
 							<SocialIcon
 								fontWeight={'bold'}
-								style={{backgroundColor: 'navy', fontSize: 16}}
+								style={{backgroundColor: 'navy'}}
 								title='Manage Interests'
 								button
 							/>
@@ -101,7 +101,7 @@ class MenuContent extends Component {
 						<a onClick={() => this.closeAndNavigate('PostList')}>
 							<SocialIcon
 								fontWeight={'bold'}
-								style={{backgroundColor: 'navy', fontSize: 16}}
+								style={{backgroundColor: 'navy'}}
 								title='News'
 								button
 							/>
@@ -125,7 +125,7 @@ class MenuContent extends Component {
 				}}>
 					<SocialIcon
 						fontWeight={'bold'}
-						style={{backgroundColor: 'maroon', fontSize: 16}}
+						style={{backgroundColor: 'maroon'}}
 						title='Admin'
 						button
 					/>
@@ -139,7 +139,7 @@ class MenuContent extends Component {
 			}}>
 				<SocialIcon
 					fontWeight={'bold'}
-					style={{backgroundColor: 'maroon', fontSize: 16}}
+					style={{backgroundColor: 'maroon'}}
 					title='Manage Administrators'
 					button
 				/>
@@ -147,7 +147,7 @@ class MenuContent extends Component {
 			</a>
 		</div> : null;
 
-		console.log(`MenuContent.render: canManage: ${this.state.canManage}`);
+		//console.log(`MenuContent.renderAdminOptions: canManage: ${this.state.canManage}`);
 		return <Fragment>
 			<div className="menu-item" key={'News'}>
 				<hr/>
@@ -158,7 +158,7 @@ class MenuContent extends Component {
 
 					<SocialIcon
 						fontWeight={'bold'}
-						style={{backgroundColor: 'maroon', fontSize: 16}}
+						style={{backgroundColor: 'maroon'}}
 						title='Manage Categories'
 						button
 					/>
@@ -170,7 +170,7 @@ class MenuContent extends Component {
 
 					<SocialIcon
 						fontWeight={'bold'}
-						style={{backgroundColor: 'maroon', fontSize: 16}}
+						style={{backgroundColor: 'maroon'}}
 						title='Upload Article'
 						button
 					/>
@@ -182,7 +182,7 @@ class MenuContent extends Component {
 
 					<SocialIcon
 						fontWeight={'bold'}
-						style={{backgroundColor: 'maroon', fontSize: 16}}
+						style={{backgroundColor: 'maroon'}}
 						title='Change Password'
 						button
 					/>

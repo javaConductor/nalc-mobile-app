@@ -2,6 +2,7 @@ import React from 'react';
 import config from '../config';
 import storage from '../services/storage';
 import auth from '../services/auth';
+import util from "./util";
 
 
 const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config.BACKEND_PORT}`;
@@ -114,7 +115,11 @@ const self = {
 				},
 				body: JSON.stringify({...postData, id: undefined}),
 			})
-				.then((response) => response.json())
+				.then((response) => {
+					if (!response.ok)
+						throw util.handleHttpError(response, 'add post');
+					return response.json();
+				})
 				.then((responseJson) => {
 					console.log(`news.addPost: ${JSON.stringify(responseJson)}`);
 					return responseJson;
@@ -126,6 +131,8 @@ const self = {
 		});
 	},
 };
+
+self.addNewsPost = util.tokenWrapper(self.addNewsPost);
 
 // create function read posts every N minutes after NEWS_POST_LAST_READ_DATE
 
@@ -142,15 +149,16 @@ const checkForNewPosts = () => {
 			console.log(`news.checkForNewPosts: lastReadDate: ${dt.toISOString()}`);
 			/// get the categories we care about
 			return storage.getSelectedCategories()
-				.then((categoryIds) => {
+				.then((categoryIds = []) => {
+
 					console.log(`news.checkForNewPosts: selected categories: ${JSON.stringify(categoryIds)}`);
 					/// get any new posts since dt in the categories we care about
 					return self.getNewsByDateAndCategories(dt.toISOString(), categoryIds)
-						.then((newPosts) => {
+						.then((newPosts = []) => {
 							console.log(`news.checkForNewPosts: newPosts: ${JSON.stringify(newPosts, null, 2)}`);
 							/// get newPosts we have so far
 							return storage.getNewsPosts()
-								.then((oldPosts) => {
+								.then((oldPosts = []) => {
 									//console.log(`news.checkForNewPosts: oldPosts: ${JSON.stringify(oldPosts, null, 2)}`);
 									/// append the newPost to the list and store it
 									const newPostList = [...oldPosts, ...newPosts];
