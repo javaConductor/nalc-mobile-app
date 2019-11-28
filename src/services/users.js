@@ -9,7 +9,22 @@ const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config
 
 const self = {
 
-	getAdmins: () => {
+	getAdmins: async () => {
+		try {
+			const response = await fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`);
+			const responseJson = await response.json();
+			console.log(`users.getAdmins: response: ${JSON.stringify(responseJson)}`);
+			await storage.storeAdminList(responseJson);
+			console.log(`users.getAdmins: stored: ${JSON.stringify(responseJson)}`);
+
+			return responseJson;
+		} catch (error) {
+			console.error(`users.getAdmins: Error: ${JSON.stringify(error)}`);
+			throw error;
+		}
+	},
+
+	getAdminsThen: () => {
 		return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`)
 		// .then((response) => response.json())
 			.then((response) => response.json())
@@ -25,7 +40,7 @@ const self = {
 	},
 
 	saveAdmin: async (adminData) => {
-		return adminData.id ? self.updateAdmin(newAdmin) : self.addAdmin(newAdmin);
+		return adminData.id ? self.updateAdmin(adminData) : self.addAdmin(adminData);
 	},
 
 	/**
@@ -47,7 +62,7 @@ const self = {
 			.then((resp) => {
 				if (!resp.ok)
 					throw util.handleHttpError(resp, 'add admin');
-				return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`);
+				return self.getAdmins();
 			})
 			.then((response) => response.json())
 			.then((responseJson) => {
@@ -80,14 +95,20 @@ const self = {
 			.then((resp) => {
 				if (!resp.ok)
 					throw util.handleHttpError(resp, 'update admin');
-				return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`);
+				return self.getAdmins();
 			})
-			.then((response) => response.json())
-			.then((responseJson) => {
-				console.log(JSON.stringify(responseJson));
-				return responseJson;
+			.then((response) => {
+				// if (!response.ok)
+				// 	throw util.handleHttpError(response, 'get admins');
+				console.log(`users.updateAdmin: response: ${JSON.stringify(response)}`);
+				return response;
 			})
+			// .then((responseJson) => {
+			// 	console.log(`users.updateAdmin: response: ${JSON.stringify(responseJson)}`);
+			// 	return responseJson;
+			// })
 			.catch((error) => {
+				console.error(`users.updateAdmin: ERROR: ${JSON.stringify(error)}`);
 				//console.error(error);
 				throw error;
 			});
@@ -126,13 +147,13 @@ const self = {
 		return storage.getAdminList()
 			.then((adminList) => {
 				const found = adminList.some((adm) => {
-					console.log(`checkEmailUsed(${id}, ${email}): comparing ${JSON.stringify(adm)} == ${adm.email.toUpperCase() === email.toUpperCase() && adm.id !== id}`);
+					//console.log(`checkEmailUsed(${id}, ${email}): comparing ${JSON.stringify(adm)} == ${adm.email.toUpperCase() === email.toUpperCase() && adm.id !== id}`);
 					//console.log(`checkEmailUsed(${id}, ${email}): comparing ids ${adm.id !== id}`);
 					//console.log(`checkEmailUsed(${id}, ${email}): comparing emails ${adm.email.toUpperCase() === email.toUpperCase()}`);
 
 					return adm.email.toUpperCase() === email.toUpperCase() && adm.id !== id
 				});
-				console.log(`checkEmailUsed(${id}, ${email}): found: ${JSON.stringify(found)}`);
+				//console.log(`checkEmailUsed(${id}, ${email}): found: ${JSON.stringify(found)}`);
 				return found;
 			})
 			.catch((error) => {

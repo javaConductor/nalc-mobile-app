@@ -20,7 +20,7 @@ export default class ChangePassword extends React.Component {
 
 	async componentDidMount() {
 		const currentUser = await auth.currentUser();
-		this.setState((prevState) => ({...prevState, userId: currentUser.id}));
+		return this.setState((prevState) => ({...prevState, userId: currentUser.id}));
 	}
 
 	updatePassword1(password) {

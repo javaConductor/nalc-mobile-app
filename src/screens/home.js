@@ -21,7 +21,7 @@ class HomeScreen extends React.Component {
 		super(props);
 		this.state = {
 			menuOpen: false,
-			isAuthentiated: false,
+			isAuthenticated: false,
 			dims: Dimensions.get('screen')
 		};
 		this._isMounted = false;
@@ -35,7 +35,7 @@ class HomeScreen extends React.Component {
 			console.log("Home.componentDidMount");
 			console.log(`Home.componentDidMount: dim.screen ${JSON.stringify(Dimensions.get('screen'), null, 2)}  dim.window ${JSON.stringify(Dimensions.get('window'))}`);
 			await systemCheck.check();
-			console.log("Home.componentDidMount: check OK");
+			console.log('Home.componentDidMount: check OK');
 			const isAuthenticated = await auth.isUserAuthenticated();
 			console.log(`Home.componentDidMount: setting isAuthenticated: ${isAuthenticated}`);
 			if (this._isMounted)
@@ -44,20 +44,13 @@ class HomeScreen extends React.Component {
 				});
 
 		} catch (e) {
-			console.log("Home.componentDidMount: check FAILED!!!");
+			console.log('Home.componentDidMount: check FAILED!!!');
 			throw e;
 		}
 	}
 
 	componentWillUnmount() {
 		this._isMounted = false;
-	}
-
-	onLogOff() {
-		auth.logoff();
-		this.setState((prevState) => {
-			return {...prevState, isAuthenticated: false}
-		})
 	}
 
 	render() {

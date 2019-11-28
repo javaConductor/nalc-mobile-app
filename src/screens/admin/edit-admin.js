@@ -4,6 +4,7 @@ import {Button, Switch, Text, TextInput, View} from 'react-native'
 import Users from '../../services/users';
 import styles from '../../screens/main-styles';
 import utils from '../../services/util';
+import {AutoGrowingTextInput} from "react-native-autogrow-textinput";
 
 
 export default class EditAdmin extends React.Component {
@@ -18,12 +19,6 @@ export default class EditAdmin extends React.Component {
 		this.state = {admin, password1: '', password2: ''};
 	}
 
-	updateEmail(email) {
-		// console.log(`updateEmail: email:${email}`);
-		const admin = {...this.state.admin, email: email};
-		this.setState((prevState) => ({...prevState, admin}));
-	}
-
 	updateManageAdmins(canManage) {
 		console.log(`updateManageAdmins: canManage: ${canManage}`);
 		this.setState((prevState) => {
@@ -36,13 +31,9 @@ export default class EditAdmin extends React.Component {
 		});
 	}
 
-	updateFirstName(firstName) {
-		const admin = {...this.state.admin, firstName};
-		this.setState((prevState) => ({...prevState, admin}));
-	}
-
-	updateLastName(lastName) {
-		const admin = {...this.state.admin, lastName};
+	update(name, value) {
+		console.log(`update: ${name} -> ${value}`);
+		const admin = {...this.state.admin, [name]: value};
 		this.setState((prevState) => ({...prevState, admin}));
 	}
 
@@ -59,51 +50,52 @@ export default class EditAdmin extends React.Component {
 	async onSave(admin) {
 		let newAdmin;
 		let newPswd;
-		Users.checkEmailUsed(this.state.admin.id || -1, this.state.admin.email).then((emailAlreadyUsed) => {
-			if (emailAlreadyUsed) {
-				this.setState((prevState) => {
-					return {
-						...prevState,
-						message: `Email '${this.state.admin.email}' already registered to another user.`
-					}
-				})
-			} else {
-				if (this.state.password1.length > 0) {
-					var hash = utils.passwordHash(this.state.password1);
-					newPswd = this.state.password1;
-					newAdmin = {...this.state.admin, passwordHash: hash};
+		//TODO inefficient
+		Users.checkEmailUsed(this.state.admin.id || -1, this.state.admin.email)
+			.then((emailAlreadyUsed) => {
+				if (emailAlreadyUsed) {
+					this.setState((prevState) => {
+						return {
+							...prevState,
+							message: `Email '${this.state.admin.email}' already registered to another user.`
+						}
+					});
 				} else {
-					newAdmin = {...this.state.admin, passwordHash: null};
+					if (this.state.password1.length > 0) {
+						var hash = utils.passwordHash(this.state.password1);
+						newPswd = this.state.password1;
+						newAdmin = {...this.state.admin, passwordHash: hash};
+					} else {
+						newAdmin = {...this.state.admin, passwordHash: null};
+					}
+					this.setState((prevState) => ({...prevState, admin: newAdmin}));
+					/// Use Users service to save the admin
+					console.log(`EditAdmin: Saving admin: ${newPswd ? 'pass: ' + newPswd : ''} ${JSON.stringify(newAdmin)}`);
+
+					const p = Users.saveAdmin(admin);
+					p.then((admins) => {
+						//this.props.navigation.goBack().goBack();
+						console.log(`EditAdmin: Saving admin: response: ${JSON.stringify(admins)}: navigating to ManageAdmins`);
+						this.props.navigation.navigate('ManageAdmins', {admins});
+					}).catch((err) => {
+						console.error(`EditAdmins.onSave: ERROR: ${JSON.stringify(err)}`);
+					});
+					return p;
 				}
-				this.setState((prevState) => ({...prevState, admin: newAdmin}));
-				/// Use Users service to save the admin
-				console.log(`Saving admin: ${newPswd ? 'pass: ' + newPswd : ''} ${JSON.stringify(newAdmin)}`);
-
-				const p = Users.saveAdmin(admin);
-				p.catch((err) => {
-				}).then((admins) => {
-					//this.props.navigation.goBack().goBack();
-					this.props.navigation.navigate('Admin', {});
-				});
-				return p;
-			}
-		});
+			});
 	}
-
 
 	isPasswordOk(state) {
 		// console.log(`isPasswordOk: ${state.password1} === ${state.password2} = ${state.password1===state.password2}`);
 		// console.log(`isPasswordOk: length: ${state.password1.length} and ${state.password2.length}`);
 		const passwordsMatch = state.password1 === state.password2;
 		return state.admin.id
-			? (passwordsMatch && (state.password1.length > 5 || state.password1.length == 0))
+			? (passwordsMatch && (state.password1.length > 5 || state.password1.length === 0))
 			: passwordsMatch && (state.password1.length > 5);
 	}
 
 	render() {
 		const {admin = {permissions: 'A'}} = this.state;
-
-		//console.log(`EditAdmin.render: admin:${JSON.stringify(admin)}`);
 
 		/// Email error indicator
 		const hasValidEmail = utils.validEmail(admin.email);
@@ -115,8 +107,8 @@ export default class EditAdmin extends React.Component {
 
 		const messageComponent = this.state.message ? <Text style={styles.error}>{this.state.message}</Text> : null;
 
-		// console.log(`render(): emailBackgroundColor: ${emailBackgroundColor} `);
-		// console.log(`render(): passwordBackgroundColor: ${passwordBackgroundColor} `);
+		//console.log(`render(): emailBackgroundColor: ${emailBackgroundColor} `);
+		//console.log(`render(): passwordBackgroundColor: ${passwordBackgroundColor} `);
 		return <View style={styles.container}>
 			<Text style={{color: 'white'}}>{admin.id ? 'Edit' : 'Add'} Administrator</Text>
 			{messageComponent}
@@ -127,9 +119,10 @@ export default class EditAdmin extends React.Component {
 					</View>
 					<View style={styles.formInput}>
 						<Text style={styles.formInput}>
-							<TextInput
+							<AutoGrowingTextInput
+								style={styles.formInput}
 								value={admin.firstName}
-								onChangeText={this.updateFirstName.bind(this)}/>
+								onChangeText={this.update.bind(this, 'firstName')}/>
 						</Text>
 					</View>
 				</View>
@@ -139,9 +132,10 @@ export default class EditAdmin extends React.Component {
 					</View>
 					<View style={styles.formInput}>
 						<Text style={styles.formInput}>
-							<TextInput
+							<AutoGrowingTextInput
+								style={styles.formInput}
 								value={admin.lastName}
-								onChangeText={this.updateLastName.bind(this)}/>
+								onChangeText={this.update.bind(this, 'lastName')}/>
 						</Text>
 					</View>
 				</View>
@@ -150,11 +144,11 @@ export default class EditAdmin extends React.Component {
 						<Text>Email</Text>
 					</View>
 					<View style={styles.formInput}>
-						<Text style={{...styles.formEmailInput, color: 'white', backgroundColor: emailBackgroundColor}}>
-							<TextInput
+						<Text style={{...styles.formInput, color: 'white', backgroundColor: emailBackgroundColor}}>
+							<AutoGrowingTextInput
 								style={{...styles.formInput,}}
 								value={admin.email}
-								onChangeText={this.updateEmail.bind(this)}/>
+								onChangeText={this.update.bind(this, 'email')}/>
 						</Text>
 					</View>
 				</View>

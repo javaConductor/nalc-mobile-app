@@ -74,7 +74,7 @@ export default {
 		};
 
 		return async function () {
-			console.log(`tokenWrapper function ${fnAction.name} args: ${JSON.stringify(arguments)}`);
+			//console.log(`tokenWrapper function ${fnAction.name} args: ${JSON.stringify(arguments)}`);
 			const retVal = {ok: false};
 
 			try {

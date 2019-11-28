@@ -2,7 +2,7 @@
 import React from 'react'
 import {Button, StyleSheet, Text, View} from 'react-native'
 import Users from '../../services/users';
-import {withNavigation} from 'react-navigation';
+import {NavigationEvents, withNavigation} from 'react-navigation';
 import {Col, Grid, Row} from "react-native-easy-grid";
 
 
@@ -21,20 +21,17 @@ class ManageAdmins extends React.Component {
 		super(props);
 	}
 
-	async componentWillMount() {
-		console.log("ManageAdmins.componentWillMount");
+	async componentDidMount() {
+		console.log("ManageAdmins.componentDidMount");
 		try {
+			//console.log(`ManageAdmins.componentDidMount(): this.props.navigation: (${JSON.stringify(this.props.navigation, null, 2)})`);
 			const admins = this.props.navigation.state.params.admins || await Users.getAdmins();
-			console.log(`ManageAdmins.componentWillMount(): admins: (${JSON.stringify(admins, null, 2)})`);
+			console.log(`ManageAdmins.componentDidMount(): admins: (${JSON.stringify(admins, null, 2)})`);
 			this.setState({admins, isLoading: false});
 		} catch (e) {
-			console.log(`ManageAdmins.componentWillMount(): error: (${JSON.stringify(e, null, 2)})`);
+			console.log(`ManageAdmins.componentDidMount(): error: (${JSON.stringify(e, null, 2)})`);
 			this.setState({...this.state, errLoading: true, error: e});
 		}
-	}
-
-	componentDidMount() {
-		console.log(`ManageAdmins.componentDidMount(): admins: (${JSON.stringify(this.props, null, 2)})`);
 	}
 
 	renderError(e) {
@@ -59,6 +56,7 @@ class ManageAdmins extends React.Component {
 		const adminList = admins.map((admin) => this.renderAdmin(admin, this.props));
 		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
 		return <View style={styles.container}>
+			<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
 			{msgCtrl}
 			<Grid>
 				<Row>

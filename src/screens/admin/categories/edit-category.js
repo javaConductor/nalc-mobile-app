@@ -20,21 +20,9 @@ export default class EditCategory extends React.Component {
 		this.state = {category};
 	}
 
-	updateName(name) {
-		console.log(`updateName: name:${name}`);
-		const category = {...this.state.category, name};
-		this.setState((prevState) => ({...prevState, category}));
-	}
-
-	updateDescription(description) {
-		console.log(`updateDescription: description:${description}`);
-		const category = {...this.state.category, description};
-		this.setState((prevState) => ({...prevState, category}));
-	}
-
-	updateSlug(slug) {
-		console.log(`updateSlug: slug:${slug}`);
-		const category = {...this.state.category, slug};
+	update(name, value) {
+		console.log(`update: ${name} -> ${value}`);
+		const category = {...this.state.category, [name]: value};
 		this.setState((prevState) => ({...prevState, category}));
 	}
 
@@ -74,8 +62,9 @@ export default class EditCategory extends React.Component {
 					<View style={styles.formInput}>
 						<Text style={styles.formInput}>
 							<TextInput
+								style={styles.formInput}
 								value={category.name}
-								onChangeText={this.updateName.bind(this)}/>
+								onChangeText={this.update.bind(this, 'name')}/>
 						</Text>
 					</View>
 				</View>
@@ -85,15 +74,10 @@ export default class EditCategory extends React.Component {
 					</View>
 					<View style={styles.formInput}>
 						<Text style={styles.formInput}>
-							{/*<TextInput*/}
-							{/*	value={category.description}*/}
-							{/*	onChangeText={this.updateDescription.bind(this)}/>*/}
-
 							<AutoGrowingTextInput
 								style={styles.formInput}
 								value={category.description}
-								onChangeText={this.updateDescription.bind(this)}/>
-
+								onChangeText={this.update.bind(this, 'description')}/>
 						</Text>
 					</View>
 				</View>
@@ -104,8 +88,9 @@ export default class EditCategory extends React.Component {
 					<View style={styles.formInput}>
 						<Text style={styles.formInput}>
 							<TextInput
+								style={styles.formInput}
 								value={category.slug}
-								onChangeText={this.updateSlug.bind(this)}/>
+								onChangeText={this.update.bind(this, 'slug')}/>
 						</Text>
 					</View>
 				</View>

@@ -9,7 +9,7 @@ const self = {
 
 	currentUser: async () => {
 		const authInfo = await storage.getAuthInfo();
-		console.log(`auth: currentUser(): ${JSON.stringify(authInfo)}`);
+		//console.log(`auth: currentUser(): ${JSON.stringify(authInfo)}`);
 		return authInfo;
 	},
 
