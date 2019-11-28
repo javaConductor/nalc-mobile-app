@@ -2,7 +2,6 @@
 import React from 'react'
 import {Button, Switch, Text, TextInput, View} from 'react-native'
 import Users from '../../services/users';
-import sha256 from 'js-sha256';
 import styles from '../../screens/main-styles';
 import utils from '../../services/util';
 
@@ -15,19 +14,8 @@ export default class EditAdmin extends React.Component {
 	constructor(props) {
 		super(props);
 		const admin = props.navigation.state.params.admin || {permissions: 'A', status: 'Active'};
-		//const {navigation: {state: {params: {admin}}}} = props;
 		console.log(`EditAdmin(${JSON.stringify(admin)})`);
 		this.state = {admin, password1: '', password2: ''};
-	}
-
-	static get options() {
-		return {
-			topBar: {
-				title: {
-					text: 'Edit Administrator Info'
-				},
-			}
-		};
 	}
 
 	updateEmail(email) {
@@ -68,12 +56,6 @@ export default class EditAdmin extends React.Component {
 		this.setState((prevState) => ({...prevState, password2: password}));
 	}
 
-	passwordHash(password) {
-		var hash = sha256.create();
-		hash.update(password);
-		return hash.hex();
-	}
-
 	async onSave(admin) {
 		let newAdmin;
 		let newPswd;
@@ -87,7 +69,7 @@ export default class EditAdmin extends React.Component {
 				})
 			} else {
 				if (this.state.password1.length > 0) {
-					var hash = this.passwordHash(this.state.password1);
+					var hash = utils.passwordHash(this.state.password1);
 					newPswd = this.state.password1;
 					newAdmin = {...this.state.admin, passwordHash: hash};
 				} else {
@@ -97,7 +79,7 @@ export default class EditAdmin extends React.Component {
 				/// Use Users service to save the admin
 				console.log(`Saving admin: ${newPswd ? 'pass: ' + newPswd : ''} ${JSON.stringify(newAdmin)}`);
 
-				const p = admin.id ? Users.updateAdmin(newAdmin) : Users.addAdmin(newAdmin);
+				const p = Users.saveAdmin(admin);
 				p.catch((err) => {
 				}).then((admins) => {
 					//this.props.navigation.goBack().goBack();
@@ -108,13 +90,6 @@ export default class EditAdmin extends React.Component {
 		});
 	}
 
-	validEmail(email) {
-		function hasWhiteSpace(s) {
-			return /\s/g.test(s);
-		}
-
-		return email && email.includes('@') && !hasWhiteSpace(email);
-	}
 
 	isPasswordOk(state) {
 		// console.log(`isPasswordOk: ${state.password1} === ${state.password2} = ${state.password1===state.password2}`);
@@ -131,7 +106,7 @@ export default class EditAdmin extends React.Component {
 		//console.log(`EditAdmin.render: admin:${JSON.stringify(admin)}`);
 
 		/// Email error indicator
-		const hasValidEmail = this.validEmail(admin.email);
+		const hasValidEmail = utils.validEmail(admin.email);
 		const emailBackgroundColor = (hasValidEmail ? 'white' : 'red');
 
 		/// Password error indicator

@@ -4,6 +4,15 @@ import storage from "./storage";
 
 
 export default {
+
+	validEmail: (email) => {
+		function hasWhiteSpace(s) {
+			return /\s/g.test(s);
+		}
+
+		return email && email.includes('@') && !hasWhiteSpace(email);
+	},
+
 	passwordHash: (password) => {
 		var hash = sha256.create();
 		hash.update(password);

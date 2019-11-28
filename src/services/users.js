@@ -24,6 +24,15 @@ const self = {
 			});
 	},
 
+	saveAdmin: async (adminData) => {
+		return adminData.id ? self.updateAdmin(newAdmin) : self.addAdmin(newAdmin);
+	},
+
+	/**
+	 *
+	 * @param adminData
+	 * @returns {Promise<any | *>}
+	 */
 	addAdmin: async (adminData) => {
 		const accessToken = await auth.currentAccessToken();
 		return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`, {
