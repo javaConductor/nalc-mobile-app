@@ -56,8 +56,8 @@ class HomeScreen extends React.Component {
 	render() {
 		console.log(`Home.render: userIsAuthenticated: ${this.state.isAuthenticated}`);
 		return (
-			<View style={{flexDirection: 'row', zIndex: 0, alignItems: "stretch"}}>
-				<View style={{...Styles.formRow, zIndex: 2}}>
+			<View style={{flexGrow: 1, flexDirection: 'row', zIndex: 0, alignItems: "stretch"}}>
+				<View style={{...Styles.formRow, flexGrow: 1, zIndex: 2}}>
 					<Menu/>
 				</View>
 				<View style={{...Styles.logoContainer}}>

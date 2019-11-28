@@ -68,29 +68,37 @@ const styles = StyleSheet.create({
 		// color: 'white',
 		// width: '50%'
 	},
-	error: {
+	message: {
+		//flexDirection: 'col',
+		backgroundColor: 'lightYellow',
+		// color: 'white',
+		// width: '50%'
+	}, error: {
 		//flexDirection: 'col',
 		backgroundColor: 'red',
 		// color: 'white',
 		// width: '50%'
 	},
 	logo: {
+		flexGrow: 1,
 		justifyContent: 'center',
-		alignSelf: 'center',
-		width: 150,
-		height: 200,
+		// alignSelf: 'flex-end',
+		width: 300,
+		height: 400,
 		overflow: 'visible',
 		resizeMode: "contain",
 		zIndex: 0
 	},
 	logoContainer: {
-		justifyContent: 'space-between',
-		alignSelf: 'center',
+		flex: 2,
+		justifyContent: 'center',
+		alignItems: 'stretch',
+
 
 		// width: 300,
 		// height: 400,
-		width: 300,
-		height: 400,
+		// width: 300,
+		// height: 400,
 		zIndex: 0
 	},
 });
