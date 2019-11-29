@@ -23,7 +23,7 @@ const updateMedia = (post) => {
 				return {...post, featuredMedia: mediaUrl};
 			})
 			.catch((err) => {
-				console.error(`news:updateMedia: ERROR ${err}`);
+				console.error(`news:updateMedia: ERROR ${util.errorMessage(err)}`);
 				throw err;
 			});
 	return p;
@@ -95,7 +95,7 @@ const self = {
 
 			.catch((error) => {
 				//log and rethrow
-				console.error(`news: getNewsByDateAndCategories: ERROR: ${JSON.stringify(error, null, 2)}`);
+				console.error(`news: getNewsByDateAndCategories: ERROR:${util.errorMessage(error)}`);
 				throw error;
 			});
 	},
@@ -125,7 +125,7 @@ const self = {
 					return responseJson;
 				})
 				.catch((error) => {
-					console.error(`news.addPost: ERROR: ${JSON.stringify(error)}`);
+					console.error(`news.addPost: ERROR: ${util.errorMessage(error)} `);
 					throw error;
 				});
 		});
@@ -172,7 +172,7 @@ const checkForNewPosts = () => {
 				})
 		})
 		.catch((error) => {
-			console.error(`news.checkForNewPosts: ERROR: ${JSON.stringify(error)}`);
+			console.error(`news.checkForNewPosts: ERROR: ${util.errorMessage(error)} `);
 			throw error;
 		});
 };

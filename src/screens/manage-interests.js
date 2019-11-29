@@ -4,6 +4,7 @@ import {Button, Switch, Text, View} from 'react-native'
 import categoryService from '../services/categories';
 import storage from '../services/storage';
 import styles from '../screens/main-styles';
+import util from "../services/util";
 
 
 export default class ManageInterests extends React.Component {
@@ -34,7 +35,7 @@ export default class ManageInterests extends React.Component {
 				return categories;
 			})
 			.catch((error) => {
-				console.error(`Error getting list of categories: ${error}`);
+				console.error(`Error getting list of categories: ERROR: ${util.errorMessage(error)}`);
 				throw error;
 			});
 		/// create a table based on users interests: {interest: true/false}
@@ -55,7 +56,7 @@ export default class ManageInterests extends React.Component {
 
 				})
 				.catch((error) => {
-					console.error(`Error make user interests map: ${error}`);
+					console.error(`Error make user interests map: ${util.errorMessage(error)}`);
 					throw error;
 				});
 		});
@@ -95,6 +96,7 @@ export default class ManageInterests extends React.Component {
 				return {...prevState, message: 'Changes saved.'}
 			});
 		} catch (e) {
+			console.error(`ManageInterests.onSave: ERROR: ${util.errorMessage(e)}`);
 			throw e;
 		}
 	}

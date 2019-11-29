@@ -107,6 +107,11 @@ class MenuContent extends Component {
 							/>
 						</a>
 					</div>
+					<div className={'menu-item'} key={'Tester'}>
+						<a onClick={() => this.closeAndNavigate('Tester')}>
+							Tester
+						</a>
+					</div>
 					{this.renderSocialMediaOptions()}
 					{this.renderAdminOptions()}
 					{logoffComponent}
@@ -189,11 +194,11 @@ class MenuContent extends Component {
 
 				</a>
 			</div>
-			<div className={'menu-item'}>
-				<a onClick={() => this.closeAndNavigate('Tester')}>
-					Tester
-				</a>
-			</div>
+			{/*<div className={'menu-item'}>*/}
+			{/*	<a onClick={() => this.closeAndNavigate('Tester')}>*/}
+			{/*		Tester*/}
+			{/*	</a>*/}
+			{/*</div>*/}
 		</Fragment>
 	}
 

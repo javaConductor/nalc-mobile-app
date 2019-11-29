@@ -9,7 +9,7 @@ const NEWS_POSTS = "NEWS_POSTS";
 const NEWS_POSTS_LAST_READ = "NEWS_POSTS_LAST_READ";
 const SETUP_FLAG = "SETUP";
 
-export default {
+const self = {
 
 	////////////////////
 	//////// SETUP FLAG
@@ -115,6 +115,10 @@ export default {
 				throw e;
 			});
 	},
+	getNewsPost: async (postId) => {
+		const posts = await self.getNewsPosts();
+		return posts.find((post, i) => post.id == postId);
+	},
 	getNewsPostsLastReadDate: () => {
 		return AsyncStorage.getItem(NEWS_POSTS_LAST_READ)
 			.then((isoDateString) => {
@@ -135,3 +139,5 @@ export default {
 	},
 
 };
+
+export default self;

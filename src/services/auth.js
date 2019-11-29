@@ -41,12 +41,13 @@ const self = {
 		if (!self.isUserAuthenticated())
 			return false;
 		return storage.getAuthInfo()
-			.then(authInfo => {
-				console.log(`currentUserCanManageAdmins: user ${authInfo.username} has permissions: ${authInfo.permissions}`);
+			.then((authInfo) => {
+				authInfo = authInfo || {};
+				console.log(`currentUserCanManageAdmins: authInfo ${JSON.stringify(authInfo)}`);
 				return (authInfo.permissions && authInfo.permissions.includes('M'));
 			})
 			.catch((err) => {
-				console.error(`currentUserCanManageAdmins: Error checking user permissions ${err}`);
+				console.error(`currentUserCanManageAdmins: Error checking user permissions ${utils.errorMessage(err)}`);
 			});
 	},
 
@@ -71,7 +72,7 @@ const self = {
 						return responseJson;
 					})
 					.catch((error) => {
-						console.error(`auth.authenticate(): ERROR: ${JSON.stringify(error, null, 2)}`);
+						console.error(`auth.authenticate(): ERROR: ${utils.errorMessage(error)}`);
 					});
 			});
 	},

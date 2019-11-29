@@ -38,7 +38,7 @@ export default class ChangePassword extends React.Component {
 		const newAdmin = {id: this.state.userId, passwordHash: hash};
 		return Users.updateAdmin(newAdmin)
 			.catch((err) => {
-				console.error(`ChangePassword.onSave: ERROR: ${err}`);
+				console.error(`ChangePassword.onSave: ERROR: ${utils.errorMessage(err)}`);
 				const message = `Error changing password: ${err}`;
 				this.setState((prevState) => ({...prevState, message}));
 			})

@@ -4,6 +4,7 @@ import {Button, StyleSheet, Text, View} from 'react-native'
 import Users from '../../services/users';
 import {NavigationEvents, withNavigation} from 'react-navigation';
 import {Col, Grid, Row} from "react-native-easy-grid";
+import util from "../../services/util";
 
 
 class ManageAdmins extends React.Component {
@@ -25,11 +26,11 @@ class ManageAdmins extends React.Component {
 		console.log("ManageAdmins.componentDidMount");
 		try {
 			//console.log(`ManageAdmins.componentDidMount(): this.props.navigation: (${JSON.stringify(this.props.navigation, null, 2)})`);
-			const admins = this.props.navigation.state.params.admins || await Users.getAdmins();
+			const admins = this.props.navigation?.state?.params?.admins || await Users.getAdmins();
 			console.log(`ManageAdmins.componentDidMount(): admins: (${JSON.stringify(admins, null, 2)})`);
 			this.setState({admins, isLoading: false});
 		} catch (e) {
-			console.log(`ManageAdmins.componentDidMount(): error: (${JSON.stringify(e, null, 2)})`);
+			console.error(`ManageAdmins.componentDidMount(): error: ${util.errorMessage(e)}`);
 			this.setState({...this.state, errLoading: true, error: e});
 		}
 	}

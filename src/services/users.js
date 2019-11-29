@@ -19,7 +19,7 @@ const self = {
 
 			return responseJson;
 		} catch (error) {
-			console.error(`users.getAdmins: Error: ${JSON.stringify(error)}`);
+			console.error(`users.getAdmins: Error: ${util.errorMessage(error)}`);
 			throw error;
 		}
 	},
@@ -70,7 +70,7 @@ const self = {
 				return responseJson;
 			})
 			.catch((error) => {
-				console.error(error);
+				console.error(`users.addAdmin: ERROR: ${util.errorMessage(error)}`);
 				throw error;
 			});
 	},
@@ -108,7 +108,7 @@ const self = {
 			// 	return responseJson;
 			// })
 			.catch((error) => {
-				console.error(`users.updateAdmin: ERROR: ${JSON.stringify(error)}`);
+				console.error(`users.updateAdmin: ERROR: ${util.errorMessage(error)}`);
 				//console.error(error);
 				throw error;
 			});
@@ -138,7 +138,7 @@ const self = {
 				return responseJson;
 			})
 			.catch((error) => {
-				console.error(error);
+				console.error(`users.removeAdmin: ERROR: ${util.errorMessage(error)}`);
 				throw error;
 			});
 	},
@@ -158,7 +158,7 @@ const self = {
 			})
 			.catch((error) => {
 				// log and rethrow
-				console.error(`Error checking if email is used: ${error}`);
+				console.error(`users.checkEmailUsed: ERROR: ${util.errorMessage(error)}`);
 				throw error;
 			});
 	},

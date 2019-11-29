@@ -15,7 +15,7 @@ export default class EditCategory extends React.Component {
 	 */
 	constructor(props) {
 		super(props);
-		const category = props.navigation.state.params.category || {};
+		const category = props.navigation.state.params?.category || {};
 		console.log(`EditCategory(${JSON.stringify(category)})`);
 		this.state = {category};
 	}
@@ -37,7 +37,7 @@ export default class EditCategory extends React.Component {
 			this.props.navigation.navigate('ManageCategories', {});
 		})
 			.catch((err) => {
-				console.error(`EditCategory.onSave: Error: ${JSON.stringify(err)})`);
+				console.error(`EditCategory.onSave: Error: ${util.errorMessage(err)})`);
 				if (typeof err === 'object' && (err.authenticationRequired || err.badToken)) {
 					this.props.navigation.navigate("Login", {target: "ManageCategories"});
 				}

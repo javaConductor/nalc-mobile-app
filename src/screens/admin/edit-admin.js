@@ -14,7 +14,7 @@ export default class EditAdmin extends React.Component {
 
 	constructor(props) {
 		super(props);
-		const admin = props.navigation.state.params.admin || {permissions: 'A', status: 'Active'};
+		const admin = props.navigation.state?.params?.admin || {permissions: 'A', status: 'Active'};
 		console.log(`EditAdmin(${JSON.stringify(admin)})`);
 		this.state = {admin, password1: '', password2: ''};
 	}
@@ -78,7 +78,7 @@ export default class EditAdmin extends React.Component {
 						console.log(`EditAdmin: Saving admin: response: ${JSON.stringify(admins)}: navigating to ManageAdmins`);
 						this.props.navigation.navigate('ManageAdmins', {admins});
 					}).catch((err) => {
-						console.error(`EditAdmins.onSave: ERROR: ${JSON.stringify(err)}`);
+						console.error(`EditAdmins.onSave: ERROR: ${utils.errorMessage(err)}`);
 					});
 					return p;
 				}

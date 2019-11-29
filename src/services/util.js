@@ -5,6 +5,13 @@ import storage from "./storage";
 
 export default {
 
+	errorMessage: (thrownError) => {
+		if (typeof thrownError === 'object') {
+			return thrownError.errorMessage || thrownError.message;
+		}
+		return thrownError;
+	},
+
 	validEmail: (email) => {
 		function hasWhiteSpace(s) {
 			return /\s/g.test(s);
@@ -20,7 +27,7 @@ export default {
 	},
 
 	removeCharacter: (str_to_remove, str) => {
-		let reg = new RegExp(str_to_remove);
+		const reg = new RegExp(str_to_remove);
 		return str.replace(reg, '')
 	},
 
@@ -32,7 +39,8 @@ export default {
 			: `Backend communication ${activity ? ('performing ' + activity) : ''}: (${status}): ${fetchResponse.statusText}`;
 		/// HTTP error
 		const obj = {
-			message,
+			errorMessage: (!fetchResponse.ok) ? message : null,
+			message: (fetchResponse.ok) ? message : null,
 			status: status,
 			ok: fetchResponse.ok,
 			badToken: [401, 403].includes(status)

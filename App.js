@@ -5,7 +5,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import HomeScreen from './src/screens/home';
 import AdminScreen from './src/screens/admin';
 import EditAdminScreen from './src/screens/admin/edit-admin';
-import PostListScreen from './src/screens/post-list';
+import PostListScreen from './src/screens/news/post-list';
 import ManageInterestsScreen from './src/screens/manage-interests';
 import ManageAdminsScreen from './src/screens/admin/manage-admins';
 import ManageCategoriesScreen from "./src/screens/admin/manage-categories";
@@ -17,6 +17,7 @@ import InitScreen from './src/screens/init-app';
 import TesterScreen from './src/screens/tester';
 import SplashScreen from './src/screens/splash';
 import MenuContent from './src/components/menu-content';
+import ExampleScreen from './src/screens/example';
 
 // const MainNavigator = createDrawerNavigator({
 const MainNavigator = createStackNavigator({
@@ -24,6 +25,7 @@ const MainNavigator = createStackNavigator({
         InitApp: {screen: InitScreen},
         Splash: {screen: SplashScreen},
         Tester: {screen: TesterScreen},
+		Example: {screen: ExampleScreen},
         Home: {
             screen: HomeScreen,
 	        navigationOptions: ({navigation}) => ({title: `Home`,})

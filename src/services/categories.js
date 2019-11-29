@@ -21,7 +21,7 @@ const self = {
 			});
 		} catch (error) {
 			//log and rethrow
-			console.error(`categories: getCategories: ERROR: ${JSON.stringify(error, null, 2)}`);
+			console.error(`categories: getCategories: ERROR: ${util.errorMessage(error)}`);
 			throw error;
 		}
 	},
@@ -51,7 +51,7 @@ const self = {
 				})
 				.catch((error) => {
 //                    console.error(`categories.addCategory: ERROR: ${JSON.stringify(error)}`);
-					console.error(`categories.addCategory: ERROR: ${error}`);
+					console.error(`categories.addCategory: ERROR: ${util.errorMessage(error)}`);
 					throw error;
 				});
 		});
@@ -88,7 +88,7 @@ const self = {
 //					return responseJson;
 				})
 				.catch((error) => {
-					console.log(`categories.updateCategory: ERROR: ${JSON.stringify(error)}`);
+					console.log(`categories.updateCategory: ERROR: ${util.errorMessage(error)}`);
 					throw error;
 				});
 		});
@@ -121,7 +121,7 @@ const self = {
 //				return responseJson;
 			})
 			.catch((error) => {
-				console.error(error);
+				console.error(`removeAdmin: ERROR: ${util.errorMessage(error)}`);
 				throw error;
 			});
 	},

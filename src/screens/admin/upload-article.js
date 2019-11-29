@@ -5,6 +5,7 @@ import categoryService from '../../services/categories';
 import mainStyles from '../main-styles';
 import newsService from '../../services/news';
 import {Col, Grid, Row} from "react-native-easy-grid";
+import util from "../../services/util";
 
 
 export default class UploadArticle extends React.Component {
@@ -34,7 +35,7 @@ export default class UploadArticle extends React.Component {
 			})
 			.catch((error) => {
 				const message = typeof error === 'object' ? error.message : error;
-				console.log(`UploadArticle.componentDidMount: ERROR: ${message}`);
+				console.log(`UploadArticle.componentDidMount: ERROR: ${util.errorMessage(error)}`);
 				throw error;
 			});
 	}

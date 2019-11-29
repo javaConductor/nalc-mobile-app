@@ -6,6 +6,7 @@ import auth from '../services/auth';
 import CheeseburgerMenu from 'cheeseburger-menu';
 import HamburgerMenu from 'react-hamburger-menu';
 import MenuContent from '../components/menu-content';
+import util from "../services/util";
 
 
 class Menu extends React.Component {
@@ -15,7 +16,7 @@ class Menu extends React.Component {
 		this._isMounted = false;
 		this.state = {
 			menuOpen: false,
-			isAuthentiated: false
+			isAuthenticated: false
 		};
 	}
 
@@ -38,7 +39,7 @@ class Menu extends React.Component {
 					return {...prevState, isAuthenticated}
 				});
 		} catch (e) {
-			console.error(`Menu.componentDidMount: FAILED authentication check: ${e}`);
+			console.error(`Menu.componentDidMount: FAILED authentication check: ${util.errorMessage(e)}`);
 			throw e;
 		}
 	}
@@ -59,12 +60,7 @@ class Menu extends React.Component {
 		//console.log(`Menu.render: userIsAuthenticated: ${this.state.isAuthenticated}`);
 
 		return (
-			<View style={{alignSelf: 'flex-start', marginRight: 30, height: '500'}}>
-				<CheeseburgerMenu
-					isOpen={this.state.menuOpen}
-					closeCallback={this.closeMenu.bind(this)}>
-					<MenuContent closeCallback={this.closeMenu.bind(this)}/>
-				</CheeseburgerMenu>
+			<View style={{alignSelf: 'flex-start', marginRight: 30, height: '500', flexGrow: 1, zIndex: 2}}>
 
 				<HamburgerMenu
 					isOpen={this.state.menuOpen}
@@ -73,10 +69,16 @@ class Menu extends React.Component {
 					height={24}
 					strokeWidth={3}
 					rotate={0}
-					color='black'
+					color='navy'
 					borderRadius={0}
 					animationDuration={0.5}
 				/>
+				<CheeseburgerMenu
+					isOpen={this.state.menuOpen}
+					closeCallback={this.closeMenu.bind(this)}>
+					<MenuContent closeCallback={this.closeMenu.bind(this)}/>
+				</CheeseburgerMenu>
+
 			</View>
 		);
 	}

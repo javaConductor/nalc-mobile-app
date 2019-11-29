@@ -22,7 +22,7 @@ class Login extends React.Component {
 			},
 		};
 		/// store the actual target in the state
-		if (this.props.navigation.state.params.target) {
+		if (this.props.navigation.state.params?.target) {
 
 			this.state.targetInfo = {
 				target: this.props.navigation.state.params.target,
@@ -50,7 +50,7 @@ class Login extends React.Component {
 		const authInfo = await auth.authenticate(this.state.auth.email, passwordHash)
 			.catch((err) => {
 				this.setState((prevState) => {
-					return {...prevState, message: err}
+					return {...prevState, message: `${util.errorMessage(err)}`}
 				})
 			});
 		if (authInfo && authInfo.authenticated) {

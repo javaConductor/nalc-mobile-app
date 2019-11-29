@@ -3,11 +3,12 @@ import {StyleSheet} from "react-native";
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		//justifyContent: 'center',
+		flex: 2,
+		justifyContent: 'space-around',
 		//alignItems: 'center',
-		backgroundColor: 'navy',
-		width: '100%'
+		backgroundColor: 'white',
+		width: '100%',
+		height: '100%'
 
 	},
 	form: {
@@ -91,15 +92,38 @@ const styles = StyleSheet.create({
 	},
 	logoContainer: {
 		flex: 2,
-		justifyContent: 'center',
+		justifyContent: 'flex-start',
 		alignItems: 'stretch',
-
-
-		// width: 300,
-		// height: 400,
-		// width: 300,
-		// height: 400,
 		zIndex: 0
+	},
+	homeLabel: {
+		width: '100%',
+		backgroundColor: 'navy',
+		color: 'white',
+		fontSize: 20,
+		fontWeight: '1000',
+		alignSelf: 'flex-start'
+	},
+	post: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginTop: 5,
+	},
+	postTitle: {
+		color: 'maroon',
+		fontFamily: "Merriweather",
+		// fontStyle: "regular",
+		fontSize: 30,
+		backgroundColor: 'white',
+		marginLeft: 10,
+		marginRight: 20,
+		alignSelf: 'center'
+	},
+	postContent: {
+		color: 'navy',
+		backgroundColor: 'white',
+		marginLeft: 5,
+		marginRight: 5,
 	},
 });
 export default styles;
