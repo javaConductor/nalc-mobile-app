@@ -16,30 +16,40 @@ export default {
 		try {
 			console.log(`initApp: getting setupFlag from storage.`);
 
+			/// Check if the app has already been setup
 			const setupFlag = await storage.getSetupFlag();
 			console.log(`initApp: checking setupFlag: ${setupFlag}`);
 			if (setupFlag)
 				return false; // indicate we did NOT do the setup process
-			console.log(`initApp: setupFlag must be falsy: getting categories.`);
+//			console.log(`initApp: setupFlag must be falsy: getting categories.`);
+
+			/// Get the full list of categories
 			const categories = await categoryService.getCategories();
 			console.log(`initApp: got categories ${JSON.stringify(categories)}`);
 			const userInterests = categories.map((category) => (category.id));
 			console.log(`initApp: userInterests list: ${JSON.stringify(userInterests)}. Storing in storage.`);
-			await storage.storeSelectedCategories(userInterests);
 
+			/// Initially assign user to ALL categories - can be changed later
+			await storage.storeSelectedCategories(userInterests);
 			const dt = new Date();
 			dt.setFullYear(dt.getFullYear() - 1);
 			const categoryIds = categories.map(cat => cat.id);
 			console.log(`initApp: getting posts from ${dt.toString()} with categories ${JSON.stringify(categoryIds)}.`);
+
+			/// Get all posts from the previous year
 			const posts = await news.getNewsByDateAndCategories(dt.toISOString(), categoryIds);
 			console.log(`initApp: got posts ${JSON.stringify(posts, null, 2)}. storing posts in storage.`);
+
+			/// Cache the posts
 			await storage.storeNewsPosts(posts);
 			console.log(`initApp: storing setupFlag: true`);
+
+			/// Remember the app has been setup already
 			await storage.storeSetupFlag(true);
 			console.log(`initApp: setup complete!! Yay!!`);
 			return true;// indicate we did the setup process
 		} catch (error) {
-			console.error(`initApp: Error: ${util.errorMessage(error)}`);
+			console.error({errorMessage: `initApp: Error: ${util.errorMessage(error)}`});
 		}
 	}
 }

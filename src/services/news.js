@@ -89,10 +89,14 @@ const self = {
 						//console.log(`news: getNewsByDateAndCategories: smaller post ${JSON.stringify(smaller, null, 2)} `);
 						return smaller;
 					});
-				//console.log(`news: getNewsByDateAndCategories filtered: ${JSON.stringify(filtered, null, 2)}`);
+				console.log(`news: getNewsByDateAndCategories filtered: ${JSON.stringify(filtered, null, 2)}`);
 				return filtered;
 			})
-
+			.then((posts) => {
+				posts.sort((a, b) => b.modified.valueOf() - a.modified.valueOf());
+				console.log(`news: getNewsByDateAndCategories() sorted ${JSON.stringify(posts, null, 2)}`);
+				return posts;
+			})
 			.catch((error) => {
 				//log and rethrow
 				console.error(`news: getNewsByDateAndCategories: ERROR:${util.errorMessage(error)}`);
@@ -154,6 +158,11 @@ const checkForNewPosts = () => {
 					console.log(`news.checkForNewPosts: selected categories: ${JSON.stringify(categoryIds)}`);
 					/// get any new posts since dt in the categories we care about
 					return self.getNewsByDateAndCategories(dt.toISOString(), categoryIds)
+						.then((posts) => {
+							posts.sort((a, b) => b.modified.valueOf() - a.modified.valueOf());
+							//console.log(`news: checkForNewPosts() sorted ${JSON.stringify(posts, null,2)}`);
+							return posts;
+						})
 						.then((newPosts = []) => {
 							console.log(`news.checkForNewPosts: newPosts: ${JSON.stringify(newPosts, null, 2)}`);
 							/// get newPosts we have so far
@@ -162,6 +171,10 @@ const checkForNewPosts = () => {
 									//console.log(`news.checkForNewPosts: oldPosts: ${JSON.stringify(oldPosts, null, 2)}`);
 									/// append the newPost to the list and store it
 									const newPostList = [...oldPosts, ...newPosts];
+
+									newPostList.sort((a, b) => b.id - a.id);
+									//console.log(`news: checkForNewPosts() sorted ${JSON.stringify(newPostList, null,2)}`);
+
 									//console.log(`news.checkForNewPosts: storing new and Old Posts: ${JSON.stringify(newPostList, null, 2)}`);
 									return storage.storeNewsPosts(newPostList).then(() => {
 										//console.log(`news.checkForNewPosts: stored new and Old Posts`);

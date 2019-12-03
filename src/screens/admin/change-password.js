@@ -8,13 +8,12 @@ import auth from '../../services/auth';
 
 
 export default class ChangePassword extends React.Component {
-	static navigationOptions = {
-		title: 'Change Password',
-	};
+	// static navigationOptions = {
+	// 	title: 'Change Password',
+	// };
 
 	constructor(props) {
 		super(props);
-		//const {navigation: {state: {params: {admin}}}} = props;
 		this.state = {password1: '', password2: ''};
 	}
 
@@ -34,7 +33,7 @@ export default class ChangePassword extends React.Component {
 	}
 
 	async onSave() {
-		var hash = utils.passwordHash(this.state.password1);
+		const hash = utils.passwordHash(this.state.password1);
 		const newAdmin = {id: this.state.userId, passwordHash: hash};
 		return Users.updateAdmin(newAdmin)
 			.catch((err) => {

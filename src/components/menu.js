@@ -60,7 +60,7 @@ class Menu extends React.Component {
 		//console.log(`Menu.render: userIsAuthenticated: ${this.state.isAuthenticated}`);
 
 		return (
-			<View style={{alignSelf: 'flex-start', marginRight: 30, height: '500', flexGrow: 1, zIndex: 2}}>
+			<View style={{alignSelf: 'flex-start', marginTop: 10, height: '500', flexGrow: 1, zIndex: 2}}>
 
 				<HamburgerMenu
 					isOpen={this.state.menuOpen}
@@ -75,6 +75,7 @@ class Menu extends React.Component {
 				/>
 				<CheeseburgerMenu
 					isOpen={this.state.menuOpen}
+					right
 					closeCallback={this.closeMenu.bind(this)}>
 					<MenuContent closeCallback={this.closeMenu.bind(this)}/>
 				</CheeseburgerMenu>

@@ -1,8 +1,10 @@
 // Admin.js
 import React from 'react'
-import {Button, StyleSheet, View} from 'react-native'
-import {NavigationEvents, withNavigation} from "react-navigation";
+import {View} from 'react-native'
+import {createAppContainer, NavigationEvents, withNavigation} from "react-navigation";
 import auth from '../services/auth';
+import {createAdminTasksNavigator} from "../components/menu/main-nav";
+import Styles from '../screens/main-styles';
 
 
 class Admin extends React.Component {
@@ -12,17 +14,7 @@ class Admin extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {canManage: false};
-	}
-
-	static get options() {
-		return {
-			topBar: {
-				title: {
-					text: 'Admin'
-				},
-			}
-		};
+		this.state = {canManage: false, initializing: true};
 	}
 
 	async componentDidMount() {
@@ -46,60 +38,31 @@ class Admin extends React.Component {
 			})
 			.then((canManage) => {
 				console.log(`admin.componentDidMount: canManage: ${canManage}`);
+				const AdminTasks = createAppContainer(createAdminTasksNavigator(canManage));
+
 				this.setState((prevState) => {
-					return {...prevState, canManage: canManage, initializing: false};
+					return {...prevState, canManage: canManage, initializing: false, AdminTasks};
 				});
 				return this.state;
 			});
 	}
 
 	render() {
-		const {navigate} = this.props.navigation;
+		console.log(`admin.render: canManage: ${this.state.canManage}  `);
+
 		if (this.state.initializing)
 			return null;
-		console.log(`admin.render: canManage: ${this.state.canManage}`);
-		const manageButton = this.state.canManage ? <Button
-			onPress={() => {
-				navigate("ManageAdmins", {});
-			}}
-			title="Manage Administators"
-		/> : null;
+		const {navigate} = this.props.navigation;
+		const AdminTasks = this.state.AdminTasks;
 
 		return (
-
-			<View style={styles.container}>
+			<View style={Styles.container}>
 				<NavigationEvents onDidFocus={this.componentDidMount.bind(this)}/>
-
-				{manageButton}
-				<Button
-					onPress={() => {
-						navigate("ManageCategories", {});
-					}}
-					title="Manage Categories"
-				/>
-				<Button
-					onPress={() => {
-						navigate("UploadArticle", {});
-					}}
-					title="Upload Article"
-				/>
-				<Button
-					onPress={() => {
-						navigate("ChangePassword", {});
-					}}
-					title="Change Password"
-				/>
+				<AdminTasks/>
+				{/*<Text> A D M I N </Text>*/}
 			</View>
 		)
 	}
 }
 
 export default withNavigation(Admin);
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	}
-});

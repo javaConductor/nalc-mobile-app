@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react'
 import {NavigationEvents, withNavigation} from 'react-navigation';
 import auth from '../services/auth';
 // import './menu-content.css';
-import {Linking, View} from "react-native";
+import {Linking, ScrollView} from "react-native";
 import {SocialIcon} from 'react-native-elements'
 
 
@@ -26,7 +26,6 @@ class MenuContent extends Component {
 
 	componentWillUnmount() {
 		this._isMounted = false;
-
 	}
 
 	async componentDidMount() {
@@ -69,8 +68,8 @@ class MenuContent extends Component {
 	}
 
 	render() {
-		const {navigate} = this.state;
-		const logoffComponent = this.state.isAuthenticated
+		const {navigate, isAuthenticated} = this.state;
+		const logoffComponent = isAuthenticated
 			? <div className="menu-item" key={'Logoff'}>
 				<a onClick={this.onLogOff.bind(this)}>
 					<SocialIcon
@@ -83,11 +82,11 @@ class MenuContent extends Component {
 			</div>
 			: null;
 		return (
-			<View>
+			<ScrollView contentContainerStyle={{flex: 1}} style={{zIndex: 20, position: 'absolute', flex: 1}}>
 				<div className="menu">
 					<NavigationEvents onDidFocus={this.componentDidMount.bind(this)}/>
 
-					<div className="menu-item" key={'ManageInterests'} z-index="2">
+					<div className="menu-item" key={'ManageInterests'}>
 						<a onClick={() => this.closeAndNavigate('ManageInterests')}>
 							<SocialIcon
 								fontWeight={'bold'}
@@ -116,13 +115,12 @@ class MenuContent extends Component {
 					{this.renderAdminOptions()}
 					{logoffComponent}
 				</div>
-			</View>
+			</ScrollView>
 
 		)
 	}
 
 	renderAdminOptions() {
-		//const {navigate} = this.state;
 		if (!this.state.isAuthenticated)
 			return <div className="menu-item" key={'Admin'}>
 				<a onClick={() => {

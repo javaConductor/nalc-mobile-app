@@ -36,15 +36,18 @@ const getRandomColor = () => {
 };
 
 const Example = ({navigation}) => {
+	const color = getRandomColor();
+
 	return (
 		<View
 			style={{
 				flex: 1,
 				alignItems: 'center',
 				justifyContent: 'center',
-				backgroundColor: getRandomColor(),
+				backgroundColor: color,
 			}}
 		>
+			<Text>{color}</Text>
 			{getAvailableRoutes(navigation).map(route => (
 				<TouchableOpacity
 					onPress={() => navigation.navigate(route)}

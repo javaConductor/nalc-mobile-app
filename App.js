@@ -1,49 +1,22 @@
-import React from 'react'
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+// App.js
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {createAppContainer} from "react-navigation";
+import {createMainNavigator} from "./src/components/menu/main-nav";
 
-import HomeScreen from './src/screens/home';
-import AdminScreen from './src/screens/admin';
-import EditAdminScreen from './src/screens/admin/edit-admin';
-import PostListScreen from './src/screens/news/post-list';
-import ManageInterestsScreen from './src/screens/manage-interests';
-import ManageAdminsScreen from './src/screens/admin/manage-admins';
-import ManageCategoriesScreen from "./src/screens/admin/manage-categories";
-import EditCategoryScreen from "./src/screens/admin/categories/edit-category";
-import UploadArticleScreen from "./src/screens/admin/upload-article";
-import LoginScreen from './src/screens/login';
-import ChangePasswordScreen from './src/screens/admin/change-password';
-import InitScreen from './src/screens/init-app';
-import TesterScreen from './src/screens/tester';
-import SplashScreen from './src/screens/splash';
-import MenuContent from './src/components/menu-content';
-import ExampleScreen from './src/screens/example';
 
-// const MainNavigator = createDrawerNavigator({
-const MainNavigator = createStackNavigator({
-		MenuContent: {screen: MenuContent},
-        InitApp: {screen: InitScreen},
-        Splash: {screen: SplashScreen},
-        Tester: {screen: TesterScreen},
-		Example: {screen: ExampleScreen},
-        Home: {
-            screen: HomeScreen,
-	        navigationOptions: ({navigation}) => ({title: `Home`,})
-        },
-        Login: {screen: LoginScreen},
-        PostList: {screen: PostListScreen},
-        ManageInterests: {screen: ManageInterestsScreen},
-        Admin: {screen: AdminScreen},
-		ChangePassword: {screen: ChangePasswordScreen},
-		ManageAdmins: {screen: ManageAdminsScreen},
-		EditAdmin: {screen: EditAdminScreen},
-		ManageCategories: {screen: ManageCategoriesScreen},
-		EditCategory: {screen: EditCategoryScreen},
-		UploadArticle: {screen: UploadArticleScreen},
-    },
-    {
-        initialRouteName: 'InitApp',
-    });
+const AppContainer = createAppContainer(createMainNavigator());
 
-const App = createAppContainer(MainNavigator);
-export default App;
+export default class App extends React.Component {
+	render() {
+		return <AppContainer/>;
+	}
+}
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+});

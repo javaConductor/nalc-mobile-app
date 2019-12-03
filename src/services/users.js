@@ -9,14 +9,20 @@ const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config
 
 const self = {
 
+	/**
+	 *
+	 * @returns {Promise<any>}
+	 */
 	getAdmins: async () => {
 		try {
 			const response = await fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`);
+			if (!response.ok)
+				throw util.handleHttpError(response, 'get admins');
+
 			const responseJson = await response.json();
 			console.log(`users.getAdmins: response: ${JSON.stringify(responseJson)}`);
-			await storage.storeAdminList(responseJson);
-			console.log(`users.getAdmins: stored: ${JSON.stringify(responseJson)}`);
 
+			await storage.storeAdminList(responseJson);
 			return responseJson;
 		} catch (error) {
 			console.error(`users.getAdmins: Error: ${util.errorMessage(error)}`);
@@ -24,21 +30,11 @@ const self = {
 		}
 	},
 
-	getAdminsThen: () => {
-		return fetch(`${backEndURL}/${config.BACKEND_ADMINS_PATH}`)
-		// .then((response) => response.json())
-			.then((response) => response.json())
-			.then((responseJson) => {
-				console.log(JSON.stringify(responseJson));
-				storage.storeAdminList(responseJson);
-				return responseJson;
-			})
-			.catch((error) => {
-				console.error(error);
-				throw error;
-			});
-	},
-
+	/**
+	 *
+	 * @param adminData
+	 * @returns {Promise<*>}
+	 */
 	saveAdmin: async (adminData) => {
 		return adminData.id ? self.updateAdmin(adminData) : self.addAdmin(adminData);
 	},
@@ -114,6 +110,11 @@ const self = {
 			});
 	},
 
+	/**
+	 *
+	 * @param adminId
+	 * @returns {Promise<any | *>}
+	 */
 	removeAdmin: async (adminId) => {
 		console.log(`removeAdmin: ${adminId}`);
 
@@ -143,18 +144,23 @@ const self = {
 			});
 	},
 
+	/**
+	 *
+	 * @param id
+	 * @param email
+	 * @returns {Promise<T | never>}
+	 */
 	checkEmailUsed: (id, email) => {
 		return storage.getAdminList()
 			.then((adminList) => {
-				const found = adminList.some((adm) => {
+				//console.log(`checkEmailUsed(${id}, ${email}): found: ${JSON.stringify(found)}`);
+				return adminList.some((adm) => {
 					//console.log(`checkEmailUsed(${id}, ${email}): comparing ${JSON.stringify(adm)} == ${adm.email.toUpperCase() === email.toUpperCase() && adm.id !== id}`);
 					//console.log(`checkEmailUsed(${id}, ${email}): comparing ids ${adm.id !== id}`);
 					//console.log(`checkEmailUsed(${id}, ${email}): comparing emails ${adm.email.toUpperCase() === email.toUpperCase()}`);
 
 					return adm.email.toUpperCase() === email.toUpperCase() && adm.id !== id
 				});
-				//console.log(`checkEmailUsed(${id}, ${email}): found: ${JSON.stringify(found)}`);
-				return found;
 			})
 			.catch((error) => {
 				// log and rethrow
@@ -163,10 +169,16 @@ const self = {
 			});
 	},
 
+	/**
+	 *
+	 * @param adminId
+	 * @param buffer
+	 */
 	addAdminPhoto: (adminId, buffer) => {
 	},
 };
 
+self.getAdmins = util.tokenWrapper(self.getAdmins);
 self.addAdmin = util.tokenWrapper(self.addAdmin);
 self.removeAdmin = util.tokenWrapper(self.removeAdmin);
 self.updateAdmin = util.tokenWrapper(self.updateAdmin);

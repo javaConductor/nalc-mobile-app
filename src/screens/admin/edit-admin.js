@@ -5,9 +5,10 @@ import Users from '../../services/users';
 import styles from '../../screens/main-styles';
 import utils from '../../services/util';
 import {AutoGrowingTextInput} from "react-native-autogrow-textinput";
+import {withNavigation} from 'react-navigation';
 
 
-export default class EditAdmin extends React.Component {
+class EditAdmin extends React.Component {
 	static navigationOptions = {
 		title: 'Administrator Details',
 	};
@@ -62,7 +63,7 @@ export default class EditAdmin extends React.Component {
 					});
 				} else {
 					if (this.state.password1.length > 0) {
-						var hash = utils.passwordHash(this.state.password1);
+						const hash = utils.passwordHash(this.state.password1);
 						newPswd = this.state.password1;
 						newAdmin = {...this.state.admin, passwordHash: hash};
 					} else {
@@ -203,3 +204,5 @@ export default class EditAdmin extends React.Component {
 		</View>
 	}
 }
+
+export default withNavigation(EditAdmin);

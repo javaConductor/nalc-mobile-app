@@ -10,11 +10,11 @@ const ShowPost = (props) => {
 	const [post, setPost] = useState(props.post);
 
 	if (!post) {
-		throw {error: 'ShowPost: Error "post" prop not set or null.'}
+		throw {errorMessage: 'ShowPost: Error "post" prop not set or null.'}
 	}
 	try {
 		console.log(`ShowPost: post: ${JSON.stringify(post, null, 2)}`);
-		var options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+		const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 		const dateStr = new Date(post.date).toLocaleString("en-US", options);
 		return <View style={{...styles.post}} key={post.id}>
 			<Text>{dateStr}</Text>

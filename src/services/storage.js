@@ -110,6 +110,7 @@ const self = {
 				//console.log(`storage.getNewsPosts() newsStr: ${newsStr}`);
 				return newsStr ? JSON.parse(newsStr) : [];
 			})
+
 			.catch((e) => {
 				console.error(`storage.getNewsPosts() Error getting News Posts: ${e} `);
 				throw e;
@@ -124,7 +125,7 @@ const self = {
 			.then((isoDateString) => {
 				/// if no date found then go back a month
 				if (!isoDateString) {
-					var d = new Date();
+					const d = new Date();
 					d.setFullYear(d.getFullYear() - 1);
 					isoDateString = d.toISOString();
 				}

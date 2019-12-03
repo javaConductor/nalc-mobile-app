@@ -21,7 +21,7 @@ export default {
 	},
 
 	passwordHash: (password) => {
-		var hash = sha256.create();
+		const hash = sha256.create();
 		hash.update(password);
 		return hash.hex();
 	},
