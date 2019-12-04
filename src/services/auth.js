@@ -66,13 +66,14 @@ const self = {
 					.then((responseJson) => {
 						console.log(`auth: authenicate: response: ${JSON.stringify(responseJson, null, 2)}`);
 						if (!responseJson.authenticated) {
-							throw responseJson.message;
+							throw {errorMessage: responseJson.message};
 						}
 						storage.storeAuthInfo(responseJson);
 						return responseJson;
 					})
 					.catch((error) => {
 						console.error(`auth.authenticate(): ERROR: ${utils.errorMessage(error)}`);
+						throw error;
 					});
 			});
 	},
