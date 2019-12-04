@@ -3,6 +3,8 @@ import React from 'react'
 import {Button, StyleSheet, Text, TextInput, View} from 'react-native'
 import categoryService from '../../../services/categories';
 import {AutoGrowingTextInput} from "react-native-autogrow-textinput";
+import {NavigationEvents} from "react-navigation";
+import util from '../../../services/util';
 
 
 export default class EditCategory extends React.Component {
@@ -18,6 +20,21 @@ export default class EditCategory extends React.Component {
 		const category = props.navigation.state.params?.category || {};
 		console.log(`EditCategory(${JSON.stringify(category)})`);
 		this.state = {category};
+		this._mounted = false;
+	}
+
+	componentDidMount() {
+		this._mounted = true;
+		const category = this.props.navigation.state.params?.category || {};
+		console.log(`EditCategory.componentDidMount: category: ${JSON.stringify(category)})`);
+
+		this.setState((prevState) => {
+			return {...prevState, category}
+		});
+	}
+
+	componentWillUnmount() {
+		this._mounted = false;
 	}
 
 	update(name, value) {
@@ -53,6 +70,7 @@ export default class EditCategory extends React.Component {
 		const hasValidEntries = category.name && category.name.trim().length > 0;
 
 		return <View style={styles.container}>
+			<NavigationEvents onDidFocus={this.componentDidMount.bind(this)}/>
 			<Text style={{color: 'white'}}>{category.id ? 'Edit' : 'Add'} Category</Text>
 			<View style={styles.form}>
 				<View style={styles.formRow}>
