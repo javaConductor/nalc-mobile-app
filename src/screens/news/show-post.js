@@ -41,7 +41,7 @@ class ShowPost extends React.Component {
 		const dateStr = new Date(post.date).toLocaleString("en-US", options);
 		return <View style={{...styles.post}} key={post.id}>
 			<Text>{dateStr}</Text>
-			<Text style={{...styles.postTitle, fontFamily: 'OswaldHeavy-Regular'}}>{post.title}</Text>
+			<Text style={{...styles.postTitle, fontSize: 20, fontFamily: 'OswaldHeavy-Regular'}}>{post.title}</Text>
 			<Text style={styles.postContent}>
 				<HTML html={post.content}
 				      onLinkPress={(evt, href) => {
