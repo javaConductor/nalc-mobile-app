@@ -19,7 +19,7 @@ class Admin extends React.Component {
 
 	async componentDidMount() {
 		const {navigate} = this.props.navigation;
-		console.log(`admin.componentDidMount: state: ${JSON.stringify(this.state)}`);
+		console.log(`Admin.componentDidMount: state: ${JSON.stringify(this.state)}`);
 
 		this.setState((prevState) => {
 			return {...prevState, initializing: true};
@@ -27,9 +27,9 @@ class Admin extends React.Component {
 
 		return auth.isUserAuthenticated()
 			.then((authenticated) => {
-				console.log(`admin.componentDidMount: isAuthenticated: ${authenticated}`);
+				console.log(`Admin.componentDidMount: isAuthenticated: ${authenticated}`);
 				if (!authenticated) {
-					console.log(`componentDidMount: navigating to Login screen.`);
+					console.log(`Admin.componentDidMount: navigating to Login screen.`);
 					navigate('Login', {target: 'Admin', targetData: {}});
 					return false;
 				} else {
@@ -37,7 +37,7 @@ class Admin extends React.Component {
 				}
 			})
 			.then((canManage) => {
-				console.log(`admin.componentDidMount: canManage: ${canManage}`);
+				console.log(`Admin.componentDidMount: canManage: ${canManage}`);
 				const AdminTasks = createAppContainer(createAdminTasksNavigator(canManage));
 
 				this.setState((prevState) => {
@@ -48,7 +48,7 @@ class Admin extends React.Component {
 	}
 
 	render() {
-		console.log(`admin.render: canManage: ${this.state.canManage}  `);
+		console.log(`Admin.render: canManage: ${this.state.canManage}  `);
 
 		if (this.state.initializing)
 			return null;

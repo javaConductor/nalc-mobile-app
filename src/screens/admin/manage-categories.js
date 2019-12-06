@@ -5,6 +5,7 @@ import categoryService from '../../services/categories';
 import {NavigationEvents} from "react-navigation";
 import {Col, Grid, Row} from "react-native-easy-grid";
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
+import util from "../../services/util";
 
 
 export default class ManageCategories extends React.Component {
@@ -32,6 +33,8 @@ export default class ManageCategories extends React.Component {
 				return {...prevState, isLoading: false, categories}
 			});
 		} catch (e) {
+			console.error(`ManageCategories.componentDidMount: Error getting categories: ${util.errorMessage(e)}`);
+
 			if (typeof e === 'object' && (e.authenticationRequired || e.badToken)) {
 				navigate("Login", {target: "ManageCategories"});
 			}

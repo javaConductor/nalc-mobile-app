@@ -1,24 +1,47 @@
 // ShowPost.js
-import React, {useState} from 'react';
-import {Linking, Text, View} from 'react-native'
+import React from 'react';
+import {ActivityIndicator, Linking, Text, View} from 'react-native'
 import HTML from 'react-native-render-html';
 import styles from '../../screens/main-styles';
-import util from '../../services/util';
+import * as Font from 'expo-font';
 
 
-const ShowPost = (props) => {
-	const [post, setPost] = useState(props.post);
+class ShowPost extends React.Component {
 
-	if (!post) {
-		throw {errorMessage: 'ShowPost: Error "post" prop not set or null.'}
+	constructor(props) {
+		super(props);
+		if (!props.post) {
+			throw {errorMessage: 'ShowPost: Error "post" prop not set or null.'}
+		}
+		this.state = {
+			post: props.post,
+			loading: true
+		};
 	}
-	try {
+
+	async componentDidMount() {
+		await Font.loadAsync({
+			'Oswald-Bold': require('../../../assets/fonts/Oswald-Bold.ttf'),
+			'OswaldHeavy-Regular': require('../../../assets/fonts/OswaldHeavy-Regular.ttf'),
+
+		});
+		this.setState((prevState) => {
+			return {...prevState, loading: false}
+		})
+	}
+
+	render() {
+		const {post, loading} = this.state;
+
+		if (loading)
+			return <ActivityIndicator size={'large'}/>;
+
 		console.log(`ShowPost: post: ${post.title}`);
 		const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 		const dateStr = new Date(post.date).toLocaleString("en-US", options);
 		return <View style={{...styles.post}} key={post.id}>
 			<Text>{dateStr}</Text>
-			<Text style={styles.postTitle}>{post.title}</Text>
+			<Text style={{...styles.postTitle, fontFamily: 'OswaldHeavy-Regular'}}>{post.title}</Text>
 			<Text style={styles.postContent}>
 				<HTML html={post.content}
 				      onLinkPress={(evt, href) => {
@@ -26,10 +49,7 @@ const ShowPost = (props) => {
 				      }}/>
 			</Text>
 		</View>
-	} catch (error) {
-		console.error(`ShowPost: Error loading posts: ${util.errorMessage(error)} `);
-		throw error;
 	}
 
-};
+}
 export default ShowPost;

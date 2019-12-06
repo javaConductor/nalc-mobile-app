@@ -21,30 +21,30 @@ class EditAdmin extends React.Component {
 	}
 
 	updateManageAdmins(canManage) {
-		console.log(`updateManageAdmins: canManage: ${canManage}`);
+		console.log(`EditAdmin.updateManageAdmins: canManage: ${canManage}`);
 		this.setState((prevState) => {
 			const {admin} = prevState;
 			const permissions = (canManage && !admin.permissions.includes('M')) ? admin.permissions + 'M'
 				: (admin.permissions.includes('M') ? utils.removeCharacter('M', admin.permissions) : admin.permissions);
-			console.log(`updateManageAdmins: admin.permissions: ${permissions}`);
+			console.log(`EditAdmin.updateManageAdmins: admin.permissions: ${permissions}`);
 			const newAdmin = {...this.state.admin, permissions};
 			return {...prevState, admin: newAdmin};
 		});
 	}
 
 	update(name, value) {
-		console.log(`update: ${name} -> ${value}`);
+		console.log(`EditAdmin.update: ${name} -> ${value}`);
 		const admin = {...this.state.admin, [name]: value};
 		this.setState((prevState) => ({...prevState, admin}));
 	}
 
 	updatePassword1(password) {
-		//console.log(`updatePassword1: ${password}`);
+		//console.log(`EditAdmin.updatePassword1: ${password}`);
 		this.setState((prevState) => ({...prevState, password1: password}));
 	}
 
 	updatePassword2(password) {
-		//console.log(`updatePassword2: ${password}`);
+		//console.log(`EditAdmin.updatePassword2: ${password}`);
 		this.setState((prevState) => ({...prevState, password2: password}));
 	}
 
@@ -108,8 +108,8 @@ class EditAdmin extends React.Component {
 
 		const messageComponent = this.state.message ? <Text style={styles.error}>{this.state.message}</Text> : null;
 
-		//console.log(`render(): emailBackgroundColor: ${emailBackgroundColor} `);
-		//console.log(`render(): passwordBackgroundColor: ${passwordBackgroundColor} `);
+		//console.log(`EditAdmin.render(): emailBackgroundColor: ${emailBackgroundColor} `);
+		//console.log(`EditAdmin.render(): passwordBackgroundColor: ${passwordBackgroundColor} `);
 		return <View style={styles.container}>
 			<Text style={{color: 'white'}}>{admin.id ? 'Edit' : 'Add'} Administrator</Text>
 			{messageComponent}

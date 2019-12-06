@@ -18,25 +18,6 @@ class Tester extends React.Component {
 		this.setState((prevState) => {
 			return {...prevState, initializing: true};
 		});
-
-		// return auth.isUserAuthenticated()
-		// 	.then((authenticated) => {
-		// 		console.log(`admin.componentDidMount: isAuthenticated: ${authenticated}`);
-		// 		if (!authenticated) {
-		// 			console.log(`componentDidMount: navigating to Login screen.`);
-		// 			navigate('Login', {target: 'Admin', targetData: {}});
-		// 			return false;
-		// 		} else {
-		// 			return auth.currentUserCanManageAdmins();
-		// 		}
-		// 	})
-		// 	.then((canManage) => {
-		// 		console.log(`admin.componentDidMount: canManage: ${canManage}`);
-		// 		this.setState((prevState) => {
-		// 			return {...prevState, canManage: canManage, initializing: false};
-		// 		});
-		// 		return this.state;
-		// 	});
 	}
 
 	async removeSetupFlag() {
@@ -47,7 +28,6 @@ class Tester extends React.Component {
 		const authInfo = await storage.getAuthInfo();
 		authInfo.accessTokenExpires = new Date(-7).valueOf();
 		return storage.storeAuthInfo(authInfo);
-
 	}
 
 	render() {

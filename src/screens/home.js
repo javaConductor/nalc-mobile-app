@@ -58,14 +58,6 @@ class Home extends React.Component {
 
 			console.log(`Home.componentDidMount: lastPost: ${JSON.stringify(lastPost)}`);
 
-			// var font = new FontObserver('Merriweather');
-			//
-			// font.load(null, 15000).then(function () {
-			// 	console.log('Font is available');
-			// }, function () {
-			// 	console.log('Font is not available after waiting 15 seconds');
-			// });
-
 			if (this._isMounted)
 				this.setState((prevState) => {
 					return {

@@ -45,7 +45,17 @@ class Login extends React.Component {
 		this.setState((prevState) => ({...prevState, auth}));
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
+		const {navigate} = this.props.navigation;
+
+		const authenticated = await auth.isUserAuthenticated();
+		console.log(`Login.componentDidMount: isAuthenticated: ${authenticated}`);
+
+		if (authenticated) {
+			return navigate("Admin", {});
+			Login.navigationOptions.title = "Logoff";
+		}
+
 		console.log(`Login.componentDidMount: auth: ${JSON.stringify(this.state.auth, null, 2)}`);
 		this.setState((prevState) => ({...prevState, auth: {email: "", password: ""}}));
 	}

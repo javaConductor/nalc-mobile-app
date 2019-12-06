@@ -12,6 +12,7 @@ const self = {
 		//console.log(`auth: currentUser(): ${JSON.stringify(authInfo)}`);
 		return authInfo;
 	},
+	hasAuthenticated: false,
 
 	currentAccessToken: async () => {
 		const authInfo = await self.currentUser();
@@ -34,6 +35,7 @@ const self = {
 	},
 
 	logoff: async () => {
+		self.hasAuthenticated = false;
 		return storage.storeAuthInfo({});
 	},
 
@@ -68,6 +70,7 @@ const self = {
 						if (!responseJson.authenticated) {
 							throw {errorMessage: responseJson.message};
 						}
+						self.hasAuthenticated = true;
 						storage.storeAuthInfo(responseJson);
 						return responseJson;
 					})
@@ -103,4 +106,9 @@ const self = {
 		return responseJson;
 	},
 };
+
+self.isUserAuthenticated().then((isAuthenticated) => {
+	self.hasAuthenticated = isAuthenticated
+});
+
 export default self;

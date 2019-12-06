@@ -35,7 +35,7 @@ export default class UploadArticle extends React.Component {
 			})
 			.catch((error) => {
 				const message = typeof error === 'object' ? error.message : error;
-				console.log(`UploadArticle.componentDidMount: ERROR: ${util.errorMessage(error)}`);
+				console.error(`UploadArticle.componentDidMount: ERROR: ${util.errorMessage(error)}`);
 				throw error;
 			});
 	}
@@ -67,7 +67,7 @@ export default class UploadArticle extends React.Component {
 	selectedIdList(selectedCategories) {
 		const keys = Object.keys(selectedCategories);
 		//console.log(`selectedIdList: keys: ${JSON.stringify(keys, null, 2)}`);
-		console.log(`selectedIdList: selected: ${JSON.stringify(selectedCategories, null, 2)}`);
+		console.log(`UploadArticle.selectedIdList: selected: ${JSON.stringify(selectedCategories, null, 2)}`);
 
 		/// keys are category ids
 		return keys.filter((categorySelection) => selectedCategories[categorySelection]);
@@ -91,6 +91,7 @@ export default class UploadArticle extends React.Component {
 					selectedCategories
 				}));
 		} catch (e) {
+			console.error(`UploadArticle.onSave: Error saving post: ${util.errorMessage(e)}`);
 			if (this.mounted)
 				this.setState((prevState) => ({...prevState, message: `Error uploading article: ${e}`}));
 			if (typeof e === 'object' && (e.authenticationRequired || e.badToken)) {

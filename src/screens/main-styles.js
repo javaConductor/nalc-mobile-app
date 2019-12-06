@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
 		backgroundColor: 'lightYellow',
 		// color: 'white',
 		// width: '50%'
-	}, error: {
+	},
+	error: {
 		//flexDirection: 'col',
 		backgroundColor: 'red',
 		// color: 'white',
@@ -111,8 +112,8 @@ const styles = StyleSheet.create({
 	},
 	postTitle: {
 		color: 'maroon',
-		fontFamily: "Merriweather",
-		// fontStyle: "regular",
+		fontFamily: 'Oswald-Bold',
+		fontStyle: "bold",
 		fontSize: 30,
 		backgroundColor: 'white',
 		marginLeft: 10,
