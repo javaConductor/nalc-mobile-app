@@ -14,7 +14,6 @@ import ChangePasswordScreen from '../../screens/admin/change-password';
 import LoginScreen from '../../screens/login';
 import LogOutScreen from '../../screens/logOut';
 import {createStackNavigator} from "react-navigation-stack";
-import auth from '../../services/auth';
 
 /////////////////////////////////////////////////
 //// Category Routes
@@ -65,7 +64,8 @@ const createLoginMenuOption = (hasAuthenticated) => {
 //////////////////////
 const adminMenuRoute = {
   Admin: () => <AdminScreen/>,
-  Login: {screen: createLoginMenuOption(auth.hasAuthenticated)}
+  Login: {screen: LoginScreen, title: "Sign In"},
+//  Login: {screen: createLoginMenuOption(auth.hasAuthenticated)}
 };
 
 const AdminMenuOption = createBottomTabNavigator(adminMenuRoute);
@@ -82,6 +82,7 @@ const mainRoutes = {
 };
 
 const adminRoutes = {
+  LogOut: {screen: LogOutScreen, title: "Sign Out"},
   ChangePassword: {screen: ChangePasswordScreen},
   //EditAdmin: {screen: EditAdminScreen},
   ManageCategories: {screen: CategoryNavigator},
