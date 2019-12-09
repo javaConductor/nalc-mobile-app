@@ -1,9 +1,10 @@
 // InitApp.js
 import React from 'react'
-import {ActivityIndicator, StyleSheet} from 'react-native'
+import {ActivityIndicator} from 'react-native'
 import initApp from '../services/initApp';
 import View from "react-native-web/dist/exports/View";
-import {NavigationActions, NavigationEvents, StackActions} from "react-navigation";
+import {NavigationActions, NavigationEvents, StackActions, withNavigation} from "react-navigation";
+import util from "../services/util";
 
 
 class InitApp extends React.Component {
@@ -14,6 +15,7 @@ class InitApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {isLoading: true}
+		console.log(`InitApp.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
 	}
 
 	async componentDidMount() {
@@ -22,16 +24,16 @@ class InitApp extends React.Component {
 			return {...prevState, isLoading: true}
 		});
 		const firstTimeRun = await initApp.initApp();
-		console.log(`InitAppScreen.componentDidMount: firstTimeRun: ${firstTimeRun}`);
+		console.log(`InitApp.componentDidMount: firstTimeRun: ${firstTimeRun}`);
 		if (firstTimeRun) {
-			//navigate('Splash', {});
-			const resetAction = StackActions.reset({
-				index: 0, // <-- currect active route from actions array
-				actions: [
-					NavigationActions.navigate({routeName: 'Splash'}),
-				],
-			});
-			this.props.navigation.dispatch(resetAction);
+			navigate('SplashScreen', {});
+			// const resetAction = StackActions.reset({
+			// 	index: 0, // <-- currect active route from actions array
+			// 	actions: [
+			// 		NavigationActions.navigate({routeName: 'SplashScreen'}),
+			// 	],
+			// });
+			// this.props.navigation.dispatch(resetAction);
 		} else {
 			//navigate('Home', {});
 
@@ -44,7 +46,7 @@ class InitApp extends React.Component {
 
 			this.props.navigation.dispatch(resetAction);
 		}
-		console.log(`InitAppScreen.componentDidMount: navigated away`);
+		console.log(`InitApp.componentDidMount: navigated away`);
 		// this.setState((prevState) => {
 		//     return {...prevState, isLoading: false}
 		// })
@@ -61,12 +63,5 @@ class InitApp extends React.Component {
 	}
 }
 
-export default InitApp;
+export default withNavigation(InitApp);
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	}
-});

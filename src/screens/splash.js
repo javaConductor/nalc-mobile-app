@@ -2,16 +2,18 @@
 import React from 'react'
 import {StyleSheet, Text, View} from 'react-native'
 import {NavigationActions, StackActions} from "react-navigation";
+import util from "../services/util";
 
 
 class Splash extends React.Component {
 
 	constructor(props) {
 		super(props);
+		console.log(`Splash.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
 	}
 
 	async componentDidMount() {
-		const splashDisplayTime = 5;
+		const splashDisplayTime = 2.5;
 		const {navigate} = this.props.navigation;
 		setTimeout(() => {
 			const resetAction = StackActions.reset({
@@ -30,7 +32,7 @@ class Splash extends React.Component {
 	}
 }
 
-export default Splash;
+export default (Splash);
 
 const styles = StyleSheet.create({
 	container: {

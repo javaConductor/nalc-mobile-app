@@ -14,13 +14,13 @@ const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config
  * @returns Promise <{ ..., featuredMediaId, featuredMedia}>
  */
 const updateMedia = (post) => {
-	console.log(`news.updateMedia ${post.id}: mediaId: ${post.featured_media}`);
+	//console.log(`news.updateMedia ${post.id}: mediaId: ${post.featured_media}`);
 	const p = post.featured_media <= 0 ? Promise.resolve(post)
 		: self.getMedia(post.featured_media)
 			.then((mediaObj) => {
 				//const {guid: {rendered: mediaUrl}} = mediaObj;
 				const mediaUrl = mediaObj.guid.rendered;
-				console.log(`news.updateMedia ${post.id}: ${mediaUrl}`);
+				//console.log(`news.updateMedia ${post.id}: ${mediaUrl}`);
 				return {...post, featuredMedia: mediaUrl};
 			})
 			.catch((err) => {
@@ -93,12 +93,12 @@ const self = {
 						//console.log(`news: getNewsByDateAndCategories: smaller post ${JSON.stringify(smaller, null, 2)} `);
 						return smaller;
 					});
-				console.log(`news: getNewsByDateAndCategories filtered: ${JSON.stringify(filtered, null, 2)}`);
+				//console.log(`news: getNewsByDateAndCategories filtered: ${JSON.stringify(filtered, null, 2)}`);
 				return filtered;
 			})
 			.then((posts) => {
 				posts.sort((a, b) => b.modified.valueOf() - a.modified.valueOf());
-				console.log(`news: getNewsByDateAndCategories() sorted ${JSON.stringify(posts, null, 2)}`);
+				//console.log(`news: getNewsByDateAndCategories() sorted ${JSON.stringify(posts, null, 2)}`);
 				return posts;
 			})
 			.catch((error) => {
@@ -165,7 +165,6 @@ const checkForNewPosts = () => {
 					// list of categories from the backend and make them the selected categories
 					if (!categoryIds || categoryIds.length == 0) {
 						const categories = await categoryService.getCategories();
-
 						console.log(`news.checkForNewPosts: all categories: ${JSON.stringify(categories)}`);
 						categoryIds = categories.map((c) => c.id);
 						console.log(`news.checkForNewPosts: new selected category Ids: ${JSON.stringify(categoryIds)}`);
