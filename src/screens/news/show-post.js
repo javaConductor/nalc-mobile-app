@@ -52,4 +52,5 @@ class ShowPost extends React.Component {
 	}
 
 }
+
 export default ShowPost;

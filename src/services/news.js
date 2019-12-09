@@ -47,7 +47,6 @@ const self = {
 				//console.log(`news: getMedia(${mediaId}) response ${JSON.stringify(responseJson, null, 2)}`);
 				return responseJson;
 			})
-
 	},
 	getNewsByDateAndCategories: (isoDateString, categories = []) => {
 		const url = `${backEndURL}/${config.BACKEND_NEWS_READ_PATH}/${isoDateString}/${categories.join(',')}`;

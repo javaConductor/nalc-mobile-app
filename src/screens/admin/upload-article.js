@@ -1,11 +1,11 @@
 // UploadArticle.js
 import React from 'react'
-import {Button, StyleSheet, Switch, Text, TextInput, View} from 'react-native'
+import {Button, Switch, Text, TextInput, View} from 'react-native'
 import categoryService from '../../services/categories';
-import mainStyles from '../main-styles';
 import newsService from '../../services/news';
 import {Col, Grid, Row} from "react-native-easy-grid";
 import util from "../../services/util";
+import styles from '../main-styles';
 
 
 export default class UploadArticle extends React.Component {
@@ -106,47 +106,91 @@ export default class UploadArticle extends React.Component {
 		const canSave = title && title.trim().length > 0 && selected.length > 0;
 		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
 		return (
+			<View style={{flex: 4, flexGrow: 2,}}>
+				<Text style={styles.rowHeader}>U p l o a d A r t i c l e</Text>
+				{msgCtrl}
+				<Grid style={{flexDirection: 'col', justifyContent: 'space-between', flexGrow: 2}}>
+					<Row size={1}>
+						<Col size={1}>
+							<View style={styles.formLabel}>
+								<Text>Title</Text>
+							</View>
+						</Col>
+						<Col size={6}>
+							<View style={{...styles.formInput}}>
+								<Text style={{...styles.formInput}}>
+									<TextInput style={{borderWidth: 2, borderColor: 'black'}}
+									           value={title}
+									           onChangeText={this.updateTitle.bind(this)}/>
+								</Text>
+							</View>
+						</Col>
+					</Row>
+					<Row size={1}>
+						<Col size={1}>
+							<View style={styles.formLabel}>
+								<Text>URL</Text>
+							</View>
+						</Col>
+						<Col size={6}>
+							<View style={{...styles.formInput}}>
+								<Text style={{...styles.formInput}}>
+									<TextInput style={{borderWidth: 2, borderColor: 'black'}}
+									           value={url}
+									           onChangeText={this.updateUrl.bind(this)}/>
+								</Text>
+							</View>
+						</Col>
+					</Row>
+					{this.renderCategoryChoices()}
+				</Grid>
+				<Button disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
+			</View>
+		)
+	}
+
+	renderOLD() {
+		const {title, url, selectedCategories} = this.state;
+		const selected = this.selectedIdList(selectedCategories);
+		const canSave = title && title.trim().length > 0 && selected.length > 0;
+		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
+		return (
 			<View style={{flex: 1}}>
 				{msgCtrl}
 				<Grid style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-					<Col size={2}>
-						<Row size={1}>
-							<Col size={1}>
-								<View style={styles.formLabel}>
-									<Text>Title</Text>
-								</View>
-							</Col>
-							<Col size={4}>
-								<View style={{...styles.formInput, alignItems: 'stretch'}}>
-									<Text style={{...styles.formInput, alignItems: 'stretch'}}>
-										<TextInput style={{borderWidth: 4, borderColor: 'black', alignSelf: 'stretch'}}
-										           value={title}
-										           onChangeText={this.updateTitle.bind(this)}/>
-									</Text>
-								</View>
-							</Col>
-						</Row>
-						<Row size={1}>
-							<Col size={1}>
-								<View style={styles.formLabel}>
-									<Text>URL</Text>
-								</View>
-							</Col>
-							<Col size={4}>
-								<View style={styles.formInput}>
-									<Text style={styles.formInput}>
-										<TextInput style={{borderWidth: 4, borderColor: 'black'}}
-										           value={url}
-										           onChangeText={this.updateUrl.bind(this)}/>
-									</Text>
-								</View>
-							</Col>
-						</Row>
-						<Row size={5}/>
-					</Col>
-					<Col size={2}>
+					<Row>
+						<Col size={1}>
+							<View style={styles.formLabel}>
+								<Text>Title</Text>
+							</View>
+						</Col>
+						<Col size={2}>
+							<View style={{...styles.formInput, alignItems: 'stretch'}}>
+								<Text style={{...styles.formInput, alignItems: 'stretch'}}>
+									<TextInput style={{borderWidth: 4, borderColor: 'black', alignSelf: 'stretch'}}
+									           value={title}
+									           onChangeText={this.updateTitle.bind(this)}/>
+								</Text>
+							</View>
+						</Col>
+					</Row>
+					<Row size={1}>
+						<Col size={1}>
+							<View style={styles.formLabel}>
+								<Text>URL</Text>
+							</View>
+						</Col>
+						<Col size={4}>
+							<View style={styles.formInput}>
+								<Text style={styles.formInput}>
+									<TextInput style={{borderWidth: 4, borderColor: 'black'}}
+									           value={url}
+									           onChangeText={this.updateUrl.bind(this)}/>
+								</Text>
+							</View>
+						</Col>
+					</Row>
 					{this.renderCategoryChoices()}
-				</Col>
 				</Grid>
 				<Button disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
 			</View>
@@ -158,6 +202,9 @@ export default class UploadArticle extends React.Component {
 		return this.state.categories.map((cat) => {
 			const inCategory = selectedCategories[cat.id];
 			return this.renderRow(cat, inCategory);
+			// return <ScrollView style={ {marginTop: 20}}>
+			// 	{this.renderRow(cat, inCategory)}
+			// </ScrollView>;
 		});
 	}
 
@@ -175,7 +222,7 @@ export default class UploadArticle extends React.Component {
 						/>
 					</View>
 				</Col>
-				<Col size={2}>
+				<Col size={10}>
 					<View style={styles.formLabel}>
 						<Text style={{alignSelf: 'flex-start'}}>{category.name}</Text>
 					</View>
@@ -186,21 +233,3 @@ export default class UploadArticle extends React.Component {
 		)
 	}
 }
-
-const localStyles = StyleSheet.create({
-	container: {
-		flex: 1,
-		flexDirection: 'row',
-	},
-
-	item: {
-		flex: 1,
-		height: 160,
-		margin: 1
-	},
-	list: {
-		flex: 1
-	}
-});
-
-const styles = StyleSheet.compose(mainStyles, localStyles);

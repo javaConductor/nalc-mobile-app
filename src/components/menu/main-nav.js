@@ -19,79 +19,79 @@ import {createStackNavigator} from "react-navigation-stack";
 //// Category Routes
 /////////////////////////////////////////////////
 const categoryRoutes = {
-  Categories: {screen: ManageCategoriesScreen},
-  EditCategory: {screen: EditCategoryScreen},
+	Categories: {screen: ManageCategoriesScreen},
+	EditCategory: {screen: EditCategoryScreen},
 };
 /////////////////////////////////////////////////
 //// Category Navigator
 /////////////////////////////////////////////////
 const CategoryNavigator = createStackNavigator(
-    categoryRoutes,
-    {initialRouteName: "Categories"});
+	categoryRoutes,
+	{initialRouteName: "Categories"});
 
 /////////////////////////////////////////////////
 //// ManageAdmin Routes
 /////////////////////////////////////////////////
 const manageAdminRoutes = {
-  ManageAdministrators: {screen: ManageAdminsScreen},
-  EditAdmin: {screen: EditAdminScreen},
+	ManageAdministrators: {screen: ManageAdminsScreen},
+	EditAdmin: {screen: EditAdminScreen},
 };
 /////////////////////////////////////////////////
 //// ManageAdmin Navigator
 /////////////////////////////////////////////////
 const ManageAdminNavigator = createStackNavigator(
-    manageAdminRoutes,
-    {initialRouteName: "ManageAdministrators"});
+	manageAdminRoutes,
+	{initialRouteName: "ManageAdministrators"});
 
 /////////////////////////////////////////////////
 //// Auth Routes
 /////////////////////////////////////////////////
 const authRoutes = {
-  Login: {screen: LoginScreen, title: "Sign In"},
-  LogOut: {screen: LogOutScreen, title: "Sign Out"}
+	Login: {screen: LoginScreen, title: "Sign In"},
+	LogOut: {screen: LogOutScreen, title: "Sign Out"}
 };
 /////////////////////////////////////////////////
 //// Auth Navigator
 /////////////////////////////////////////////////
 const createLoginMenuOption = (hasAuthenticated) => {
-  return createStackNavigator(
-      authRoutes,
-      {initialRouteName: hasAuthenticated ? "Login" : "LogOut"});
+	return createStackNavigator(
+		authRoutes,
+		{initialRouteName: hasAuthenticated ? "Login" : "LogOut"});
 };
 
 //////////////////////
 /// Routes
 //////////////////////
 const adminMenuRoute = {
-  Admin: () => <AdminScreen/>,
-  Login: {screen: LoginScreen, title: "Sign In"},
+	Admin: () => <AdminScreen/>,
+	Login: {screen: LoginScreen, title: "Sign In"},
 //  Login: {screen: createLoginMenuOption(auth.hasAuthenticated)}
 };
 
 const AdminMenuOption = createBottomTabNavigator(adminMenuRoute);
 
 const mainRoutes = {
-  Home: {screen: HomeScreen},
-  News: {
-    screen: PostListScreen
-  },
-  ManageInterests: {
-    screen: ManageInterestsScreen
-  },
-  AdminTasks: {screen: AdminMenuOption, title: 'Administrative Tasks'},
+	Home: {screen: HomeScreen},
+	News: {
+		screen: PostListScreen
+	},
+	ManageInterests: {
+		screen: ManageInterestsScreen
+	},
+	AdminTasks: {screen: AdminMenuOption, title: 'Administrative Tasks'},
 };
 
 const adminRoutes = {
-  LogOut: {screen: LogOutScreen, title: "Sign Out"},
-  ChangePassword: {screen: ChangePasswordScreen},
-  //EditAdmin: {screen: EditAdminScreen},
-  ManageCategories: {screen: CategoryNavigator},
-  UploadArticle: {screen: UploadArticleScreen},
+	LogOut: {screen: LogOutScreen, title: "Sign Out"},
+	ChangePassword: {screen: ChangePasswordScreen},
+	//EditAdmin: {screen: EditAdminScreen},
+	ManageCategories: {screen: CategoryNavigator},
+	UploadArticle: {screen: UploadArticleScreen},
 };
 
 const adminCanManageRoutes = {
-  ...adminRoutes,
-  ManageAdmins: {screen: ManageAdminNavigator},
+	...adminRoutes,
+	ManageAdmins: {screen: ManageAdminNavigator},
 };
 
 //////////////////////
@@ -100,14 +100,14 @@ const adminCanManageRoutes = {
 //const AdminNav = createAppContainer(createBottomTabNavigator());
 
 export const createMainNavigator = () => createBottomTabNavigator(mainRoutes, {
-  initialRouteName: "News"
+	initialRouteName: "News"
 });
 
 export const createAdminTasksNavigator = (canManage = false) => {
-  return createBottomTabNavigator(
-      canManage ? adminCanManageRoutes : adminRoutes,
-      {
-        initialRouteName: "UploadArticle"
-      }
-  );
+	return createBottomTabNavigator(
+		canManage ? adminCanManageRoutes : adminRoutes,
+		{
+			initialRouteName: "UploadArticle"
+		}
+	);
 };

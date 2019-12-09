@@ -102,6 +102,7 @@ class ManageAdmins extends React.Component {
 			</Row>
 		);
 	}
+
 	async onRemoveAdmin(admin) {
 		const {navigate} = this.props.navigation;
 		console.log(`ManageAdmins.onRemoveAdmin(${JSON.stringify(admin, null, 2)})`);

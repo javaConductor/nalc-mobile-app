@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 		// color: 'navy',
 		borderColor: 'navy',
 		borderWidth: 1,
-
+		flexGrow: 1,
 		backgroundColor: 'white',
 		width: '100%'
 	},
@@ -125,6 +125,10 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 		marginLeft: 5,
 		marginRight: 5,
+	},
+	rowHeader: {
+		fontWeight: 'bold',
+		alignSelf: 'center',
 	},
 });
 export default styles;
