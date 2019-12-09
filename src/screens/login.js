@@ -1,6 +1,6 @@
 // Login.js
 import React from 'react'
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native'
+import {Button, Text, TextInput, View} from 'react-native'
 import util from '../services/util';
 import auth from '../services/auth';
 import styles from './main-styles';
@@ -52,8 +52,7 @@ class Login extends React.Component {
 		console.log(`Login.componentDidMount: isAuthenticated: ${authenticated}`);
 
 		if (authenticated) {
-			return navigate("Admin", {});
-			Login.navigationOptions.title = "Logoff";
+			return navigate("UploadArticle", {});
 		}
 
 		console.log(`Login.componentDidMount: auth: ${JSON.stringify(this.state.auth, null, 2)}`);
@@ -151,72 +150,3 @@ class Login extends React.Component {
 }
 
 export default Login;
-
-const localStyles = StyleSheet.create({
-	container: {
-		flex: 1,
-		//justifyContent: 'center',
-		//alignItems: 'center',
-		backgroundColor: 'navy',
-		width: '100%'
-
-	},
-	form: {
-		flex: 1,
-		flexDirection: 'column',
-		//backgroundColor: 'navy',
-		// color: 'white'
-	},
-	formLabel: {// View
-		flex: 1,
-		//flexDirection: 'col',
-
-		backgroundColor: 'white',
-		// color: 'white',
-		width: '50%'
-	},
-	formValue: {//View
-		flex: 1,
-		//flexDirection: 'col',
-		// color: 'navy',
-		borderRadius: 4,
-		borderWidth: 0.5,
-		borderColor: 'navy',
-		backgroundColor: 'white',
-		width: '50%'
-	},
-	formName: {
-		//flexDirection: 'col',
-		backgroundColor: 'navy',
-		// color: 'white',
-		// width: '50%'
-	},
-	formInput: {
-		flex: 1,
-		//flexDirection: 'col',
-		// color: 'navy',
-		borderColor: 'navy',
-		borderWidth: 1,
-
-		backgroundColor: 'white',
-		width: '100%'
-	},
-	formEmailInput: {
-		flex: 1,
-		borderWidth: 1,
-		backgroundColor: 'white',
-		width: '100%'
-	},
-	formRow: {
-		margin: 2,
-		flexDirection: 'row',
-		justifyContent: 'space-between'
-		// color: 'white'
-	},
-	formPassword: {
-		//flexDirection: 'col',
-		backgroundColor: 'navy',
-		// color: 'white',
-		// width: '50%'
-	},
-});

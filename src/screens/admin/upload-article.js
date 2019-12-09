@@ -109,7 +109,7 @@ export default class UploadArticle extends React.Component {
 			<View style={{flex: 4, flexGrow: 2,}}>
 				<Text style={styles.rowHeader}>U p l o a d A r t i c l e</Text>
 				{msgCtrl}
-				<Grid style={{flexDirection: 'col', justifyContent: 'space-between', flexGrow: 2}}>
+				<Grid style={{flexDirection: 'column', justifyContent: 'space-between', flexGrow: 2}}>
 					<Row size={1}>
 						<Col size={1}>
 							<View style={styles.formLabel}>
@@ -202,9 +202,6 @@ export default class UploadArticle extends React.Component {
 		return this.state.categories.map((cat) => {
 			const inCategory = selectedCategories[cat.id];
 			return this.renderRow(cat, inCategory);
-			// return <ScrollView style={ {marginTop: 20}}>
-			// 	{this.renderRow(cat, inCategory)}
-			// </ScrollView>;
 		});
 	}
 

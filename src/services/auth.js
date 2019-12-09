@@ -12,8 +12,18 @@ const self = {
 		//console.log(`auth: currentUser(): ${JSON.stringify(authInfo)}`);
 		return authInfo;
 	},
-	hasAuthenticated: false,
 
+	_canManage: (authInfo) => {
+		if (!authInfo)
+			return false;
+		return (authInfo.permissions && authInfo.permissions.includes('M'));
+	},
+
+	userState: {
+		hasAuthenticated: false,
+		canManage: false
+	},
+	hasAuthenticated: false,
 	currentAccessToken: async () => {
 		const authInfo = await self.currentUser();
 
@@ -35,25 +45,73 @@ const self = {
 	},
 
 	logoff: async () => {
-		self.hasAuthenticated = false;
-		return storage.storeAuthInfo({});
+		await storage.storeAuthInfo({});
+		self.userState = {
+			hasAuthenticated: false,
+			canManage: false
+		};
 	},
 
 	currentUserCanManageAdmins: () => {
-		if (!self.isUserAuthenticated())
+		if (!self.userState.hasAuthenticated)
 			return false;
 		return storage.getAuthInfo()
 			.then((authInfo) => {
 				authInfo = authInfo || {};
 				console.log(`currentUserCanManageAdmins: authInfo ${JSON.stringify(authInfo)}`);
-				return (authInfo.permissions && authInfo.permissions.includes('M'));
+				return self._canManage(authInfo);
 			})
 			.catch((err) => {
 				console.error(`currentUserCanManageAdmins: Error checking user permissions ${utils.errorMessage(err)}`);
 			});
 	},
 
-	authenticate: (email, passwordHash) => {
+	authenticate: async (email, passwordHash) => {
+		try {
+			//////////////////////////////////////////////////////////////////////////////
+			//// Clear the user info
+			//////////////////////////////////////////////////////////////////////////////
+			await storage.storeAuthInfo({});
+
+			//////////////////////////////////////////////////////////////////////////////
+			// Send Authenticate request to backend
+			//////////////////////////////////////////////////////////////////////////////
+			const response = await fetch(`${backEndURL}/${config.BACKEND_AUTH_PATH}`, {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({username: email, passwordHash}),
+			});
+
+			//////////////////////////////////////////////////////////////////////////////
+			//// Read the response stream
+			//////////////////////////////////////////////////////////////////////////////
+			const responseJson = await response.json();
+			console.log(`auth: authenicate: response: ${JSON.stringify(responseJson, null, 2)}`);
+			if (!responseJson.authenticated) {
+				throw {errorMessage: responseJson.message};
+			}
+
+			//////////////////////////////////////////////////////////////////////////////
+			//// Authentication succeeded. Store the new user info
+			//////////////////////////////////////////////////////////////////////////////
+			await storage.storeAuthInfo(responseJson);
+
+			//////////////////////////////////////////////////////////////////////////////
+			/// Check whether user canManage other Administrators
+			//////////////////////////////////////////////////////////////////////////////
+			const canManage = self._canManage(responseJson);
+			self.userState = {hasAuthenticated: true, canManage: canManage};
+			return responseJson;
+		} catch (error) {
+			console.error(`auth.authenticate(): ERROR: ${utils.errorMessage(error)}`);
+			throw error;
+		}
+	},
+
+	authenticateThen: async (email, passwordHash) => {
 		return storage.storeAuthInfo({})
 			.then(() => {
 				return fetch(`${backEndURL}/${config.BACKEND_AUTH_PATH}`, {
@@ -65,13 +123,13 @@ const self = {
 					body: JSON.stringify({username: email, passwordHash}),
 				})
 					.then((response) => response.json())
-					.then((responseJson) => {
+					.then(async (responseJson) => {
 						console.log(`auth: authenicate: response: ${JSON.stringify(responseJson, null, 2)}`);
 						if (!responseJson.authenticated) {
 							throw {errorMessage: responseJson.message};
 						}
-						self.hasAuthenticated = true;
-						storage.storeAuthInfo(responseJson);
+						self.userState.hasAuthenticated = true;
+						await storage.storeAuthInfo(responseJson);
 						return responseJson;
 					})
 					.catch((error) => {
@@ -84,6 +142,7 @@ const self = {
 	refreshToken: async () => {
 		/// get the current authInfo
 		const authInfo = await self.currentUser();
+
 		/// send {refreshToken, username, accessToken}  to the /auth/refreshToken
 		const {refreshToken, username, accessToken} = authInfo;
 		const response = await fetch(`${backEndURL}/${config.BACKEND_REFRESH_TOKEN_PATH}`, {
@@ -94,21 +153,27 @@ const self = {
 			},
 			body: JSON.stringify({refreshToken, username, accessToken}),
 		});
+
 		/// check for bad status
 		if (!response.ok) {
 			return utils.handleHttpError(response, 'refresh token');
 		}
 
+		/// read the JSON response from stream
 		const responseJson = await response.json();
 		authInfo.accessToken = responseJson.accessToken;
 		authInfo.accessTokenExpire = responseJson.accessTokenExpire;
-		storage.storeAuthInfo(authInfo);
+		/// Store the
+		await storage.storeAuthInfo(authInfo);
 		return responseJson;
 	},
 };
 
-self.isUserAuthenticated().then((isAuthenticated) => {
-	self.hasAuthenticated = isAuthenticated
+self.currentUser().then((authInfo) => {
+	self.userState = {
+		hasAuthenticated: self._tokenValid(authInfo),
+		canManage: self._canManage(authInfo)
+	};
 });
 
 export default self;
