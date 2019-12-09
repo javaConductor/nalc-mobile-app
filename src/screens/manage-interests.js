@@ -25,13 +25,13 @@ export default class ManageInterests extends React.Component {
 			return {...prevState, isInitializing: true}
 		});
 
-		/// get list of categories/interests
+		/// get list of categoryService/interests
 		const p = categoryService.getCategories()
 			.then((categories) => {
 				this.setState((prevState) => {
 					return {...prevState, categories}
 				});
-				//console.log(`componentDidMount: Got categories: ${JSON.stringify(categories, null, 2)}`);
+				//console.log(`componentDidMount: Got categoryService: ${JSON.stringify(categoryService, null, 2)}`);
 				return categories;
 			})
 			.catch((error) => {
@@ -109,13 +109,16 @@ export default class ManageInterests extends React.Component {
 		const rows = this.state.categories.map((cat) => {
 			return this.renderRow(cat, this.state.userInterests[cat.id])
 		});
-		const msgCtrl = this.state.message ? <Text style={styles.error}>{this.state.message}</Text> : null;
+		const msgCtrl = this.state.message ? <Text style={styles.message}>{this.state.message}</Text> : null;
+		const errCtrl = this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : null;
 		return (
 			<View style={styles.container}>
+				{errCtrl}
 				{msgCtrl}
 				{rows}
 				<View>
 					<Button
+						color={'navy'}
 						title={'Save'}
 						raised={true}
 						onPress={this.onSave.bind(this)}/>

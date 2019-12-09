@@ -194,6 +194,7 @@ class EditAdmin extends React.Component {
 				</View>
 				<View>
 					<Button
+						color={'navy'}
 						disabled={!(hasValidEmail && passwordsOk)}
 						title={'Save'}
 						raised={true}

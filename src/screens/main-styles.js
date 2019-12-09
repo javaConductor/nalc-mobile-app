@@ -11,6 +11,9 @@ const styles = StyleSheet.create({
 		height: '100%'
 
 	},
+	button: {
+		color: 'navy',
+	},
 	form: {
 		flex: 1,
 		flexDirection: 'column',
@@ -71,7 +74,8 @@ const styles = StyleSheet.create({
 	},
 	message: {
 		//flexDirection: 'col',
-		backgroundColor: 'lightYellow',
+		backgroundColor: 'yellow',
+		color: 'navy',
 		// color: 'white',
 		// width: '50%'
 	},

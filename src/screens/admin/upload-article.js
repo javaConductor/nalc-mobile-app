@@ -147,7 +147,7 @@ export default class UploadArticle extends React.Component {
 					</Row>
 					{this.renderCategoryChoices()}
 				</Grid>
-				<Button disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
+				<Button color={'navy'} disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
 			</View>
 		)
 	}
@@ -195,7 +195,7 @@ export default class UploadArticle extends React.Component {
 					</Row>
 					{this.renderCategoryChoices()}
 				</Grid>
-				<Button disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
+				<Button color={'navy'} disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
 			</View>
 		)
 	}

@@ -27,7 +27,7 @@ export default class ManageCategories extends React.Component {
 		const {navigate} = this.props.navigation;
 		try {
 			const categories = await categoryService.getCategories();
-			//console.log(`ManageCategories.componentDidMount: categories: (${JSON.stringify(categories)})`);
+			//console.log(`ManageCategories.componentDidMount: categoryService: (${JSON.stringify(categoryService)})`);
 
 			this.setState((prevState) => {
 				return {...prevState, isLoading: false, categories}
@@ -45,7 +45,7 @@ export default class ManageCategories extends React.Component {
 		if (this.state.isLoading)
 			return null;
 		const {navigate} = this.props.navigation;
-		//console.log(`ManageCategories.render: categories: (${JSON.stringify(this.state.categories)})`);
+		//console.log(`ManageCategories.render: categoryService: (${JSON.stringify(this.state.categoryService)})`);
 
 		return (
 			<View style={styles.container}>
@@ -62,7 +62,7 @@ export default class ManageCategories extends React.Component {
 					</Row>
 					{this.state.categories.map(this.renderRow.bind(this))}
 				</Grid>
-				<Button onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
+				<Button color={'navy'} onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
 			</View>
 		)
 	}

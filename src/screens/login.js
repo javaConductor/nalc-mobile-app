@@ -139,6 +139,7 @@ class Login extends React.Component {
 					</View>
 
 					<Button
+						color={'navy'}
 						disabled={!canLogin}
 						onPress={this.onLogin.bind(this)}
 						title="Login"

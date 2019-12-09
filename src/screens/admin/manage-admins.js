@@ -69,12 +69,12 @@ class ManageAdmins extends React.Component {
 					</Col>
 				</Row>
 				{adminList}
-				<Button
-					style={{alignSelf: 'center'}}
-					title={"Add New Administrator"}
-					onPress={() => {
-						navigate('EditAdmin', {})
-					}}/>
+				<Button color={'navy'}
+				        style={{alignSelf: 'center'}}
+				        title={"Add New Administrator"}
+				        onPress={() => {
+					        navigate('EditAdmin', {})
+				        }}/>
 			</Grid>
 		</View>
 	}
@@ -96,6 +96,7 @@ class ManageAdmins extends React.Component {
 				</Col>
 				<Col size={1} style={styles.rowCol}>
 					<Button
+						color={'navy'}
 						title={'Remove'}
 						onPress={() => this.onRemoveAdmin(admin)}/>
 				</Col>

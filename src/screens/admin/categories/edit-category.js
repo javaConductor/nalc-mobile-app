@@ -1,10 +1,11 @@
 // EditCategory.js
 import React from 'react'
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native'
+import {Button, Text, TextInput, View} from 'react-native'
 import categoryService from '../../../services/categories';
 import {AutoGrowingTextInput} from "react-native-autogrow-textinput";
 import {NavigationEvents} from "react-navigation";
 import util from '../../../services/util';
+import styles from "../../main-styles";
 
 
 export default class EditCategory extends React.Component {
@@ -114,6 +115,8 @@ export default class EditCategory extends React.Component {
 				</View>
 				<View>
 					<Button
+						color={'navy'}
+						style={styles.button}
 						disabled={!hasValidEntries}
 						title={'Save'}
 						raised={true}
@@ -124,72 +127,3 @@ export default class EditCategory extends React.Component {
 		</View>
 	}
 }
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		//justifyContent: 'center',
-		//alignItems: 'center',
-		backgroundColor: 'navy',
-		width: '100%'
-
-	},
-	form: {
-		flex: 1,
-		flexDirection: 'column',
-		//backgroundColor: 'navy',
-		// color: 'white'
-	},
-	formLabel: {// View
-		flex: 1,
-		//flexDirection: 'col',
-
-		backgroundColor: 'white',
-		// color: 'white',
-		width: '50%'
-	},
-	formValue: {//View
-		flex: 1,
-		//flexDirection: 'col',
-		// color: 'navy',
-		borderRadius: 4,
-		borderWidth: 0.5,
-		borderColor: 'navy',
-		backgroundColor: 'white',
-		width: '50%'
-	},
-	formName: {
-		//flexDirection: 'col',
-		backgroundColor: 'navy',
-		// color: 'white',
-		// width: '50%'
-	},
-	formInput: {
-		flex: 1,
-		//flexDirection: 'col',
-		// color: 'navy',
-		borderColor: 'navy',
-		borderWidth: 1,
-
-		backgroundColor: 'white',
-		width: '100%'
-	},
-	formEmailInput: {
-		flex: 1,
-		borderWidth: 1,
-		backgroundColor: 'white',
-		width: '100%'
-	},
-	formRow: {
-		margin: 2,
-		flexDirection: 'row',
-//		justifyContent : 'space-between',
-		justifyContent: 'stretch',
-		// color: 'white'
-	},
-	formPassword: {
-		//flexDirection: 'col',
-		backgroundColor: 'navy',
-		// color: 'white',
-		// width: '50%'
-	},
-});
