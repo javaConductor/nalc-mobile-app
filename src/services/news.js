@@ -3,6 +3,7 @@ import config from '../config';
 import storage from '../services/storage';
 import auth from '../services/auth';
 import util from "./util";
+import categoryService from '../services/categories';
 
 
 const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config.BACKEND_PORT}`;
@@ -48,7 +49,11 @@ const self = {
 				return responseJson;
 			})
 	},
+
 	getNewsByDateAndCategories: (isoDateString, categories = []) => {
+		if (!categories || categories.length == 0) {
+			throw {errorMessage: 'Categories may not be null!!', ok: false};
+		}
 		const url = `${backEndURL}/${config.BACKEND_NEWS_READ_PATH}/${isoDateString}/${categories.join(',')}`;
 		console.log(`news: getNewsByDateAndCategories(${isoDateString}, ${JSON.stringify(categories)}) fetching ${url}`);
 		return fetch(url, {
@@ -58,7 +63,7 @@ const self = {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			//body: JSON.stringify({date: isoDateString, categories: categories}),
+			//body: JSON.stringify({date: isoDateString, categoryService: categoryService}),
 		})
 			.then((response) => response.json())
 			///  Add featuredMedia to post if any
@@ -98,13 +103,13 @@ const self = {
 			})
 			.catch((error) => {
 				//log and rethrow
-				console.error(`news: getNewsByDateAndCategories: ERROR:${util.errorMessage(error)}`);
+				console.error(`news: getNewsByDateAndCategories: ERROR: ${util.errorMessage(error)}`);
 				throw error;
 			});
 	},
 	/**
 	 *
-	 * @param postData = {content, title, categories}
+	 * @param postData = {content, title, categoryService}
 	 */
 	addNewsPost: (postData) => {
 		return auth.currentAccessToken().then((accessToken) => {
@@ -150,11 +155,23 @@ const checkForNewPosts = () => {
 	return storage.getNewsPostsLastReadDate()
 		.then((dt) => {
 			console.log(`news.checkForNewPosts: lastReadDate: ${dt.toISOString()}`);
-			/// get the categories we care about
-			return storage.getSelectedCategories()
-				.then((categoryIds = []) => {
 
-					console.log(`news.checkForNewPosts: selected categories: ${JSON.stringify(categoryIds)}`);
+			////Get the categoryService we care about
+			return storage.getSelectedCategories()
+				.then(async (categoryIds = []) => {
+
+					console.log(`news.checkForNewPosts: selected category Ids: ${JSON.stringify(categoryIds)}`);
+					/// in the ODD chance that there are no selected categories, we will get the full
+					// list of categories from the backend and make them the selected categories
+					if (!categoryIds || categoryIds.length == 0) {
+						const categories = await categoryService.getCategories();
+
+						console.log(`news.checkForNewPosts: all categories: ${JSON.stringify(categories)}`);
+						categoryIds = categories.map((c) => c.id);
+						console.log(`news.checkForNewPosts: new selected category Ids: ${JSON.stringify(categoryIds)}`);
+						await storage.storeSelectedCategories(categoryIds);
+					}
+
 					/// get any new posts since dt in the categories we care about
 					return self.getNewsByDateAndCategories(dt.toISOString(), categoryIds)
 						.then((posts) => {
@@ -162,7 +179,8 @@ const checkForNewPosts = () => {
 							//console.log(`news: checkForNewPosts() sorted ${JSON.stringify(posts, null,2)}`);
 							return posts;
 						})
-						.then((newPosts = []) => {
+						.then(async (newPosts = []) => {
+							await storage.storeLastPostReadDate();
 							if (!newPosts || newPosts.length == 0) {
 								console.log(`news.checkForNewPosts: newPosts: ${JSON.stringify(newPosts, null, 2)}`);
 								/// get newPosts we have so far
