@@ -3,6 +3,7 @@ import React from 'react'
 import {Button, Linking, StyleSheet, View} from 'react-native'
 import {withNavigation} from "react-navigation";
 import storage from '../services/storage';
+import auth from '../services/auth';
 
 
 class Tester extends React.Component {
@@ -43,6 +44,12 @@ class Tester extends React.Component {
 				<Button
 					onPress={() => navigate('Example', {})}
 					title="Nav Example"
+				/>
+				<Button
+					onPress={() => {
+						auth.logoff().then(() => navigate('Home', {}))
+					}}
+					title="Log Out"
 				/>
 				<Button
 					onPress={() => navigate('FacebookView', {})}
