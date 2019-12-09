@@ -11,14 +11,13 @@ const self = {
 	getCategories: async () => {
 		try {
 			const response = await fetch(`${backEndURL}/${config.BACKEND_CATEGORIES_PATH}`);
-			if (!response.ok) throw util.handleHttpError(response, 'get categories');
-
+			if (!response.ok) throw util.handleHttpError(response, 'get categoryService');
 			const responseJson = await response.json();
-			//console.log(`categories: getCategories: ${JSON.stringify(responseJson, null, 2)}`);
-			//console.log(`categories: getCategories filtered: ${JSON.stringify(filtered, null, 2)}`);
-			return responseJson.filter((cat) => {
+			const result = responseJson.filter((cat) => {
 				return cat.name.toLowerCase() !== 'uncategorized';
 			});
+			console.log(`categoryService: getCategories filtered: ${JSON.stringify(result, null, 2)}`);
+			return result;
 		} catch (error) {
 			//log and rethrow
 			console.error(`categories: getCategories: ERROR: ${util.errorMessage(error)}`);

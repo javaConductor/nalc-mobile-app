@@ -84,6 +84,9 @@ const self = {
 			});
 	},
 
+	storeLastPostReadDate: (readDate = new Date()) => {
+		return AsyncStorage.setItem(NEWS_POSTS_LAST_READ, readDate.toISOString());
+	},
 	// updateAdmin: (adminId, adminData) => {
 	// 	/// get the admin list
 	// 	/// find the one with id == adminId
@@ -98,7 +101,7 @@ const self = {
 		//console.log(`storage.storeNewsPosts(): Storing: ${JSON.stringify(posts, null, 2)} `);
 		return AsyncStorage.setItem(NEWS_POSTS, JSON.stringify(posts))
 			.then(() => {
-				return AsyncStorage.setItem(NEWS_POSTS_LAST_READ, new Date().toISOString())
+				return self.storeLastPostReadDate(new Date())
 			})
 			.catch((e) => {
 				console.error(`storage.storeNewsPosts(): Error storing News Posts ${e} `);
@@ -120,6 +123,7 @@ const self = {
 		const posts = await self.getNewsPosts();
 		return posts.find((post, i) => post.id == postId);
 	},
+
 	getNewsPostsLastReadDate: () => {
 		return AsyncStorage.getItem(NEWS_POSTS_LAST_READ)
 			.then((isoDateString) => {
