@@ -12,6 +12,7 @@ import ManageCategoriesScreen from "../screens/admin/manage-categories";
 import ManageAdminsScreen from "../screens/admin/manage-admins";
 import UploadArticleScreen from "../screens/admin/upload-article"
 import {createStackNavigator} from "react-navigation-stack";
+import util from "../services/util";
 
 
 class Admin extends React.Component {
@@ -25,6 +26,8 @@ class Admin extends React.Component {
 			canManage: false,
 			initializing: true
 		};
+		console.log(`Admin.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
+
 	}
 
 	async componentDidMount() {

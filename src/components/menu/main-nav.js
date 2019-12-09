@@ -15,7 +15,7 @@ import AdminScreen from '../../screens/admin';
 import News from '../../screens/news/post-list';
 import PostListScreen from '../../screens/news/post-list';
 import auth from '../../services/auth';
-
+import Tester from "../../screens/tester";
 ///////////////////////////////////////////////////////////////////////////////
 //// Manage Categories Navigator
 ///////////////////////////////////////////////////////////////////////////////
@@ -39,21 +39,58 @@ const ManageAdminNavigator = createStackNavigator(
 	{initialRouteName: "ManageAdministrators"});
 
 ///////////////////////////////////////////////////////////////////////////////
-//// Login Menu Navigator
+///// A d m i n   T o p   M e n u
 ///////////////////////////////////////////////////////////////////////////////
-// const authRoutes = {
-// 	Login: {screen: LoginScreen, title: "Sign In"},
-// 	LogOut: {screen: LogOutScreen, title: "Sign Out"}
-// };
-// const createLoginMenuOption = (hasAuthenticated) => {
-// 	return createStackNavigator(
-// 		authRoutes,
-// 		{initialRouteName: hasAuthenticated ? "Login" : "LogOut"});
-// };
+
+const createTopMenu = (canManage = auth.userState.canManage) => {
+
+	///////////////////////////////////////////////////////////////////////////////
+	/// R O U T E S
+	///////////////////////////////////////////////////////////////////////////////
+	let routes = {
+		'Upload Article': UploadArticleScreen,
+		Categories: CategoryNavigator,
+	};
+	if (canManage) {
+		routes = {...routes, 'Administrators': ManageAdminNavigator}
+	}
+
+	routes = {...routes, 'Change Password': ChangePasswordScreen}
+
+///////////////////////////////////////////////////////////////////////////////
+	/// C r e a t e   A d m i n   T o p   M e n u
+	///////////////////////////////////////////////////////////////////////////////
+	const TopMenu = createMaterialTopTabNavigator(
+		routes,
+		{
+			tabBarOptions: {
+				activeTintColor: 'white',
+				showIcon: true,
+				showLabel: true,
+				style: {
+					backgroundColor: 'navy'
+				}
+			},
+		});
+
+	return createAppContainer(TopMenu);
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 ///// FULL Navigator with Everything !!
 ///////////////////////////////////////////////////////////////////////////////
+const adminTabBarComponent = ({navigation, ...rest}) => {
+	const filteredTabNavigatorRoutes = navigation.state.routes.filter(filterAdminRoutes);
+	return (
+		<BottomTabBar
+			{...rest}
+			navigation={{
+				...navigation,
+				state: {...navigation.state, routes: filteredTabNavigatorRoutes},
+			}}
+		/>
+	);
+};
 const tabBarComponent = ({navigation, ...rest}) => {
 	const filteredTabNavigatorRoutes = navigation.state.routes.filter(filterRoutes);
 	return (
@@ -80,7 +117,7 @@ const createAdminTabNavigator = () => {
 	return createBottomTabNavigator(
 		adminTasksRoutes,
 		{
-			tabBarComponent: tabBarComponent,
+			tabBarComponent: adminTabBarComponent,
 		},
 	);
 };
@@ -89,19 +126,49 @@ const allRoutes = {
 	Home: {screen: HomeScreen},
 	News: {screen: PostListScreen},
 	ManageInterests: {screen: ManageInterestsScreen},
+	Login: {screen: LoginScreen, title: "Sign In"},
 	Admin: {screen: AdminScreen, title: 'Administrative Tasks'},
+	TesterScreen: {screen: Tester}
 };
 
 export const createMainNavigator = () => createBottomTabNavigator(
 	allRoutes,
 	{
 		tabBarComponent: tabBarComponent,
+		initialRouteName: "Home"
 	}
 );
 
+const filterAdminRoutes = (route) => {
+	// if (route.routeName === 'LogOut') {
+	// 	const ans = showLogOutMenuOption();
+	// 	console.log(`MainNav.filterRoutes: show: ${ans} route: ${JSON.stringify(route)}`);
+	// 	return ans;
+	// } else
+
+	if (['Manage Administrators'].includes(route.routeName)) {
+		const ans = showAdminCanManage();
+		console.log(`MainNav.filterRoutes: show: ${ans} route: ${JSON.stringify(route, null, 2)}`);
+		return ans;
+	} else if (['LogOut'].includes(route.routeName)) {
+		const ans = false;
+		console.log(`MainNav.filterRoutes: show: ${ans} route: ${JSON.stringify(route, null, 2)}`);
+		return ans;
+	}
+	return true;
+};
+
 const filterRoutes = (route) => {
-	if (route.routeName === 'Login') {
-		const ans = showLoginMenuOption();
+	if (route.routeName === 'TesterScreen') {
+		const ans = true;
+		console.log(`MainNav.filterRoutes: show: ${ans} route: ${JSON.stringify(route)}`);
+		return ans;
+	} else if (route.routeName === 'AdminMenu') {
+		const ans = true;
+		console.log(`MainNav.filterRoutes: show: ${ans} route: ${route.routeName}`);
+		return ans;
+	} else if (route.routeName === 'Login') {
+		const ans = false;
 		console.log(`MainNav.filterRoutes: show: ${ans} route: ${route.routeName}`);
 		return ans;
 	} else if (route.routeName === 'LogOut') {

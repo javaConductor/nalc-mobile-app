@@ -10,7 +10,7 @@ export default {
 
 		/// check storage for setupDone flag
 		/// if none
-		///     get the categories and select all of them
+		///     get the categoryService and select all of them
 		//      load the last year's
 		///     set the last loaded date for today
 		try {
@@ -21,15 +21,15 @@ export default {
 			console.log(`initApp: checking setupFlag: ${setupFlag}`);
 			if (setupFlag)
 				return false; // indicate we did NOT do the setup process
-//			console.log(`initApp: setupFlag must be falsy: getting categories.`);
+//			console.log(`initApp: setupFlag must be falsy: getting categoryService.`);
 
-			/// Get the full list of categories
+			/// Get the full list of categoryService
 			const categories = await categoryService.getCategories();
 			console.log(`initApp: got categories ${JSON.stringify(categories)}`);
 			const userInterests = categories.map((category) => (category.id));
 			console.log(`initApp: userInterests list: ${JSON.stringify(userInterests)}. Storing in storage.`);
 
-			/// Initially assign user to ALL categories - can be changed later
+			/// Initially assign user to ALL categoryService - can be changed later
 			await storage.storeSelectedCategories(userInterests);
 			const dt = new Date();
 			dt.setFullYear(dt.getFullYear() - 1);

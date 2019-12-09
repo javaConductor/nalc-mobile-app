@@ -96,7 +96,10 @@ export default class UploadArticle extends React.Component {
 		} catch (e) {
 			console.error(`UploadArticle.onSave: Error saving post: ${util.errorMessage(e)}`);
 			if (this.mounted)
-				this.setState((prevState) => ({...prevState, message: `Error uploading article: ${e}`}));
+				this.setState((prevState) => ({
+					...prevState,
+					message: `Error uploading article: ${util.errorMessage(e)}`
+				}));
 			if (typeof e === 'object' && (e.authenticationRequired || e.badToken)) {
 				navigate("Login", {target: "UploadArticle"});
 			}

@@ -25,10 +25,14 @@ const self = {
 	},
 	hasAuthenticated: false,
 	currentAccessToken: async () => {
-		const authInfo = await self.currentUser();
+		console.log(`auth.currentAccessToken: getting authInfo.`);
 
-		if (!authInfo) throw "User Not Authenticated !!"; //return Promise.reject("User Not Authenticated !!");
-		if (!authInfo.accessToken) throw "User Not Authenticated !!";//return Promise.reject("User Not Authenticated !!");
+		const authInfo = await self.currentUser();
+		console.log(`auth.currentAccessToken:  authInfo: ${JSON.stringify(authInfo)}.`);
+
+		if (!authInfo) throw {errorMessage: "User Not Authenticated !!"}; //return Promise.reject("User Not Authenticated !!");
+		if (!authInfo.accessToken) throw {errorMessage: "User Not Authenticated !!"}; //return Promise.reject("User Not Authenticated !!");
+		console.log(`auth.currentAccessToken:  accessToken: ${authInfo.accessToken}.`);
 		return authInfo.accessToken;
 	},
 

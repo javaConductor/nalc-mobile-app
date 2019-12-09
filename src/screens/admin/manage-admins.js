@@ -20,6 +20,8 @@ class ManageAdmins extends React.Component {
 	constructor(props) {
 		console.log(`ManageAdmins.constructor(props: ${JSON.stringify(props)})`);
 		super(props);
+		console.log(`ManageAdmins.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
+
 	}
 
 	async componentDidMount() {

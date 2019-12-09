@@ -22,6 +22,8 @@ class Login extends React.Component {
 				password: undefined
 			},
 		};
+		console.log(`Login.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
+
 		/// store the actual target in the state
 		if (this.props.navigation.state.params?.target) {
 
