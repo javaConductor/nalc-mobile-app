@@ -3,7 +3,31 @@ import auth from "./auth";
 import storage from "./storage";
 
 
-export default {
+const self = {
+
+	getAvailableRoutes: navigation => {
+		let availableRoutes = [];
+		if (!navigation) return availableRoutes;
+
+		const parent = navigation.dangerouslyGetParent();
+		if (parent) {
+			if (parent.router && parent.router.childRouters) {
+				// Grab all the routes the parent defines and add it the list
+				availableRoutes = [
+					...availableRoutes,
+					...Object.keys(parent.router.childRouters),
+				];
+			}
+
+			// Recursively work up the tree until there are none left
+			availableRoutes = [...availableRoutes, ...self.getAvailableRoutes(parent)];
+		}
+
+		// De-dupe the list and then remove the current route from the list
+		return [...new Set(availableRoutes)].filter(
+			route => route !== navigation.state.routeName
+		);
+	},
 
 	errorMessage: (thrownError) => {
 		if (typeof thrownError === 'object') {
@@ -98,3 +122,4 @@ export default {
 		};
 	}
 }
+export default self;
