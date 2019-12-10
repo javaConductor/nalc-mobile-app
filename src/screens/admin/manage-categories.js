@@ -54,7 +54,7 @@ export default class ManageCategories extends React.Component {
 		return (
 			<View style={styles.container}>
 				<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
-				<Text style={styles.homeLabel}>M a n a g e C a t e g o r i e s</Text>
+				<Text style={styles.homeLabel}>M a n a g e  C a t e g o r i e s</Text>
 				<Grid>
 					<Row style={{marginBottom: 10}}>
 						<Col size={1}><Text style={styles.rowHeader}>Name</Text></Col>
