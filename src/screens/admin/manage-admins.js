@@ -70,7 +70,7 @@ class ManageAdmins extends React.Component {
 				fontSize: 20,
 				fontWeight: '1000',
 				alignSelf: 'flex-start'
-			}}>M a n a g e A d m i n i s t r a t o r s</Text>
+			}}>M a n a g e  A d m i n i s t r a t o r s</Text>
 			{msgCtrl}
 			<Grid>
 				<Row>
