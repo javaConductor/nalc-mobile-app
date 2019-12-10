@@ -149,7 +149,7 @@ const startCheckForNewPosts = () => {
 };
 
 const checkForNewPosts = () => {
-	console.log(`news.checkForNewPosts()`);
+	console.log(`news.checkForNewPosts() @ ${new Date().toISOString()}`);
 
 	/// get the last time we read posts
 	return storage.getNewsPostsLastReadDate()
