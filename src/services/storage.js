@@ -84,25 +84,13 @@ const self = {
 			});
 	},
 
-	storeLastPostReadDate: (readDate = new Date()) => {
-		return AsyncStorage.setItem(NEWS_POSTS_LAST_READ, readDate.toISOString());
-	},
-	// updateAdmin: (adminId, adminData) => {
-	// 	/// get the admin list
-	// 	/// find the one with id == adminId
-	// 	/// overwrite its data with adminData
-	// 	/// store the list again
-	// },
-	// addAdmin: (adminData) => {
-	//
-	// },
 	storeNewsPosts: (posts) => {
 		// store posts and time
 		//console.log(`storage.storeNewsPosts(): Storing: ${JSON.stringify(posts, null, 2)} `);
 		return AsyncStorage.setItem(NEWS_POSTS, JSON.stringify(posts))
-			.then(() => {
-				return self.storeLastPostReadDate(new Date())
-			})
+			// .then(() => {
+			// 	return self.storeLastPostReadDate(new Date())
+			// })
 			.catch((e) => {
 				console.error(`storage.storeNewsPosts(): Error storing News Posts ${e} `);
 			});
@@ -124,6 +112,10 @@ const self = {
 		return posts.find((post, i) => post.id == postId);
 	},
 
+	storeLastPostReadDate: (readDate = new Date()) => {
+		console.log(`storage.storeLastPostReadDate: Storing: ${readDate.toISOString()} `);
+		return AsyncStorage.setItem(NEWS_POSTS_LAST_READ, readDate.toISOString());
+	},
 	getNewsPostsLastReadDate: () => {
 		return AsyncStorage.getItem(NEWS_POSTS_LAST_READ)
 			.then((isoDateString) => {

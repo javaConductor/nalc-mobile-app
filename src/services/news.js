@@ -159,7 +159,6 @@ const checkForNewPosts = () => {
 			////Get the categoryService we care about
 			return storage.getSelectedCategories()
 				.then(async (categoryIds = []) => {
-
 					console.log(`news.checkForNewPosts: selected category Ids: ${JSON.stringify(categoryIds)}`);
 					/// in the ODD chance that there are no selected categories, we will get the full
 					// list of categories from the backend and make them the selected categories
@@ -179,20 +178,16 @@ const checkForNewPosts = () => {
 							return posts;
 						})
 						.then(async (newPosts = []) => {
-							await storage.storeLastPostReadDate();
-							if (!newPosts || newPosts.length == 0) {
+							if (newPosts && newPosts.length > 0) {
 								console.log(`news.checkForNewPosts: newPosts: ${JSON.stringify(newPosts, null, 2)}`);
+								await storage.storeLastPostReadDate();
 								/// get newPosts we have so far
 								return storage.getNewsPosts()
 									.then((oldPosts = []) => {
 										//console.log(`news.checkForNewPosts: oldPosts: ${JSON.stringify(oldPosts, null, 2)}`);
 										/// append the newPost to the list and store it
 										const newPostList = [...oldPosts, ...newPosts];
-
 										newPostList.sort((a, b) => b.id - a.id);
-										//console.log(`news: checkForNewPosts() sorted ${JSON.stringify(newPostList, null,2)}`);
-
-										//console.log(`news.checkForNewPosts: storing new and Old Posts: ${JSON.stringify(newPostList, null, 2)}`);
 										return storage.storeNewsPosts(newPostList).then(() => {
 											//console.log(`news.checkForNewPosts: stored new and Old Posts`);
 											return newPostList;

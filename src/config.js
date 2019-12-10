@@ -30,7 +30,7 @@ const cfg = {
 	USER_KEY
 };
 
-console.log(`config:${cfg.BACKEND_REFRESH_TOKEN_PATH}`);
+console.log(`config:${cfg.NEWS_CHECK_INTERVAL_SECONDS}`);
 console.log(`config:${JSON.stringify(cfg, null, 2)}`);
 
 export default cfg;
