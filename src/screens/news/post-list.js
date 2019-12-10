@@ -1,6 +1,6 @@
 // PostList.js
-import React from 'react'
-import {ListView, View} from 'react-native'
+import React, {Fragment} from 'react';
+import {ListView, Text, View} from 'react-native'
 import storage from '../../services/storage';
 import styles from '../../screens/main-styles';
 import ShowPost from './show-post';
@@ -50,14 +50,17 @@ export default class PostList extends React.Component {
 			return null;
 
 		return (
-			<ListView
-				contentContainerStyle={{...styles.wrapper}}
-				style={{...styles.container}}
-				dataSource={this.state.dataSource}
-				renderRow={this.renderPost.bind(this)}
-				renderSeparator={(sectionId, rowId) =>
-					<View key={rowId} style={styles.separator}/>}//adding separation
-			/>
+			<Fragment>
+				<Text style={styles.homeLabel}>N e w s</Text>
+				<ListView
+					contentContainerStyle={{...styles.wrapper}}
+					style={{...styles.container}}
+					dataSource={this.state.dataSource}
+					renderRow={this.renderPost.bind(this)}
+					renderSeparator={(sectionId, rowId) =>
+						<View key={rowId} style={styles.separator}/>}//adding separation
+				/>
+			</Fragment>
 		)
 	}
 

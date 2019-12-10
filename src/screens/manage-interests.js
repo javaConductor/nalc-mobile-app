@@ -5,6 +5,7 @@ import categoryService from '../services/categories';
 import storage from '../services/storage';
 import styles from '../screens/main-styles';
 import util from "../services/util";
+import {Col, Grid, Row} from "react-native-easy-grid";
 
 
 export default class ManageInterests extends React.Component {
@@ -113,9 +114,17 @@ export default class ManageInterests extends React.Component {
 		const errCtrl = this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : null;
 		return (
 			<View style={styles.container}>
+				<Text style={styles.homeLabel}>I n t e r e s t s</Text>
+
 				{errCtrl}
 				{msgCtrl}
-				{rows}
+				<Grid>
+					<Row size={0.5}>
+						<Col size={4}><Text style={styles.rowHeader}>Category</Text></Col>
+						<Col size={1}><Text style={styles.rowHeader}>Selected</Text></Col>
+					</Row>
+					{rows}
+				</Grid>
 				<View>
 					<Button
 						color={'navy'}
@@ -137,19 +146,17 @@ export default class ManageInterests extends React.Component {
 
 		const updateUserInterest = this.updateUserInterest.bind(this);
 		return (
-			<View key={category.slug} style={styles.formRow}>
-				<View style={styles.formLabel}>
-					<Text>{category.name}</Text>
-				</View>
-				<View style={styles.formInput}>
+			<Row style={styles.formRow}>
+				<Col size={4} style={styles.formRow}><Text>{category.name}</Text></Col>
+				<Col size={1} style={styles.formInput}>
 					<Switch
 						onValueChange={(hasInterest) => {
 							updateUserInterest(category.id, hasInterest)
 						}}
 						value={hasInterest}
 					/>
-				</View>
-			</View>
+				</Col>
+			</Row>
 		)
 	}
 };

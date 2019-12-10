@@ -1,11 +1,12 @@
 // ManageCategories.js
 import React from 'react'
-import {Button, StyleSheet, Text, View} from 'react-native'
+import {Button, Text, View} from 'react-native'
 import categoryService from '../../services/categories';
 import {NavigationEvents} from "react-navigation";
 import {Col, Grid, Row} from "react-native-easy-grid";
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import util from "../../services/util";
+import styles from '../main-styles';
 
 
 export default class ManageCategories extends React.Component {
@@ -52,9 +53,9 @@ export default class ManageCategories extends React.Component {
 		return (
 			<View style={styles.container}>
 				<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
-				<Text style={styles.header}>Manage Categories</Text>
+				<Text style={styles.homeLabel}>M a n a g e C a t e g o r i e s</Text>
 				<Grid>
-					<Row>
+					<Row style={{marginBottom: 10}}>
 						<Col size={1}><Text style={styles.rowHeader}>Name</Text></Col>
 						{/*<Col size={1}><Text>Slug</Text></Col>*/}
 						<Col size={2}>
@@ -76,8 +77,8 @@ export default class ManageCategories extends React.Component {
 	renderRow(category) {
 		const {navigate} = this.props.navigation;
 
-		return (<Row key={category.id}>
-				<Col style={styles.rowCol} size={1}><Text
+		return (<Row key={category.id} style={{borderColor: 'navy', borderTopWidth: 2}}>
+				<Col style={{...styles.rowCol, borderRightWidth: 2}} size={1}><Text
 					onPress={() => navigate('EditCategory', {category})}>{category.name}</Text></Col>
 				{/*<Col  size={1}><Button title={category.slug} onPress={() => navigate('EditCategory', {category})}/></Col>*/}
 				<Col style={styles.rowCol} size={2}>
@@ -94,33 +95,34 @@ export default class ManageCategories extends React.Component {
 
 	}
 }
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		width: '100%',
-		justifyContent: 'center',
-		alignItems: 'stretch',
-		borderWidth: 1,
-	},
-	row: {
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between'
-	},
-	rowCol: {
-		borderWidth: 1,
-		borderColor: 'black'
-	},
-
-	rowHeader: {
-		fontWeight: 'bold',
-		alignSelf: 'center',
-	},
-	header: {
-		fontWeight: 'bold',
-		fontSize: 18,
-		alignSelf: 'center',
-		borderBottom: 5,
-		borderBottomColor: 'navy',
-	}
-});
+//
+// const styles = StyleSheet.create({
+// 	container: {
+// 		flex: 1,
+// 		width: '100%',
+// 		justifyContent: 'center',
+// 		alignItems: 'stretch',
+// 		borderWidth: 1,
+// 	},
+// 	row: {
+// 		flex: 1,
+// 		flexDirection: 'row',
+// 		justifyContent: 'space-between'
+// 	},
+// 	rowCol: {
+// 		borderWidth: 1,
+// 		borderColor: 'black'
+// 	},
+//
+// 	rowHeader: {
+// 		fontWeight: 'bold',
+// 		alignSelf: 'center',
+// 	},
+// 	header: {
+// 		fontWeight: 'bold',
+// 		fontSize: 18,
+// 		alignSelf: 'center',
+// 		borderBottom: 5,
+// 		borderBottomColor: 'navy',
+// 	}
+// });

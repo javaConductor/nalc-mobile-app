@@ -36,7 +36,6 @@ class InitApp extends React.Component {
 			// this.props.navigation.dispatch(resetAction);
 		} else {
 			//navigate('Home', {});
-
 			const resetAction = StackActions.reset({
 				index: 0, // <-- currect active route from actions array
 				actions: [

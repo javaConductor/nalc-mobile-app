@@ -22,7 +22,7 @@ class Login extends React.Component {
 				password: undefined
 			},
 		};
-		console.log(`Login.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
+		//console.log(`Login.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
 
 		/// store the actual target in the state
 		if (this.props.navigation.state.params?.target) {
@@ -31,7 +31,7 @@ class Login extends React.Component {
 				target: this.props.navigation.state.params.target,
 				targetData: this.props.navigation.state.params.targetData || {}
 			};
-			console.log(`login with target: ${JSON.stringify(this.state.targetInfo)}`);
+			//console.log(`login with target: ${JSON.stringify(this.state.targetInfo)}`);
 		}
 	}
 
@@ -51,13 +51,13 @@ class Login extends React.Component {
 		const {navigate} = this.props.navigation;
 
 		const authenticated = await auth.isUserAuthenticated();
-		console.log(`Login.componentDidMount: isAuthenticated: ${authenticated}`);
+		//console.log(`Login.componentDidMount: isAuthenticated: ${authenticated}`);
 
 		if (authenticated) {
 			return navigate("UploadArticle", {});
 		}
 
-		console.log(`Login.componentDidMount: auth: ${JSON.stringify(this.state.auth, null, 2)}`);
+		//console.log(`Login.componentDidMount: auth: ${JSON.stringify(this.state.auth, null, 2)}`);
 		this.setState((prevState) => ({...prevState, auth: {email: "", password: ""}}));
 	}
 
@@ -66,7 +66,7 @@ class Login extends React.Component {
 		const passwordHash = util.passwordHash(this.state.auth.password);
 		const authInfo = await auth.authenticate(this.state.auth.email, passwordHash)
 			.catch((err) => {
-				console.log(`Login.onLogin: authenticate error: ${JSON.stringify(err, null, 2)}`);
+				console.error(`Login.onLogin: authenticate error: ${JSON.stringify(err, null, 2)}`);
 				this.setState((prevState) => {
 					return {...prevState, errorMessage: `${util.errorMessage(err)}`}
 				});
@@ -99,7 +99,7 @@ class Login extends React.Component {
 
 	render() {
 		const {email, password} = this.state.auth;
-		console.log(`Login.render: auth: ${JSON.stringify({email, password})}`);
+		//console.log(`Login.render: auth: ${JSON.stringify({email, password})}`);
 		const {message, errorMessage} = this.state;
 		const hasError = !!errorMessage;
 		const displayMessage = hasError ? errorMessage : message;

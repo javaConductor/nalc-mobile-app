@@ -1,9 +1,8 @@
 // Admin.js
-import React from 'react'
-import {View} from 'react-native'
+import React, {Fragment} from 'react'
+
 import {createAppContainer, NavigationEvents, withNavigation} from "react-navigation";
 import auth from '../services/auth';
-import Styles from '../screens/main-styles';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import EditCategoryScreen from "../screens/admin/categories/edit-category";
 import ChangePasswordScreen from '../screens/admin/change-password';
@@ -13,6 +12,7 @@ import ManageAdminsScreen from "../screens/admin/manage-admins";
 import UploadArticleScreen from "../screens/admin/upload-article"
 import {createStackNavigator} from "react-navigation-stack";
 import util from "../services/util";
+import {createAdminTabNavigator} from '../components/menu/main-nav';
 
 
 class Admin extends React.Component {
@@ -27,7 +27,6 @@ class Admin extends React.Component {
 			initializing: true
 		};
 		console.log(`Admin.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
-
 	}
 
 	async componentDidMount() {
@@ -50,7 +49,7 @@ class Admin extends React.Component {
 			})
 			.then((canManage) => {
 				console.log(`Admin.componentDidMount: canManage: ${canManage}`);
-				const TopMenu = this.createTopMenu(canManage);
+				const TopMenu = this.createMenu(canManage);
 				this.setState((prevState) => {
 					return {...prevState, canManage: canManage, initializing: false, TopMenu};
 				});
@@ -59,6 +58,7 @@ class Admin extends React.Component {
 	}
 
 	createTopMenu(canManage = false) {
+
 		///////////////////////////////////////////////////////////////////////////////
 		//// M a n a g e   C a t e g o r i e s   N a v i g a t o r
 		///////////////////////////////////////////////////////////////////////////////
@@ -113,6 +113,10 @@ class Admin extends React.Component {
 		return createAppContainer(TopMenu);
 	}
 
+	createMenu(canManage = false) {
+		return createAppContainer(createAdminTabNavigator());
+	}
+
 	render() {
 		console.log(`Admin.render: canManage: ${this.state.canManage}`);
 		if (this.state.initializing)
@@ -120,10 +124,10 @@ class Admin extends React.Component {
 		const {TopMenu} = this.state;
 		const {navigate} = this.props.navigation;
 		return (
-			<View style={Styles.container}>
+			<Fragment>
 				<NavigationEvents onDidFocus={this.componentDidMount.bind(this)}/>
 				<TopMenu/>
-			</View>
+			</Fragment>
 		)
 	}
 }

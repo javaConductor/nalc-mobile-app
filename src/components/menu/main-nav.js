@@ -18,6 +18,7 @@ import auth from '../../services/auth';
 import Tester from "../../screens/tester";
 import InitApp from "../../screens/init-app";
 import Splash from "../../screens/splash";
+import Example from "../../screens/example";
 
 ///////////////////////////////////////////////////////////////////////////////
 //// M a n a g e   C a t e g o r i e s   N a v i g a t o r
@@ -45,10 +46,10 @@ const ManageAdminNavigator = createStackNavigator(
 ///// A d m i n   N a v i g a t o r
 ///////////////////////////////////////////////////////////////////////////////
 const adminTasksRoutes = {
+	UploadArticle: {screen: UploadArticleScreen, title: "U p l o a d   A r t i c l e"},
 	'Manage Administrators': {screen: ManageAdminNavigator},
 	'Manage Categories': {screen: CategoryNavigator},
 	ChangePassword: {screen: ChangePasswordScreen},
-	UploadArticle: {screen: UploadArticleScreen},
 	Login: {screen: LoginScreen, title: "Sign In"},
 	LogOut: {screen: LogOutScreen, title: "Sign Out"},
 };
@@ -56,11 +57,15 @@ const adminTasksRoutes = {
 const filterAdminRoutes = (route) => {
 	if (['Manage Administrators'].includes(route.routeName)) {
 		const ans = showAdminCanManage();
-		console.log(`MainNav.filterAdminRoutes: show: ${ans} route: ${JSON.stringify(route, null, 2)}`);
+		//console.log(`MainNav.filterAdminRoutes: show: ${ans} route: ${JSON.stringify(route, null, 2)}`);
 		return ans;
 	} else if (['LogOut'].includes(route.routeName)) {
 		const ans = false;
-		console.log(`MainNav.filterAdminRoutes: show: ${ans} route: ${JSON.stringify(route, null, 2)}`);
+		//.log(`MainNav.filterAdminRoutes: show: ${ans} route: ${JSON.stringify(route, null, 2)}`);
+		return ans;
+	} else if (['Login'].includes(route.routeName)) {
+		const ans = false;
+		//.log(`MainNav.filterAdminRoutes: show: ${ans} route: ${JSON.stringify(route, null, 2)}`);
 		return ans;
 	}
 	return true;
@@ -79,13 +84,12 @@ const adminTabBarComponent = ({navigation, ...rest}) => {
 	);
 };
 
-const createAdminTabNavigator = () => {
+export const createAdminTabNavigator = () => {
 	return createBottomTabNavigator(
 		adminTasksRoutes,
 		{
 			tabBarComponent: adminTabBarComponent,
 			initialRouteName: "Manage Categories"
-
 		},
 	);
 };
@@ -100,43 +104,44 @@ const publicRoutes = {
 	Login: {screen: LoginScreen, title: "Sign In"},
 	Admin: {screen: AdminScreen, title: 'Administrative Tasks'},
 	TesterScreen: {screen: Tester},
+	Example: Example,
 	InitApp: InitApp,
 	SplashScreen: {screen: Splash, title: 'Initializing NALC Mobile . . .'},
 };
 
 const filterPublicRoutes = (route) => {
-	console.log(`MainNav.filterRoutes: route: ${JSON.stringify(route)}`);
+	//console.log(`MainNav.filterRoutes: route: ${JSON.stringify(route)}`);
 	if (route.routeName === 'TesterScreen') {
 		const ans = true;
-		console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${JSON.stringify(route)}`);
+		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${JSON.stringify(route)}`);
 		return ans;
-	} else if (['InitApp', 'SplashScreen'].includes(route.routeName)) {
+	} else if (['InitApp', 'SplashScreen', 'Example'].includes(route.routeName)) {
 		const ans = false;
-		console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${JSON.stringify(route)}`);
+		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${JSON.stringify(route)}`);
 		return ans;
 	} else if (route.routeName === 'AdminMenu') {
 		const ans = true;
-		console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
+		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
 		return ans;
 	} else if (route.routeName === 'Login') {
 		const ans = false;
-		console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
+		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
 		return ans;
 	} else if (route.routeName === 'LogOut') {
 		const ans = showLogOutMenuOption();
-		console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
+		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
 		return ans;
 	} else if (['Home', 'News', 'ManageInterests', "Admin"].includes(route.routeName)) {
 		const ans = showDefaultOptions();
-		console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
+		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
 		return ans;
 	} else if (['Manage Categories', 'UploadArticle', 'ChangePassword'].includes(route.routeName)) {
 		const ans = showAdminMenuOptions();
-		console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
+		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
 		return ans;
 	} else if (['Manage Administrators'].includes(route.routeName)) {
 		const ans = showAdminCanManage();
-		console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
+		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
 		return ans;
 	}
 	return false;

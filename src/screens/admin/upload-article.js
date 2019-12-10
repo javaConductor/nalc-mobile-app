@@ -113,7 +113,7 @@ export default class UploadArticle extends React.Component {
 		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
 		return (
 			<View style={{flex: 4, flexGrow: 2, marginTop: 50}}>
-				<Text style={styles.rowHeader}>U p l o a d A r t i c l e</Text>
+				<Text style={styles.homeLabel}>U p l o a d A r t i c l e</Text>
 				{msgCtrl}
 				<Grid style={{flexDirection: 'column', justifyContent: 'space-between', flexGrow: 2}}>
 					<Row size={1}>
@@ -142,54 +142,6 @@ export default class UploadArticle extends React.Component {
 							<View style={{...styles.formInput}}>
 								<Text style={{...styles.formInput}}>
 									<TextInput style={{borderWidth: 2, borderColor: 'black'}}
-									           value={url}
-									           onChangeText={this.updateUrl.bind(this)}/>
-								</Text>
-							</View>
-						</Col>
-					</Row>
-					{this.renderCategoryChoices()}
-				</Grid>
-				<Button color={'navy'} disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
-			</View>
-		)
-	}
-
-	renderOLD() {
-		const {title, url, selectedCategories} = this.state;
-		const selected = this.selectedIdList(selectedCategories);
-		const canSave = title && title.trim().length > 0 && selected.length > 0;
-		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
-		return (
-			<View style={{flex: 1}}>
-				{msgCtrl}
-				<Grid style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-					<Row>
-						<Col size={1}>
-							<View style={styles.formLabel}>
-								<Text>Title</Text>
-							</View>
-						</Col>
-						<Col size={2}>
-							<View style={{...styles.formInput, alignItems: 'stretch'}}>
-								<Text style={{...styles.formInput, alignItems: 'stretch'}}>
-									<TextInput style={{borderWidth: 4, borderColor: 'black', alignSelf: 'stretch'}}
-									           value={title}
-									           onChangeText={this.updateTitle.bind(this)}/>
-								</Text>
-							</View>
-						</Col>
-					</Row>
-					<Row size={1}>
-						<Col size={1}>
-							<View style={styles.formLabel}>
-								<Text>URL</Text>
-							</View>
-						</Col>
-						<Col size={4}>
-							<View style={styles.formInput}>
-								<Text style={styles.formInput}>
-									<TextInput style={{borderWidth: 4, borderColor: 'black'}}
 									           value={url}
 									           onChangeText={this.updateUrl.bind(this)}/>
 								</Text>

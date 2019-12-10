@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
 	},
 	homeLabel: {
 		width: '100%',
+		marginBottom: 10,
 		backgroundColor: 'navy',
 		color: 'white',
 		fontSize: 20,
@@ -133,6 +134,16 @@ const styles = StyleSheet.create({
 	rowHeader: {
 		fontWeight: 'bold',
 		alignSelf: 'center',
+		fontSize: 20,
+
 	},
+	screenTitle: {
+		width: '100%',
+		backgroundColor: 'navy',
+		color: 'white',
+		fontSize: 20,
+		fontWeight: '1000',
+		alignSelf: 'flex-start'
+	}
 });
 export default styles;
