@@ -10,7 +10,8 @@ import styles from '../main-styles';
 
 export default class UploadArticle extends React.Component {
 	static navigationOptions = {
-		title: 'Upload Article',
+		//title: 'Upload Article',
+		header: null
 	};
 
 	constructor(props) {
@@ -112,12 +113,12 @@ export default class UploadArticle extends React.Component {
 		const canSave = title && title.trim().length > 0 && selected.length > 0;
 		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
 		return (
-			<View style={{flex: 4, flexGrow: 2, marginTop: 50}}>
+			<View style={{flex: 4, flexGrow: 2}}>
 				<Text style={styles.homeLabel}>U p l o a d A r t i c l e</Text>
 				{msgCtrl}
 				<Grid style={{flexDirection: 'column', justifyContent: 'space-between', flexGrow: 2}}>
 					<Row size={1}>
-						<Col size={1}>
+						<Col size={2}>
 							<View style={styles.formLabel}>
 								<Text>Title</Text>
 							</View>
@@ -133,7 +134,7 @@ export default class UploadArticle extends React.Component {
 						</Col>
 					</Row>
 					<Row size={1}>
-						<Col size={1}>
+						<Col size={2}>
 							<View style={styles.formLabel}>
 								<Text>URL</Text>
 							</View>

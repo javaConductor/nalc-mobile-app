@@ -131,11 +131,15 @@ const styles = StyleSheet.create({
 		marginLeft: 5,
 		marginRight: 5,
 	},
+	rowCol: {
+		borderWidth: 1,
+		borderColor: 'black'
+	},
+
 	rowHeader: {
 		fontWeight: 'bold',
 		alignSelf: 'center',
 		fontSize: 20,
-
 	},
 	screenTitle: {
 		width: '100%',

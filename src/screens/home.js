@@ -17,8 +17,8 @@ const logo = require('../../assets/gldLogo72.png');
 
 class Home extends React.Component {
 	static navigationOptions = {
-		title: 'Home',
-		headerLeft: null
+		//title: 'Home',
+		header: null
 	};
 
 	constructor(props) {
@@ -54,8 +54,6 @@ class Home extends React.Component {
 			//const posts = origPosts.reverse();// move the latest to the front
 			const lastPost = origPosts[0];
 			const nextToLastPost = origPosts[1];
-
-			//console.log(`Home.componentDidMount: lastPost: ${JSON.stringify(lastPost)}`);
 
 			if (this._isMounted)
 				this.setState((prevState) => {

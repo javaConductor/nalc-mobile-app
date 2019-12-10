@@ -5,11 +5,13 @@ import Users from '../../services/users';
 import {NavigationEvents, withNavigation} from 'react-navigation';
 import {Col, Grid, Row} from "react-native-easy-grid";
 import util from "../../services/util";
+import mainStyles from '../main-styles';
 
 
 class ManageAdmins extends React.Component {
 	static navigationOptions = {
 		title: 'Manage Administrators',
+		header: null
 	};
 	state = {
 		admins: undefined,
@@ -20,7 +22,7 @@ class ManageAdmins extends React.Component {
 	constructor(props) {
 		console.log(`ManageAdmins.constructor(props: ${JSON.stringify(props)})`);
 		super(props);
-		console.log(`ManageAdmins.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
+		console.log(`ManageAdmins.constructor : routes: ${util.getAvailableRoutes(this.props.navigation)}`);
 
 	}
 
@@ -60,10 +62,19 @@ class ManageAdmins extends React.Component {
 		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
 		return <View style={styles.container}>
 			<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
+			<Text style={{
+				width: '100%',
+				marginBottom: 10,
+				backgroundColor: 'navy',
+				color: 'white',
+				fontSize: 20,
+				fontWeight: '1000',
+				alignSelf: 'flex-start'
+			}}>M a n a g e A d m i n i s t r a t o r s</Text>
 			{msgCtrl}
 			<Grid>
 				<Row>
-					<Col size={5}>
+					<Col size={3}>
 						<Text style={styles.rowHeader}>Administrator Name</Text>
 					</Col>
 					<Col size={1}>
@@ -82,14 +93,12 @@ class ManageAdmins extends React.Component {
 	}
 
 	renderAdmin(admin, props) {
-		//console.log(`ManageAdmins.renderAdmin: props: ${JSON.stringify(props)}`);
-		//console.log(`ManageAdmins.renderAdmin: state: ${JSON.stringify(this.state)}`);
 		//console.log(`ManageAdmins.renderAdmin(${JSON.stringify(admin)})`);
 		const {navigate} = props.navigation;
 		const {firstName, lastName} = admin;
 		return (
 			<Row key={admin.id}>
-				<Col size={5} style={styles.rowCol}>
+				<Col size={3} style={styles.rowCol}>
 					<Text onPress={() => {
 						navigate('EditAdmin', {admin})
 					}}>
@@ -121,45 +130,6 @@ class ManageAdmins extends React.Component {
 
 export default withNavigation(ManageAdmins);
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		width: '100%',
-		justifyContent: 'center',
-		//alignItems: 'stretch',
-		borderWidth: 1,
-	},
-	adminRow: {
-		flex: 1,
-		flexDirection: 'row'
-	},
-	adminName: {
-		justifyContent: 'flex-start',
-		flexDirection: 'row',
-		width: '80%'
-	},
-	adminActions: {
-		justifyContent: 'flex-end',
-		width: '20%',
-		flexDirection: 'row'
-	},
-	row: {
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between'
-	},
-	rowCol: {
-		borderWidth: 1,
-		borderColor: 'black'
-	},
+const localStyles = StyleSheet.create({});
 
-	rowHeader: {
-		fontWeight: 'bold',
-		alignSelf: 'center',
-	},
-	header: {
-		fontWeight: 'bold',
-		fontSize: 18,
-		alignSelf: 'center',
-	}
-});
+const styles = StyleSheet.compose(mainStyles, localStyles);

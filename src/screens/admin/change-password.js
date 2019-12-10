@@ -77,7 +77,7 @@ export default class ChangePassword extends React.Component {
 			<NavigationEvents
 				onWillBlur={this.componentWillUnmount.bind(this)}
 				onWillFocus={this.componentDidMount.bind(this)}/>
-			<Text style={styles.homeLabel}>Change Password</Text>
+			<Text style={styles.homeLabel}>C h a n g e P a s s w o r d</Text>
 
 			{errorComponent}
 			{messageComponent}

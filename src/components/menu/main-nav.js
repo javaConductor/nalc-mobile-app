@@ -46,7 +46,7 @@ const ManageAdminNavigator = createStackNavigator(
 ///// A d m i n   N a v i g a t o r
 ///////////////////////////////////////////////////////////////////////////////
 const adminTasksRoutes = {
-	UploadArticle: {screen: UploadArticleScreen, title: "U p l o a d   A r t i c l e"},
+	UploadArticle: {screen: UploadArticleScreen, header: null, title: "U p l o a d   A r t i c l e"},
 	'Manage Administrators': {screen: ManageAdminNavigator},
 	'Manage Categories': {screen: CategoryNavigator},
 	ChangePassword: {screen: ChangePasswordScreen},

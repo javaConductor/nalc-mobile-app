@@ -11,7 +11,8 @@ import styles from '../main-styles';
 
 export default class ManageCategories extends React.Component {
 	static navigationOptions = {
-		title: 'Manage Categories',
+		//title: 'Manage Categories',
+		header: null
 	};
 
 	constructor(props) {
@@ -96,7 +97,7 @@ export default class ManageCategories extends React.Component {
 	}
 }
 //
-// const styles = StyleSheet.create({
+// const mainStyles = StyleSheet.create({
 // 	container: {
 // 		flex: 1,
 // 		width: '100%',
