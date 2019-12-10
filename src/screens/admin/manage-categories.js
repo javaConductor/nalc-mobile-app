@@ -19,7 +19,7 @@ export default class ManageCategories extends React.Component {
 		super(props);
 		this.state = {
 			isLoading: true
-		}
+		};
 		console.log(`ManageCategories.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
 
 	}
