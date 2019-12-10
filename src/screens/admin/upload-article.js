@@ -114,7 +114,7 @@ export default class UploadArticle extends React.Component {
 		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
 		return (
 			<View style={{flex: 4, flexGrow: 2}}>
-				<Text style={styles.homeLabel}>U p l o a d A r t i c l e</Text>
+				<Text style={styles.homeLabel}>U p l o a d  A r t i c l e</Text>
 				{msgCtrl}
 				<Grid style={{flexDirection: 'column', justifyContent: 'space-between', flexGrow: 2}}>
 					<Row size={1}>
