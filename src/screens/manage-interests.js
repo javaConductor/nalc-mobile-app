@@ -115,7 +115,6 @@ export default class ManageInterests extends React.Component {
 		return (
 			<View style={styles.container}>
 				<Text style={styles.homeLabel}>I n t e r e s t s</Text>
-
 				{errCtrl}
 				{msgCtrl}
 				<Grid>
