@@ -145,7 +145,7 @@ export default class ManageInterests extends React.Component {
 
 		const updateUserInterest = this.updateUserInterest.bind(this);
 		return (
-			<Row key={category.id} style={styles.formRow}>
+			<Row key={category.id} style={{...styles.formRow, borderTopWidth: 2}}>
 				<Col size={1} style={styles.formRow}><Text>{category.name}</Text></Col>
 				<Col size={1} style={styles.formInputSwitch}>
 					<Switch

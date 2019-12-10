@@ -75,10 +75,18 @@ class ManageAdmins extends React.Component {
 			<Grid>
 				<Row>
 					<Col size={3}>
-						<Text style={styles.rowHeader}>Administrator Name</Text>
+						<Text style={{
+							fontWeight: 'bold',
+							alignSelf: 'center',
+							fontSize: 20,
+						}}>Administrator Name</Text>
 					</Col>
 					<Col size={1}>
-						<Text style={styles.rowHeader}>Actions</Text>
+						<Text style={{
+							fontWeight: 'bold',
+							alignSelf: 'center',
+							fontSize: 20,
+						}}>Actions</Text>
 					</Col>
 				</Row>
 				{adminList}
@@ -97,7 +105,7 @@ class ManageAdmins extends React.Component {
 		const {navigate} = props.navigation;
 		const {firstName, lastName} = admin;
 		return (
-			<Row key={admin.id}>
+			<Row style={{borderTopWidth: 2}} key={admin.id}>
 				<Col size={3} style={styles.rowCol}>
 					<Text onPress={() => {
 						navigate('EditAdmin', {admin})
