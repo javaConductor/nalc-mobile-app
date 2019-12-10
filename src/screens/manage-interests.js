@@ -119,7 +119,7 @@ export default class ManageInterests extends React.Component {
 				{msgCtrl}
 				<Grid>
 					<Row size={0.5}>
-						<Col size={4}><Text style={styles.rowHeader}>Category</Text></Col>
+						<Col size={1}><Text style={styles.rowHeader}>Category</Text></Col>
 						<Col size={1}><Text style={styles.rowHeader}>Selected</Text></Col>
 					</Row>
 					{rows}
@@ -145,9 +145,9 @@ export default class ManageInterests extends React.Component {
 
 		const updateUserInterest = this.updateUserInterest.bind(this);
 		return (
-			<Row style={styles.formRow}>
-				<Col size={4} style={styles.formRow}><Text>{category.name}</Text></Col>
-				<Col size={1} style={styles.formInput}>
+			<Row key={category.id} style={styles.formRow}>
+				<Col size={1} style={styles.formRow}><Text>{category.name}</Text></Col>
+				<Col size={1} style={styles.formInputSwitch}>
 					<Switch
 						onValueChange={(hasInterest) => {
 							updateUserInterest(category.id, hasInterest)

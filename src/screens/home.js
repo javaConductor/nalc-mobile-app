@@ -1,6 +1,6 @@
 // Home.js
 import React from 'react'
-import {Dimensions, Text, View} from 'react-native';
+import {Dimensions, Linking, Text, View} from 'react-native';
 import {createAppContainer, NavigationEvents} from 'react-navigation';
 
 import {createStackNavigator} from 'react-navigation-stack';
@@ -11,6 +11,7 @@ import ShowPost from '../screens/news/show-post';
 import storage from "../services/storage";
 import util from "../services/util";
 import {Col, Grid} from "react-native-easy-grid";
+import {SocialIcon} from 'react-native-elements'
 
 
 const logo = require('../../assets/gldLogo72.png');
@@ -77,10 +78,31 @@ class Home extends React.Component {
 		this._isMounted = false;
 	}
 
+	gotoFacebook() {
+		Linking.openURL('https://www.facebook.com/nalc.national/');
+	}
+
+	gotoTwitter() {
+		Linking.openURL('https://twitter.com/NALC_National?lang=en');
+	}
+
+	gotoInstagram() {
+		Linking.openURL('https://www.instagram.com/lettercarriers/');
+	}
+
+	gotoFlickr() {
+		Linking.openURL('https://www.flickr.com/photos/nalc-usa/');
+	}
+
+	gotoYouTube() {
+		Linking.openURL('https://www.youtube.com/channel/UCKZJ1C15xMWWxLGIRRfCDIw');
+	}
+
 	render() {
 
 		if (this.state.isLoading)
 			return null;
+		const {navigate} = this.props.navigation;
 		//console.log(`Home.render: userIsAuthenticated: ${this.state.isAuthenticated}`);
 		const {lastPost, nextToLastPost} = this.state;
 		return (<View style={Styles.container}>
@@ -93,7 +115,40 @@ class Home extends React.Component {
 							<ShowPost post={lastPost}/>
 							<ShowPost post={nextToLastPost}/>
 						</View>
+						<Text style={Styles.homeLabel} onPress={() => {
+							navigate('News', {})
+						}}>M o r e N e w s >></Text>
+						<Text style={Styles.homeLabel}>NALC on Social Media</Text>
+						<View style={{flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between'}}>
+							<SocialIcon
+								title='NALC on Facebook'
+								type='facebook'
+								onPress={this.gotoFacebook}
+							/>
+							<SocialIcon
+								title='NALC on Twitter'
+								onPress={this.gotoTwitter}
+								type='twitter'
+							/>
+							<SocialIcon
+								title='NALC on Instagram'
+								onPress={this.gotoInstagram}
+								type='instagram'
+							/>
+							<SocialIcon
+								title='NALC on Flickr'
+								onPress={this.gotoFlickr}
+								type='flickr'
+							/>
+							<SocialIcon
+								title='NALC on YouTube'
+								onPress={this.gotoYouTube}
+								type='youtube'
+							/>
+						</View>
+
 					</Col>
+
 				</Grid>
 			</View>
 		);

@@ -49,7 +49,18 @@ const styles = StyleSheet.create({
 		//flexDirection: 'col',
 		// color: 'navy',
 		borderColor: 'navy',
-		borderWidth: 1,
+		// borderWidth: 1,
+		flexGrow: 1,
+		backgroundColor: 'white',
+		width: '100%'
+	},
+	formInputSwitch: {
+		flex: 1,
+		alignSelf: 'center',
+		//flexDirection: 'col',
+		// color: 'navy',
+		borderColor: 'navy',
+		// borderWidth: 1,
 		flexGrow: 1,
 		backgroundColor: 'white',
 		width: '100%'
