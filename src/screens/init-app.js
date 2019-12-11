@@ -1,8 +1,7 @@
 // InitApp.js
 import React from 'react'
-import {ActivityIndicator} from 'react-native'
+import {ActivityIndicator, View} from 'react-native'
 import initApp from '../services/initApp';
-import View from "react-native-web/dist/exports/View";
 import {NavigationActions, NavigationEvents, StackActions, withNavigation} from "react-navigation";
 import util from "../services/util";
 
@@ -14,7 +13,7 @@ class InitApp extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {isLoading: true}
+		this.state = {isLoading: true};
 		console.log(`InitApp.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
 	}
 
@@ -26,6 +25,7 @@ class InitApp extends React.Component {
 		const firstTimeRun = await initApp.initApp();
 		console.log(`InitApp.componentDidMount: firstTimeRun: ${firstTimeRun}`);
 		if (firstTimeRun) {
+			console.log(`InitApp.componentDidMount: navigated to SplashScreen`);
 			navigate('SplashScreen', {});
 			// const resetAction = StackActions.reset({
 			// 	index: 0, // <-- currect active route from actions array
@@ -36,6 +36,7 @@ class InitApp extends React.Component {
 			// this.props.navigation.dispatch(resetAction);
 		} else {
 			//navigate('Home', {});
+			console.log(`InitApp.componentDidMount: navigated to Home`);
 			const resetAction = StackActions.reset({
 				index: 0, // <-- currect active route from actions array
 				actions: [
@@ -45,14 +46,13 @@ class InitApp extends React.Component {
 
 			this.props.navigation.dispatch(resetAction);
 		}
-		console.log(`InitApp.componentDidMount: navigated away`);
 		// this.setState((prevState) => {
 		//     return {...prevState, isLoading: false}
 		// })
 	}
 
 	render() {
-		const {navigate} = this.props.navigation;
+		console.log(`InitApp.render: isLoading: ${this.state.isLoading}`);
 		if (this.state.isLoading)
 			return <View>
 				<NavigationEvents onDidFocus={this.componentDidMount.bind(this)}/>
