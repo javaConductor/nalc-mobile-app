@@ -1,6 +1,6 @@
 // PostList.js
-import React, {Fragment} from 'react';
-import {ListView, Text, View} from 'react-native'
+import React from 'react';
+import {ScrollView, Text, View} from 'react-native'
 import storage from '../../services/storage';
 import styles from '../../screens/main-styles';
 import ShowPost from './show-post';
@@ -31,15 +31,15 @@ export default class PostList extends React.Component {
 		console.log(`PostList: componentDidMount loading posts.`);
 		return storage.getNewsPosts()
 			.then(async (posts) => {
+				posts = util.uniqueArray(posts, post => post.id);
+
 				posts = posts.sort((a, b) => {
 					return (a.date.valueOf() < b.date.valueOf()) ? 1 : -1;
 				});
 				//console.log(`PostList: componentDidMount loaded posts: ${JSON.stringify(posts, null, 2)}`);
-				const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
 				const otherState = {
 					newsPosts: posts,
 					isLoading: false,
-					dataSource: ds.cloneWithRows(posts)
 				};
 				const lastRead = await storage.getNewsPostsLastReadDate();
 				this.setState((prevState) => {
@@ -72,18 +72,21 @@ export default class PostList extends React.Component {
 		//console.log(`PostList: render: newPosts: ${this.state.newsPosts.length } dataSource: ${this.state.dataSource.getRowCount()}`);
 
 		return (
-			<Fragment>
+			<View style={styles.container}>
 				<Text style={styles.homeLabel}>N e w s</Text>
-				<ListView
-					contentContainerStyle={{...styles.wrapper}}
-					style={{...styles.container}}
-					dataSource={this.state.dataSource}
-					renderRow={this.renderPost.bind(this)}
-					renderSeparator={(sectionId, rowId) =>
-						<View key={rowId} style={styles.separator}/>}//adding separation
-				/>
+				{/*<ListView*/}
+				{/*	contentContainerStyle={{...styles.wrapper}}*/}
 
-			</Fragment>
+				{/*	dataSource={this.state.dataSource}*/}
+				{/*	renderRow={this.renderPost.bind(this)}*/}
+				{/*	renderSeparator={(sectionId, rowId) =>*/}
+				{/*		<View key={rowId} style={styles.separator}/>}//adding separation*/}
+				{/*/>*/}
+				<ScrollView>
+					{this.state.newsPosts.map(this.renderPost.bind(this))}
+				</ScrollView>
+
+			</View>
 		)
 	}
 

@@ -10,7 +10,7 @@ import mainStyles from '../main-styles';
 
 class ManageAdmins extends React.Component {
 	static navigationOptions = {
-		title: 'Manage Administrators',
+		title: 'Administrators',
 		header: null
 	};
 	state = {
@@ -68,7 +68,7 @@ class ManageAdmins extends React.Component {
 				backgroundColor: 'navy',
 				color: 'white',
 				fontSize: 20,
-				fontWeight: '1000',
+				fontWeight: '900',
 				alignSelf: 'flex-start'
 			}}>M a n a g e  A d m i n i s t r a t o r s</Text>
 			{msgCtrl}

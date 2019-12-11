@@ -68,6 +68,7 @@ const self = {
 			.then((response) => response.json())
 			///  Add featuredMedia to post if any
 			.then((postList) => {
+				postList = util.uniqueArray(postList, (post) => post.id);
 				//console.log(`news: getNewsByDateAndCategories: ${JSON.stringify(postList, null, 2)}`);
 				const promiseList = postList.map(updateMedia);
 				return Promise.all(promiseList)
@@ -113,7 +114,7 @@ const self = {
 	 */
 	addNewsPost: (postData) => {
 		return auth.currentAccessToken().then((accessToken) => {
-			console.log(`news.addPost: ${JSON.stringify(postData)}`);
+			console.log(`news.addNewsPost: ${JSON.stringify(postData)}`);
 			return fetch(`${backEndURL}/${config.BACKEND_NEWS_PATH}`, {
 				method: 'POST',
 				headers: {
@@ -129,18 +130,18 @@ const self = {
 					return response.json();
 				})
 				.then((responseJson) => {
-					console.log(`news.addPost: ${JSON.stringify(responseJson)}`);
+					console.log(`news.addNewsPost: ${JSON.stringify(responseJson)}`);
 					return responseJson;
 				})
 				.catch((error) => {
-					console.error(`news.addPost: ERROR: ${util.errorMessage(error)} `);
+					console.error(`news.addNewsPost: ERROR: ${util.errorMessage(error)} `);
 					throw error;
 				});
 		});
 	},
 };
 
-self.addNewsPost = util.tokenWrapper(self.addNewsPost);
+self.addNewsPost = auth.tokenWrapper(self.addNewsPost);
 
 // create function read posts every N minutes after NEWS_POST_LAST_READ_DATE
 

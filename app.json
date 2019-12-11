@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "NALC Mobile App",
-    "slug": "nalc-mobile2",
+    "slug": "nalc-mobile-app",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [

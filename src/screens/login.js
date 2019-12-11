@@ -111,6 +111,7 @@ class Login extends React.Component {
 				<NavigationEvents
 					onDidBlur={this.componentDidMount.bind(this)}
 					onWillFocus={this.componentDidMount.bind(this)}/>
+				<Text style={styles.homeLabel}>L o g i n</Text>
 				{msgComponent}
 				<View style={styles.form}>
 					<View style={styles.formRow}>

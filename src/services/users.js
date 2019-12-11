@@ -178,9 +178,9 @@ const self = {
 	},
 };
 
-self.getAdmins = util.tokenWrapper(self.getAdmins);
-self.addAdmin = util.tokenWrapper(self.addAdmin);
-self.removeAdmin = util.tokenWrapper(self.removeAdmin);
-self.updateAdmin = util.tokenWrapper(self.updateAdmin);
+self.getAdmins = auth.tokenWrapper(self.getAdmins);
+self.addAdmin = auth.tokenWrapper(self.addAdmin);
+self.removeAdmin = auth.tokenWrapper(self.removeAdmin);
+self.updateAdmin = auth.tokenWrapper(self.updateAdmin);
 
 export default self;

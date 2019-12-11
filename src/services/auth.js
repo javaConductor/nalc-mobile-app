@@ -142,6 +142,54 @@ const self = {
 					});
 			});
 	},
+	/**
+	 *
+	 *
+	 * All the functions should return the regular payload or throw {ok:false, message:'...', tokenExpired:treu/false }
+	 * @param fnAction
+	 * @returns {{ok: boolean}}
+	 */
+	tokenWrapper: (fnAction) => {
+
+		const doRefresh = async (args) => {
+			const resp = await self.refreshToken();
+			console.log(`tokenWrapper doRefresh: ${JSON.stringify(resp)}`);
+			const retVal = {ok: false};
+
+			if (resp.badToken) {
+				await storage.storeAuthInfo({});
+				throw {...resp, authenticationRequired: true};
+			}
+
+			try {
+				const ret = await fnAction.apply(this, args);
+				return ret;
+			} catch (e) {
+				if (typeof e === 'object') {
+					retVal.message = e.message;
+					return e;
+				}
+				retVal.message = e;
+				return retVal;
+			}
+		};
+
+		return async function () {
+			//console.log(`tokenWrapper function ${fnAction.name} args: ${JSON.stringify(arguments)}`);
+			const retVal = {ok: false};
+
+			try {
+				return await fnAction.apply(this, arguments);
+			} catch (e) {
+				if (typeof e === 'object') {
+					retVal.message = e.message;
+					return (e.badToken) ? doRefresh(arguments) : e;
+				}
+				retVal.message = e;
+				return retVal;
+			}
+		};
+	},
 
 	refreshToken: async () => {
 		/// get the current authInfo

@@ -1,8 +1,10 @@
 import {StyleSheet} from "react-native";
+import Constants from 'expo-constants';
 
 
 const styles = StyleSheet.create({
 	container: {
+		marginTop: Constants.statusBarHeight,
 		flex: 2,
 		justifyContent: 'space-around',
 		//alignItems: 'center',
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'navy',
 		color: 'white',
 		fontSize: 20,
-		fontWeight: '1000',
+		fontWeight: '900',
 		alignSelf: 'flex-start'
 	},
 	post: {
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
 	postTitle: {
 		color: 'maroon',
 		fontFamily: 'Oswald-Bold',
-		fontStyle: "bold",
+		fontStyle: "normal",
 		fontSize: 30,
 		backgroundColor: 'white',
 		marginLeft: 10,
@@ -157,7 +159,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'navy',
 		color: 'white',
 		fontSize: 20,
-		fontWeight: '1000',
+		fontWeight: '900',
 		alignSelf: 'flex-start'
 	}
 });

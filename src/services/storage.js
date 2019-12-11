@@ -16,14 +16,14 @@ const self = {
 	////////////////////
 	storeSetupFlag: async (setupFlag) => {
 		console.log(`storage.storeSetupFlag(${setupFlag})`);
-		(setupFlag ? AsyncStorage.setItem(SETUP_FLAG, setupFlag) : AsyncStorage.removeItem(SETUP_FLAG))
+		(setupFlag ? AsyncStorage.setItem(SETUP_FLAG, JSON.stringify(setupFlag)) : AsyncStorage.removeItem(SETUP_FLAG))
 			.catch((e) => {
-				console.error(`Error storing Setup Flag ${e} `);
+				console.error(`Error storing Setup Flag: ${e} `);
 			});
 	},
 	getSetupFlag: async () => {
 		const setupFlag = await AsyncStorage.getItem(SETUP_FLAG);
-		return (setupFlag);
+		return JSON.parse(setupFlag);
 	},
 
 	////////////////////

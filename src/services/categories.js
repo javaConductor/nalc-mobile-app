@@ -138,8 +138,8 @@ const self = {
 };
 
 //self.getCategories = util.tokenWrapper(self.getCategories);
-self.addCategory = util.tokenWrapper(self.addCategory);
-self.updateCategory = util.tokenWrapper(self.updateCategory);
-self.removeAdmin = util.tokenWrapper(self.removeAdmin);
+self.addCategory = auth.tokenWrapper(self.addCategory);
+self.updateCategory = auth.tokenWrapper(self.updateCategory);
+self.removeAdmin = auth.tokenWrapper(self.removeAdmin);
 
 export default self;

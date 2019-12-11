@@ -47,9 +47,9 @@ const ManageAdminNavigator = createStackNavigator(
 ///////////////////////////////////////////////////////////////////////////////
 const adminTasksRoutes = {
 	UploadArticle: {screen: UploadArticleScreen, header: null, title: "U p l o a d   A r t i c l e"},
-	'Manage Administrators': {screen: ManageAdminNavigator},
-	'Manage Categories': {screen: CategoryNavigator},
-	ChangePassword: {screen: ChangePasswordScreen},
+	'Manage Administrators': {screen: ManageAdminNavigator, title: "Administrators"},
+	'Manage Categories': {screen: CategoryNavigator, title: "Categories"},
+	ChangePassword: {screen: ChangePasswordScreen, title: "Change Password"},
 	Login: {screen: LoginScreen, title: "Sign In"},
 	LogOut: {screen: LogOutScreen, title: "Sign Out"},
 };
@@ -100,7 +100,7 @@ export const createAdminTabNavigator = () => {
 const publicRoutes = {
 	Home: {screen: HomeScreen},
 	News: {screen: PostListScreen},
-	ManageInterests: {screen: ManageInterestsScreen},
+	ManageInterests: {screen: ManageInterestsScreen, title: "Interests"},
 	Login: {screen: LoginScreen, title: "Sign In"},
 	Admin: {screen: AdminScreen, title: 'Administrative Tasks'},
 	TesterScreen: {screen: Tester},

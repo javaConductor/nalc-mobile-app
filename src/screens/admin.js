@@ -12,8 +12,8 @@ import ManageAdminsScreen from "../screens/admin/manage-admins";
 import UploadArticleScreen from "../screens/admin/upload-article"
 import {createStackNavigator} from "react-navigation-stack";
 import util from "../services/util";
-import {createAdminTabNavigator} from '../components/menu/main-nav';
 
+//import {createAdminTabNavigator} from '../components/menu/main-nav';
 
 class Admin extends React.Component {
 	static navigationOptions = {
@@ -114,6 +114,7 @@ class Admin extends React.Component {
 	}
 
 	createMenu(canManage = false) {
+		const createAdminTabNavigator = require('../components/menu/main-nav').createAdminTabNavigator;
 		return createAppContainer(createAdminTabNavigator());
 	}
 
