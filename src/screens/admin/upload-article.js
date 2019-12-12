@@ -1,6 +1,6 @@
 // UploadArticle.js
 import React from 'react'
-import {Button, Switch, Text, TextInput, View} from 'react-native'
+import {Button, ScrollView, Switch, Text, TextInput, View} from 'react-native'
 import categoryService from '../../services/categories';
 import newsService from '../../services/news';
 import {Col, Grid, Row} from "react-native-easy-grid";
@@ -113,44 +113,46 @@ export default class UploadArticle extends React.Component {
 		const canSave = title && title.trim().length > 0 && selected.length > 0;
 		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
 		return (
-			<View style={{flex: 4, flexGrow: 2}}>
-				<Text style={styles.homeLabel}>U p l o a d  A r t i c l e</Text>
+			<View style={{flex: 1, justifyContent: 'space-around'}}>
+				{/*//<View style={styles.container}>*/}
+				<Text style={styles.homeLabel}>U p l o a d A r t i c l e</Text>
 				{msgCtrl}
-				<Grid style={{flexDirection: 'column', justifyContent: 'space-between', flexGrow: 2}}>
-					<Row size={1}>
-						<Col size={2}>
-							<View style={styles.formLabel}>
-								<Text>Title</Text>
-							</View>
-						</Col>
-						<Col size={6}>
-							<View style={{...styles.formInput}}>
-								<Text style={{...styles.formInput}}>
-									<TextInput style={{borderWidth: 2, borderColor: 'black'}}
-									           value={title}
-									           onChangeText={this.updateTitle.bind(this)}/>
-								</Text>
-							</View>
-						</Col>
-					</Row>
-					<Row size={1}>
-						<Col size={2}>
-							<View style={styles.formLabel}>
-								<Text>URL</Text>
-							</View>
-						</Col>
-						<Col size={6}>
-							<View style={{...styles.formInput}}>
-								<Text style={{...styles.formInput}}>
-									<TextInput style={{borderWidth: 2, borderColor: 'black'}}
-									           value={url}
-									           onChangeText={this.updateUrl.bind(this)}/>
-								</Text>
-							</View>
-						</Col>
-					</Row>
-					{this.renderCategoryChoices()}
-				</Grid>
+				<ScrollView>
+					<Grid style={{flexDirection: 'column', justifyContent: 'space-around', flexGrow: 2}}>
+						<Row>
+							<Col size={2}>
+								<View style={styles.formLabel}>
+									<Text>Title</Text>
+								</View>
+							</Col>
+							<Col size={6}>
+								<View style={{...styles.formInput}}>
+									<Text style={{...styles.formInput}}>
+										<TextInput style={{borderWidth: 2, borderColor: 'black'}}
+										           value={title}
+										           onChangeText={this.updateTitle.bind(this)}/>
+									</Text>
+								</View>
+							</Col>
+						</Row>
+						<Row style={{marginBottom: 10}}>
+							<Col size={2}>
+								<View style={styles.formLabel}>
+									<Text>URL</Text>
+								</View>
+							</Col>
+							<Col size={6}>
+								<View style={{...styles.formInput}}>
+									<Text style={{...styles.formInput}}>
+										<TextInput style={{borderWidth: 2, borderColor: 'black'}}
+										           value={url}
+										           onChangeText={this.updateUrl.bind(this)}/>
+									</Text>
+								</View>
+							</Col>
+						</Row>
+						{this.renderCategoryChoices()}
+					</Grid></ScrollView>
 				<Button color={'navy'} disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
 			</View>
 		)

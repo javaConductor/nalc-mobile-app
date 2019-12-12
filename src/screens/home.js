@@ -50,7 +50,7 @@ class Home extends React.Component {
 			const isAuthenticated = await auth.isUserAuthenticated();
 			//console.log(`Home.componentDidMount: setting isAuthenticated: ${isAuthenticated}`);
 			const origPosts = await storage.getNewsPosts();
-			//console.log(`Home.componentDidMount: origPosts: ${JSON.stringify(origPosts)}`);
+			console.log(`Home.componentDidMount: origPosts: ${JSON.stringify(origPosts, null, 2)}`);
 
 			//const posts = origPosts.reverse();// move the latest to the front
 			const lastPost = origPosts[0];

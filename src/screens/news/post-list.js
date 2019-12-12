@@ -36,7 +36,7 @@ export default class PostList extends React.Component {
 				posts = posts.sort((a, b) => {
 					return (a.date.valueOf() < b.date.valueOf()) ? 1 : -1;
 				});
-				//console.log(`PostList: componentDidMount loaded posts: ${JSON.stringify(posts, null, 2)}`);
+				console.log(`PostList: componentDidMount loaded posts: ${JSON.stringify(posts, null, 2)}`);
 				const otherState = {
 					newsPosts: posts,
 					isLoading: false,

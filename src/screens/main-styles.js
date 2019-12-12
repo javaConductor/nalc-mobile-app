@@ -5,7 +5,7 @@ import Constants from 'expo-constants';
 const styles = StyleSheet.create({
 	container: {
 		marginTop: Constants.statusBarHeight,
-		flex: 2,
+		flex: 1,
 		justifyContent: 'space-around',
 		//alignItems: 'center',
 		backgroundColor: 'white',
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center'
 	},
 	postContent: {
-		color: 'navy',
+		textColor: 'navy',
 		backgroundColor: 'white',
 		marginLeft: 5,
 		marginRight: 5,

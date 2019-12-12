@@ -1,6 +1,6 @@
 // ManageAdmins.js
 import React from 'react'
-import {Button, StyleSheet, Text, View} from 'react-native'
+import {Button, ScrollView, StyleSheet, Text, View} from 'react-native'
 import Users from '../../services/users';
 import {NavigationEvents, withNavigation} from 'react-navigation';
 import {Col, Grid, Row} from "react-native-easy-grid";
@@ -64,16 +64,15 @@ class ManageAdmins extends React.Component {
 			<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
 			<Text style={{
 				width: '100%',
-				marginBottom: 10,
 				backgroundColor: 'navy',
 				color: 'white',
 				fontSize: 20,
 				fontWeight: '900',
 				alignSelf: 'flex-start'
-			}}>M a n a g e  A d m i n i s t r a t o r s</Text>
+			}}>M a n a g e A d m i n i s t r a t o r s</Text>
 			{msgCtrl}
 			<Grid>
-				<Row>
+				<Row style={{marginBottom: 10}}>
 					<Col size={3}>
 						<Text style={{
 							fontWeight: 'bold',
@@ -89,7 +88,7 @@ class ManageAdmins extends React.Component {
 						}}>Actions</Text>
 					</Col>
 				</Row>
-				{adminList}
+				<ScrollView>{adminList}</ScrollView>
 				<Button color={'navy'}
 				        style={{alignSelf: 'center'}}
 				        title={"Add New Administrator"}

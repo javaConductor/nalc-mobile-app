@@ -36,7 +36,7 @@ class ShowPost extends React.Component {
 		if (loading)
 			return <ActivityIndicator size={'large'}/>;
 
-		//console.log(`ShowPost: post: ${post.title}`);
+		console.log(`ShowPost: post: ${post.title}`);
 		const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 		const dateStr = new Date(post.date).toLocaleString("en-US", options);
 		return <View style={{...styles.post}} key={post.id}>

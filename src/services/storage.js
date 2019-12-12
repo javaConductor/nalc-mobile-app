@@ -1,5 +1,6 @@
 import React from 'react';
 import {AsyncStorage} from 'react-native';
+import util from "./util";
 
 //// Storage KEYS
 const ADMIN_LIST = "admins-list";
@@ -87,6 +88,11 @@ const self = {
 	storeNewsPosts: (posts) => {
 		// store posts and time
 		//console.log(`storage.storeNewsPosts(): Storing: ${JSON.stringify(posts, null, 2)} `);
+		posts = util.uniqueArray(posts, post => post.id);
+		posts = posts.sort((a, b) => {
+			return (a.date.valueOf() < b.date.valueOf()) ? 1 : -1;
+		});
+		console.log(`storage.storeNewsPosts(): Storing: ${JSON.stringify(posts, null, 2)} `);
 		return AsyncStorage.setItem(NEWS_POSTS, JSON.stringify(posts))
 			// .then(() => {
 			// 	return self.storeLastPostReadDate(new Date())

@@ -1,6 +1,6 @@
 // ManageCategories.js
 import React from 'react'
-import {Button, Text, View} from 'react-native'
+import {Button, ScrollView, Text, View} from 'react-native'
 import categoryService from '../../services/categories';
 import {NavigationEvents} from "react-navigation";
 import {Col, Grid, Row} from "react-native-easy-grid";
@@ -54,19 +54,22 @@ export default class ManageCategories extends React.Component {
 		return (
 			<View style={styles.container}>
 				<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
-				<Text style={styles.homeLabel}>M a n a g e  C a t e g o r i e s</Text>
-				<Grid>
-					<Row style={{marginBottom: 10}}>
-						<Col size={1}><Text style={styles.rowHeader}>Name</Text></Col>
-						{/*<Col size={1}><Text>Slug</Text></Col>*/}
-						<Col size={2}>
-							<Text style={styles.rowHeader}>Description</Text>
+				<Text style={styles.homeLabel}>M a n a g e C a t e g o r i e s</Text>
+				<ScrollView>
+					<Grid>
+						<Row style={{marginBottom: 10}}>
+							<Col size={1}><Text style={styles.rowHeader}>Name</Text></Col>
+							{/*<Col size={1}><Text>Slug</Text></Col>*/}
+							<Col size={2}>
+								<Text style={styles.rowHeader}>Description</Text>
 
-						</Col>
-					</Row>
-					{this.state.categories.map(this.renderRow.bind(this))}
-				</Grid>
-				<Button color={'navy'} onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
+							</Col>
+						</Row>
+						{this.state.categories.map(this.renderRow.bind(this))}
+					</Grid>
+					<Button style={{alignSelf: 'flex-start'}} color={'navy'}
+					        onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
+				</ScrollView>
 			</View>
 		)
 	}

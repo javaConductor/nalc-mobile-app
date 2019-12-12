@@ -119,8 +119,9 @@ class Login extends React.Component {
 							<Text>EMAIL</Text>
 						</View>
 						<View style={styles.formInput}>
-							<Text style={styles.formInput}>
+							<Text>
 								<TextInput
+									style={{...styles.formInput, borderWidth: 1, width: 300}}
 									value={email}
 									onChangeText={this.updateEmail.bind(this)}/>
 							</Text>
@@ -134,7 +135,7 @@ class Login extends React.Component {
 							<Text style={styles.formInput}>
 								<TextInput
 									secureTextEntry={true}
-									style={{...styles.formInput,}}
+									style={{...styles.formInput, borderWidth: 1, width: 300}}
 									onChangeText={this.updatePassword.bind(this)}/>
 							</Text>
 

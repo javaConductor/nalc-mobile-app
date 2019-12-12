@@ -1,6 +1,6 @@
 // ManageInterests.js
 import React from 'react'
-import {Button, Switch, Text, View} from 'react-native'
+import {Button, ScrollView, Switch, Text, View} from 'react-native'
 import categoryService from '../services/categories';
 import storage from '../services/storage';
 import styles from '../screens/main-styles';
@@ -102,6 +102,10 @@ export default class ManageInterests extends React.Component {
 		}
 	}
 
+	/**
+	 *
+	 * @returns {null|<ScrollView>}
+	 */
 	render() {
 		if (this.state.isInitializing)
 			return null;
@@ -113,13 +117,13 @@ export default class ManageInterests extends React.Component {
 		const msgCtrl = this.state.message ? <Text style={styles.message}>{this.state.message}</Text> : null;
 		const errCtrl = this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : null;
 		return (
-			<View style={styles.container}>
+			<ScrollView contentContainerStyle={styles.container}>
 				<Text style={styles.homeLabel}>I n t e r e s t s</Text>
 				{errCtrl}
 				{msgCtrl}
 				<Grid>
-					<Row size={0.5}>
-						<Col size={1}><Text style={styles.rowHeader}>Category</Text></Col>
+					<Row size={1}>
+						<Col size={3}><Text style={styles.rowHeader}>Category</Text></Col>
 						<Col size={1}><Text style={styles.rowHeader}>Selected</Text></Col>
 					</Row>
 					{rows}
@@ -131,7 +135,7 @@ export default class ManageInterests extends React.Component {
 						raised={true}
 						onPress={this.onSave.bind(this)}/>
 				</View>
-			</View>
+			</ScrollView>
 		)
 	}
 
@@ -139,14 +143,14 @@ export default class ManageInterests extends React.Component {
 	 *
 	 * @param category
 	 * @param hasInterest
-	 * @returns <View>
+	 * @returns <Row>
 	 */
 	renderRow(category, hasInterest) {
 
 		const updateUserInterest = this.updateUserInterest.bind(this);
 		return (
-			<Row key={category.id} style={{...styles.formRow, borderTopWidth: 2}}>
-				<Col size={1} style={styles.formRow}><Text>{category.name}</Text></Col>
+			<Row size={1} key={category.id} style={{...styles.formRow, borderTopWidth: 2}}>
+				<Col size={3} style={styles.formRow}><Text>{category.name}</Text></Col>
 				<Col size={1} style={styles.formInputSwitch}>
 					<Switch
 						onValueChange={(hasInterest) => {
