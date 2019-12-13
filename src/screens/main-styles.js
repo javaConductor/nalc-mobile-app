@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
 		alignSelf: 'center'
 	},
 	postContent: {
-		textColor: 'navy',
 		backgroundColor: 'white',
 		marginLeft: 5,
 		marginRight: 5,

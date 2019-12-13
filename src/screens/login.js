@@ -5,6 +5,7 @@ import util from '../services/util';
 import auth from '../services/auth';
 import styles from './main-styles';
 import {NavigationEvents} from "react-navigation";
+import PasswordInput from '../components/password-input';
 
 
 class Login extends React.Component {
@@ -26,7 +27,6 @@ class Login extends React.Component {
 
 		/// store the actual target in the state
 		if (this.props.navigation.state.params?.target) {
-
 			this.state.targetInfo = {
 				target: this.props.navigation.state.params.target,
 				targetData: this.props.navigation.state.params.targetData || {}
@@ -119,9 +119,11 @@ class Login extends React.Component {
 							<Text>EMAIL</Text>
 						</View>
 						<View style={styles.formInput}>
-							<Text>
+							<Text style={{...styles.formInput, borderWidth: 1,}}>
 								<TextInput
-									style={{...styles.formInput, borderWidth: 1, width: 300}}
+									autoGrow={true}
+									autoFocus={true}
+									style={{...styles.formInput, borderWidth: 1, width: '100%'}}
 									value={email}
 									onChangeText={this.updateEmail.bind(this)}/>
 							</Text>
@@ -132,13 +134,8 @@ class Login extends React.Component {
 							<Text>PASSWORD</Text>
 						</View>
 						<View style={styles.formInput}>
-							<Text style={styles.formInput}>
-								<TextInput
-									secureTextEntry={true}
-									style={{...styles.formInput, borderWidth: 1, width: 300}}
-									onChangeText={this.updatePassword.bind(this)}/>
-							</Text>
-
+							<PasswordInput
+								onChangeText={this.updatePassword.bind(this)}/>
 						</View>
 					</View>
 
