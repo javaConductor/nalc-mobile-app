@@ -20,11 +20,16 @@ export default class ManageCategories extends React.Component {
 		this.state = {
 			isLoading: true
 		};
-		console.log(`ManageCategories.componentDidMount: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
+		console.log(`ManageCategories.constructor: routes: ${util.getAvailableRoutes(this.props.navigation)}`);
 
 	}
 
+	componentWillUnmount() {
+		this.mounted = false;
+	}
+
 	async componentDidMount() {
+		this.mounted = true;
 		this.setState((prevState) => {
 			return {...prevState, isLoading: true}
 		});
@@ -33,9 +38,10 @@ export default class ManageCategories extends React.Component {
 			const categories = await categoryService.getCategories();
 			//console.log(`ManageCategories.componentDidMount: categoryService: (${JSON.stringify(categoryService)})`);
 
-			this.setState((prevState) => {
-				return {...prevState, isLoading: false, categories}
-			});
+			if (this.mounted)
+				this.setState((prevState) => {
+					return {...prevState, isLoading: false, categories}
+				});
 		} catch (e) {
 			console.error(`ManageCategories.componentDidMount: Error getting categories: ${util.errorMessage(e)}`);
 
@@ -54,7 +60,7 @@ export default class ManageCategories extends React.Component {
 		return (
 			<View style={styles.container}>
 				<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
-				<Text style={styles.homeLabel}>M a n a g e C a t e g o r i e s</Text>
+				<Text style={styles.homeLabel}>C a t e g o r i e s</Text>
 				<ScrollView>
 					<Grid>
 						<Row style={{marginBottom: 10}}>

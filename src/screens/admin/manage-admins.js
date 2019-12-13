@@ -60,7 +60,7 @@ class ManageAdmins extends React.Component {
 		const {navigate} = this.props.navigation;
 		const adminList = admins.map((admin) => this.renderAdmin(admin, this.props));
 		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
-		return <View style={styles.container}>
+		return <View style={mainStyles.container}>
 			<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
 			<Text style={{
 				width: '100%',
@@ -69,33 +69,35 @@ class ManageAdmins extends React.Component {
 				fontSize: 20,
 				fontWeight: '900',
 				alignSelf: 'flex-start'
-			}}>M a n a g e A d m i n i s t r a t o r s</Text>
+			}}>Manage Administrators</Text>
 			{msgCtrl}
-			<Grid>
-				<Row style={{marginBottom: 10}}>
-					<Col size={3}>
-						<Text style={{
-							fontWeight: 'bold',
-							alignSelf: 'center',
-							fontSize: 20,
-						}}>Administrator Name</Text>
-					</Col>
-					<Col size={1}>
-						<Text style={{
-							fontWeight: 'bold',
-							alignSelf: 'center',
-							fontSize: 20,
-						}}>Actions</Text>
-					</Col>
-				</Row>
-				<ScrollView>{adminList}</ScrollView>
-				<Button color={'navy'}
-				        style={{alignSelf: 'center'}}
-				        title={"Add New Administrator"}
-				        onPress={() => {
-					        navigate('EditAdmin', {})
-				        }}/>
-			</Grid>
+			<ScrollView>
+				<Grid>
+					<Row style={{marginBottom: 10}}>
+						<Col size={2}>
+							<Text style={{
+								fontWeight: 'bold',
+								alignSelf: 'center',
+								fontSize: 20,
+							}}>Name</Text>
+						</Col>
+						<Col size={1}>
+							<Text style={{
+								fontWeight: 'bold',
+								alignSelf: 'center',
+								fontSize: 20,
+							}}>Actions</Text>
+						</Col>
+					</Row>
+					{adminList}
+					<Button color={'navy'}
+					        style={{alignSelf: 'center'}}
+					        title={"Add New Administrator"}
+					        onPress={() => {
+						        navigate('EditAdmin', {})
+					        }}/>
+				</Grid>
+			</ScrollView>
 		</View>
 	}
 
@@ -105,7 +107,7 @@ class ManageAdmins extends React.Component {
 		const {firstName, lastName} = admin;
 		return (
 			<Row style={{borderTopWidth: 2}} key={admin.id}>
-				<Col size={3} style={styles.rowCol}>
+				<Col size={2} style={styles.rowCol}>
 					<Text onPress={() => {
 						navigate('EditAdmin', {admin})
 					}}>

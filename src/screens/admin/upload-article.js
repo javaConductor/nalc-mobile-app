@@ -108,17 +108,21 @@ export default class UploadArticle extends React.Component {
 	}
 
 	render() {
+		const urlRegex = /(https?|ftp):\/\/(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?/;
 		const {title, url, selectedCategories} = this.state;
+		const goodURL = urlRegex.test(url);
+		console.log(`UploadArticle.render: ${url} ${goodURL ? "Good URL" : "URL NO GOOD"}!`);
 		const selected = this.selectedIdList(selectedCategories);
-		const canSave = title && title.trim().length > 0 && selected.length > 0;
+		const canSave = goodURL && title && title.trim().length > 0 && url && url.trim().length > 0 && selected.length > 0;
 		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
 		return (
-			<View style={{flex: 1, justifyContent: 'space-around'}}>
+			<View style={[styles.container]}>
 				{/*//<View style={styles.container}>*/}
 				<Text style={styles.homeLabel}>U p l o a d A r t i c l e</Text>
 				{msgCtrl}
 				<ScrollView>
-					<Grid style={{flexDirection: 'column', justifyContent: 'space-around', flexGrow: 2}}>
+					<Grid
+						style={{flexDirection: 'column', justifyContent: 'space-around', flexGrow: 2, marginLeft: 10}}>
 						<Row>
 							<Col size={2}>
 								<View style={styles.formLabel}>
@@ -127,11 +131,9 @@ export default class UploadArticle extends React.Component {
 							</Col>
 							<Col size={6}>
 								<View style={{...styles.formInput}}>
-									<Text style={{...styles.formInput}}>
-										<TextInput style={{borderWidth: 2, borderColor: 'black'}}
-										           value={title}
-										           onChangeText={this.updateTitle.bind(this)}/>
-									</Text>
+									<TextInput style={[styles.formInput, {borderWidth: 2, borderColor: 'black'}]}
+									           value={title}
+									           onChangeText={this.updateTitle.bind(this)}/>
 								</View>
 							</Col>
 						</Row>
@@ -143,15 +145,15 @@ export default class UploadArticle extends React.Component {
 							</Col>
 							<Col size={6}>
 								<View style={{...styles.formInput}}>
-									<Text style={{...styles.formInput}}>
-										<TextInput style={{borderWidth: 2, borderColor: 'black'}}
-										           value={url}
-										           onChangeText={this.updateUrl.bind(this)}/>
-									</Text>
+									<TextInput style={[styles.formInput, {borderWidth: 2, borderColor: 'black'}]}
+									           value={url}
+									           onChangeText={this.updateUrl.bind(this)}/>
 								</View>
 							</Col>
 						</Row>
-						{this.renderCategoryChoices()}
+						<View style={{marginLeft: 15, alignContent: 'center'}}>
+							{this.renderCategoryChoices()}
+						</View>
 					</Grid></ScrollView>
 				<Button color={'navy'} disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
 			</View>
@@ -169,23 +171,22 @@ export default class UploadArticle extends React.Component {
 	renderRow(category, inCategory) {
 		const updateSelectedCategories = this.updateSelectedCategories.bind(this);
 		return (
-			<Row key={category.id} style={{marginLeft: 5}}>
-				<Col size={1}>
-					<View style={styles.formValue}>
-						<Switch
-							onValueChange={(isInCategory) => {
-								updateSelectedCategories(category.id, isInCategory)
-							}}
-							value={inCategory}
-						/>
-					</View>
-				</Col>
+			<Row key={category.id} style={{marginLeft: 15,}}>
 				<Col size={10}>
 					<View style={styles.formLabel}>
 						<Text style={{alignSelf: 'flex-start'}}>{category.name}</Text>
 					</View>
 				</Col>
-
+				<Col size={2}>
+					{/*<View style={styles.formValue}> */}
+					<Switch style={styles.formValue}
+					        onValueChange={(isInCategory) => {
+						        updateSelectedCategories(category.id, isInCategory)
+					        }}
+					        value={inCategory}
+					/>
+					{/*</View>*/}
+				</Col>
 				<Col size={1}/>
 			</Row>
 		)

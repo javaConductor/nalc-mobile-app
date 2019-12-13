@@ -5,6 +5,8 @@ import Constants from 'expo-constants';
 const styles = StyleSheet.create({
 	container: {
 		marginTop: Constants.statusBarHeight,
+		marginLeft: 10,
+		marginRight: 10,
 		flex: 1,
 		justifyContent: 'space-around',
 		//alignItems: 'center',
@@ -48,10 +50,7 @@ const styles = StyleSheet.create({
 	},
 	formInput: {
 		flex: 1,
-		//flexDirection: 'col',
-		// color: 'navy',
 		borderColor: 'navy',
-		// borderWidth: 1,
 		flexGrow: 1,
 		backgroundColor: 'white',
 		width: '100%'
@@ -59,10 +58,7 @@ const styles = StyleSheet.create({
 	formInputSwitch: {
 		flex: 1,
 		alignSelf: 'center',
-		//flexDirection: 'col',
-		// color: 'navy',
 		borderColor: 'navy',
-		// borderWidth: 1,
 		flexGrow: 1,
 		backgroundColor: 'white',
 		width: '100%'
@@ -77,31 +73,20 @@ const styles = StyleSheet.create({
 		margin: 2,
 		flexDirection: 'row',
 		justifyContent: 'space-between'
-		// color: 'white'
 	},
 	formPassword: {
-		//flexDirection: 'col',
 		backgroundColor: 'navy',
-		// color: 'white',
-		// width: '50%'
 	},
 	message: {
-		//flexDirection: 'col',
 		backgroundColor: 'yellow',
 		color: 'navy',
-		// color: 'white',
-		// width: '50%'
 	},
 	error: {
-		//flexDirection: 'col',
 		backgroundColor: 'red',
-		// color: 'white',
-		// width: '50%'
 	},
 	logo: {
 		flexGrow: 1,
 		justifyContent: 'center',
-		// alignSelf: 'flex-end',
 		width: 300,
 		height: 400,
 		overflow: 'visible',

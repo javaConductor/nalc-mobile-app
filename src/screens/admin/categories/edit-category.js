@@ -77,12 +77,10 @@ export default class EditCategory extends React.Component {
 						<Text>Name</Text>
 					</View>
 					<View style={styles.formInput}>
-						<Text style={styles.formInput}>
 							<TextInput
-								style={styles.formInput}
+								style={[styles.formInput, {borderWidth: 1}]}
 								value={category.name}
 								onChangeText={this.update.bind(this, 'name')}/>
-						</Text>
 					</View>
 				</View>
 				<View style={styles.formRow}>
@@ -90,12 +88,10 @@ export default class EditCategory extends React.Component {
 						<Text>Description</Text>
 					</View>
 					<View style={styles.formInput}>
-						<Text style={styles.formInput}>
-							<AutoGrowingTextInput
-								style={styles.formInput}
-								value={category.description}
-								onChangeText={this.update.bind(this, 'description')}/>
-						</Text>
+						<AutoGrowingTextInput
+							style={[styles.formInput, {borderWidth: 1}]}
+							value={category.description}
+							onChangeText={this.update.bind(this, 'description')}/>
 					</View>
 				</View>
 				<View style={styles.formRow}>
@@ -103,12 +99,10 @@ export default class EditCategory extends React.Component {
 						<Text>Slug</Text>
 					</View>
 					<View style={styles.formInput}>
-						<Text style={styles.formInput}>
-							<TextInput
-								style={styles.formInput}
-								value={category.slug}
-								onChangeText={this.update.bind(this, 'slug')}/>
-						</Text>
+						<TextInput
+							style={[styles.formInput, {borderWidth: 1}]}
+							value={category.slug}
+							onChangeText={this.update.bind(this, 'slug')}/>
 					</View>
 				</View>
 				<View>

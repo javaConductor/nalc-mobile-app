@@ -50,11 +50,11 @@ class Home extends React.Component {
 			const isAuthenticated = await auth.isUserAuthenticated();
 			//console.log(`Home.componentDidMount: setting isAuthenticated: ${isAuthenticated}`);
 			const origPosts = await storage.getNewsPosts();
-			console.log(`Home.componentDidMount: origPosts: ${JSON.stringify(origPosts, null, 2)}`);
-
+			//console.log(`Home.componentDidMount: origPosts: ${JSON.stringify(origPosts, null, 2)}`);
 			//const posts = origPosts.reverse();// move the latest to the front
-			const lastPost = origPosts[0];
-			const nextToLastPost = origPosts[1];
+			const lastPost = origPosts.length > 0 ? origPosts[0] : null;
+			const nextToLastPost = origPosts.length > 1 ? origPosts[1] : null;
+			console.log(`Home.componentDidMount: lastPosts: ${JSON.stringify(lastPost, null, 2)} \nand ${JSON.stringify(nextToLastPost, null, 2)}`);
 
 			if (this._isMounted)
 				this.setState((prevState) => {
@@ -112,8 +112,8 @@ class Home extends React.Component {
 					<Col size={10}>
 						<View style={{...Styles.logoContainer, zIndex: 0,}}>
 							<Text style={Styles.homeLabel}> Latest News </Text>
-							<ShowPost post={lastPost}/>
-							<ShowPost post={nextToLastPost}/>
+							{lastPost ? <ShowPost post={lastPost}/> : null}
+							{nextToLastPost ? <ShowPost post={nextToLastPost}/> : null}
 						</View>
 						<Text style={Styles.homeLabel} onPress={() => {
 							navigate('News', {})
