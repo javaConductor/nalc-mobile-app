@@ -1,6 +1,6 @@
 // Login.js
 import React from 'react'
-import {Button, Text, TextInput, View} from 'react-native'
+import {Button, Text, TextInput, TouchableOpacity, View} from 'react-native'
 import util from '../services/util';
 import auth from '../services/auth';
 import styles from './main-styles';
@@ -49,7 +49,6 @@ class Login extends React.Component {
 
 	async componentDidMount() {
 		const {navigate} = this.props.navigation;
-
 		const authenticated = await auth.isUserAuthenticated();
 		//console.log(`Login.componentDidMount: isAuthenticated: ${authenticated}`);
 
@@ -99,7 +98,7 @@ class Login extends React.Component {
 
 	render() {
 		const {email, password} = this.state.auth;
-		//console.log(`Login.render: auth: ${JSON.stringify({email, password})}`);
+		console.log(`Login.render: auth: ${JSON.stringify({email, password})}`);
 		const {message, errorMessage} = this.state;
 		const hasError = !!errorMessage;
 		const displayMessage = hasError ? errorMessage : message;
@@ -118,16 +117,14 @@ class Login extends React.Component {
 						<View style={styles.formLabel}>
 							<Text>EMAIL</Text>
 						</View>
-						<View style={styles.formInput}>
-							<Text style={{...styles.formInput, borderWidth: 1,}}>
-								<TextInput
-									autoGrow={true}
-									autoFocus={true}
-									style={{...styles.formInput, borderWidth: 1, width: '100%'}}
-									value={email}
-									onChangeText={this.updateEmail.bind(this)}/>
-							</Text>
-						</View>
+						<TouchableOpacity style={styles.formInput}>
+							<TextInput
+								autoGrow={true}
+								autoFocus={true}
+								style={{...styles.formInput, borderWidth: 1, width: '100%',}}
+								value={email}
+								onChangeText={this.updateEmail.bind(this)}/>
+						</TouchableOpacity>
 					</View>
 					<View style={styles.formRow}>
 						<View style={styles.formLabel}>
