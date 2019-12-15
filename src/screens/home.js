@@ -103,7 +103,7 @@ class Home extends React.Component {
 		if (this.state.isLoading)
 			return null;
 		const {navigate} = this.props.navigation;
-		//console.log(`Home.render: userIsAuthenticated: ${this.state.isAuthenticated}`);
+		//console.log(`Home.render(): userIsAuthenticated: ${this.state.isAuthenticated}`);
 		const {lastPost, nextToLastPost} = this.state;
 		return (<View style={Styles.container}>
 				<NavigationEvents onDidFocus={this.componentDidMount.bind(this)}/>
@@ -114,7 +114,7 @@ class Home extends React.Component {
 							<Text style={Styles.homeLabel}> Latest News </Text>
 							<View style={{paddingLeft: 10, paddingRight: 10}}>
 								{lastPost ? <ShowPost post={lastPost}/> : null}
-							{nextToLastPost ? <ShowPost post={nextToLastPost}/> : null}
+								{nextToLastPost ? <ShowPost post={nextToLastPost}/> : null}
 						</View>
 						</View>
 						<Text style={Styles.homeLabel} onPress={() => {
