@@ -112,8 +112,10 @@ class Home extends React.Component {
 					<Col size={10}>
 						<View style={{...Styles.logoContainer, zIndex: 0,}}>
 							<Text style={Styles.homeLabel}> Latest News </Text>
-							{lastPost ? <ShowPost post={lastPost}/> : null}
+							<View style={{paddingLeft: 10, paddingRight: 10}}>
+								{lastPost ? <ShowPost post={lastPost}/> : null}
 							{nextToLastPost ? <ShowPost post={nextToLastPost}/> : null}
+						</View>
 						</View>
 						<Text style={Styles.homeLabel} onPress={() => {
 							navigate('News', {})
