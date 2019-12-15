@@ -42,7 +42,7 @@ class ShowPost extends React.Component {
 		return <View style={{...styles.post}} key={post.id}>
 			<Text>{dateStr}</Text>
 			<Text style={{...styles.postTitle, fontSize: 20, fontFamily: 'OswaldHeavy-Regular'}}>{post.title}</Text>
-			<View style={styles.postContent}>
+			<View style={styles.postContent.backgroundColor: #e0eaf6}>
 				<HTML html={post.content}
 				      onLinkPress={(evt, href) => {
 					      Linking.openURL(href);
