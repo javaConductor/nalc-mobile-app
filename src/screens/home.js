@@ -111,7 +111,7 @@ class Home extends React.Component {
 
 					<Col size={10}>
 						<View style={{...Styles.logoContainer, zIndex: 0,}}>
-							<Text style={Styles.homeLabel}> kathy - Latest News </Text>
+							<Text style={Styles.homeLabel}> Latest News </Text>
 							{lastPost ? <ShowPost post={lastPost}/> : null}
 							{nextToLastPost ? <ShowPost post={nextToLastPost}/> : null}
 						</View>
