@@ -103,7 +103,7 @@ class Home extends React.Component {
 		if (this.state.isLoading)
 			return null;
 		const {navigate} = this.props.navigation;
-		//console.log(`Home.render: userIsAuthenticated: ${this.state.isAuthenticated}`);
+		//console.log(`Home.render(): userIsAuthenticated: ${this.state.isAuthenticated}`);
 		const {lastPost, nextToLastPost} = this.state;
 		return (<View style={Styles.container}>
 				<NavigationEvents
@@ -115,10 +115,12 @@ class Home extends React.Component {
 					<Col size={10}>
 						<View style={{...Styles.logoContainer, zIndex: 0,}}>
 							<Text style={Styles.homeLabel}> Latest News </Text>
-							{lastPost ? <ShowPost post={lastPost}/> : null}
-							{nextToLastPost ? <ShowPost post={nextToLastPost}/> : null}
+							<View style={{paddingLeft: 10, paddingRight: 10}}>
+								{lastPost ? <ShowPost post={lastPost}/> : null}
+								{nextToLastPost ? <ShowPost post={nextToLastPost}/> : null}
 						</View>
-						<Text style={Styles.homeLabel} onPress={() => {
+						</View>
+						<Text style={[Styles.homeLabel, {marginTop: 5}]} onPress={() => {
 							navigate('News', {})
 						}}>M o r e N e w s >></Text>
 						<Text style={Styles.homeLabel}>NALC on Social Media</Text>
