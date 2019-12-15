@@ -106,7 +106,7 @@ class Home extends React.Component {
 			return null;
 		const {navigate} = this.props.navigation;
 		//console.log(`Home.render(): userIsAuthenticated: ${this.state.isAuthenticated}`);
-		const {lastPost, nextToLastPost} = this.state;
+		const { lastPost, nextToLastPost, nextToNextToLastPost} = this.state;
 		return (<View style={Styles.container}>
 				<NavigationEvents
 					onWillFocus={this.componentDidMount.bind(this)}
