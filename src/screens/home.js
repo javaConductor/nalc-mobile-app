@@ -117,7 +117,7 @@ class Home extends React.Component {
 								{nextToLastPost ? <ShowPost post={nextToLastPost}/> : null}
 						</View>
 						</View>
-						<Text style={Styles.homeLabel} onPress={() => {
+						<Text style={[Styles.homeLabel, {paddingTop: 2}]} onPress={() => {
 							navigate('News', {})
 						}}>M o r e N e w s >></Text>
 						<Text style={Styles.homeLabel}>NALC on Social Media</Text>
