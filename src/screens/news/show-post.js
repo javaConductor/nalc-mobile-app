@@ -50,7 +50,7 @@ class ShowPost extends React.Component {
 			</View>
 			<View
 				style={{
-					borderBottomColor: '#222222',
+					borderBottomColor: '#ccc',
 					borderBottomWidth: 3,
 				}}
 			/>
