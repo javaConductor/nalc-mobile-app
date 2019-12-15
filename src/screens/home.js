@@ -66,7 +66,7 @@ class Home extends React.Component {
 						dims: Dimensions.get('screen'),
 						isLoading: false,
 						lastPost,
-						nextToLastPost
+						nextToLastPost, nextToNextToLastPost
 					}
 				});
 
