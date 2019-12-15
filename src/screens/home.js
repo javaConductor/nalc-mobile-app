@@ -106,7 +106,10 @@ class Home extends React.Component {
 		//console.log(`Home.render: userIsAuthenticated: ${this.state.isAuthenticated}`);
 		const {lastPost, nextToLastPost} = this.state;
 		return (<View style={Styles.container}>
-				<NavigationEvents onDidFocus={this.componentDidMount.bind(this)}/>
+				<NavigationEvents
+					onWillFocus={this.componentDidMount.bind(this)}
+					onDidFocus={this.componentDidMount.bind(this)}
+				/>
 				<Grid>
 
 					<Col size={10}>

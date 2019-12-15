@@ -1,11 +1,12 @@
 // EditAdmin.js
 import React from 'react'
-import {Button, Switch, Text, TextInput, View} from 'react-native'
+import {Button, Switch, Text, View} from 'react-native'
 import Users from '../../services/users';
 import styles from '../../screens/main-styles';
 import utils from '../../services/util';
 import {AutoGrowingTextInput} from "react-native-autogrow-textinput";
 import {withNavigation} from 'react-navigation';
+import PasswordInput from "../../components/password-input";
 
 
 class EditAdmin extends React.Component {
@@ -119,12 +120,10 @@ class EditAdmin extends React.Component {
 						<Text>First Name</Text>
 					</View>
 					<View style={styles.formInput}>
-						<Text style={styles.formInput}>
-							<AutoGrowingTextInput
-								style={styles.formInput}
-								value={admin.firstName}
-								onChangeText={this.update.bind(this, 'firstName')}/>
-						</Text>
+						<AutoGrowingTextInput
+							style={[styles.formInput, {borderWidth: 1}]}
+							value={admin.firstName}
+							onChangeText={this.update.bind(this, 'firstName')}/>
 					</View>
 				</View>
 				<View style={styles.formRow}>
@@ -132,12 +131,10 @@ class EditAdmin extends React.Component {
 						<Text>Last Name</Text>
 					</View>
 					<View style={styles.formInput}>
-						<Text style={styles.formInput}>
-							<AutoGrowingTextInput
-								style={styles.formInput}
-								value={admin.lastName}
-								onChangeText={this.update.bind(this, 'lastName')}/>
-						</Text>
+						<AutoGrowingTextInput
+							style={[styles.formInput, {borderWidth: 1}]}
+							value={admin.lastName}
+							onChangeText={this.update.bind(this, 'lastName')}/>
 					</View>
 				</View>
 				<View style={styles.formRow}>
@@ -145,12 +142,10 @@ class EditAdmin extends React.Component {
 						<Text>Email</Text>
 					</View>
 					<View style={styles.formInput}>
-						<Text style={{...styles.formInput, color: 'white', backgroundColor: emailBackgroundColor}}>
-							<AutoGrowingTextInput
-								style={{...styles.formInput,}}
-								value={admin.email}
-								onChangeText={this.update.bind(this, 'email')}/>
-						</Text>
+						<AutoGrowingTextInput
+							style={[styles.formInput, {borderWidth: 1, width: '100%'}]}
+							value={admin.email}
+							onChangeText={this.update.bind(this, 'email')}/>
 					</View>
 				</View>
 				<View style={styles.formRow}>
@@ -158,12 +153,7 @@ class EditAdmin extends React.Component {
 						<Text>Password</Text>
 					</View>
 					<View style={styles.formInput}>
-						<Text style={{...styles.formInput, backgroundColor: passwordBackgroundColor}}>
-							<TextInput
-								secureTextEntry={true}
-								style={{...styles.formInput,}}
-								onChangeText={this.updatePassword1.bind(this)}/>
-						</Text>
+						<PasswordInput onChangeText={this.updatePassword1.bind(this)}/>
 					</View>
 				</View>
 				<View style={styles.formRow}>
@@ -171,13 +161,7 @@ class EditAdmin extends React.Component {
 						<Text>Retype Password</Text>
 					</View>
 					<View style={styles.formInput}>
-						<Text style={{...styles.formInput, backgroundColor: passwordBackgroundColor}}>
-							<TextInput
-								secureTextEntry={true}
-								style={{...styles.formInput}}
-								onChangeText={this.updatePassword2.bind(this)}
-							/>
-						</Text>
+						<PasswordInput onChangeText={this.updatePassword2.bind(this)}/>
 					</View>
 				</View>
 				<View style={styles.formRow}>

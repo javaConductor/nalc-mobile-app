@@ -154,8 +154,9 @@ export default class UploadArticle extends React.Component {
 						<View style={{marginLeft: 15, alignContent: 'center'}}>
 							{this.renderCategoryChoices()}
 						</View>
-					</Grid></ScrollView>
-				<Button color={'navy'} disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
+					</Grid>
+					<Button color={'navy'} disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
+				</ScrollView>
 			</View>
 		)
 	}
