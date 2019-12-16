@@ -70,6 +70,18 @@ const self = {
 		console.error(`handleHttpError: error: ${JSON.stringify(obj)}`);
 		return obj;
 	},
+	getCircularReplacer: () => {
+		const seen = new WeakSet();
+		return (key, value) => {
+			if (typeof value === "object" && value !== null) {
+				if (seen.has(value)) {
+					return;
+				}
+				seen.add(value);
+			}
+			return value;
+		};
+	},
 	/**
 	 *
 	 * @param arr {unknown[]}

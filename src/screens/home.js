@@ -12,6 +12,7 @@ import storage from "../services/storage";
 import util from "../services/util";
 import {Col, Grid} from "react-native-easy-grid";
 import {SocialIcon} from 'react-native-elements'
+import MenuButton from "../components/menu/menu-button";
 
 
 const logo = require('../../assets/gldLogo72.png');
@@ -106,6 +107,7 @@ class Home extends React.Component {
 		//console.log(`Home.render(): userIsAuthenticated: ${this.state.isAuthenticated}`);
 		const {lastPost, nextToLastPost} = this.state;
 		return (<View style={Styles.container}>
+				<MenuButton navigation={this.props.navigation}/>
 				<NavigationEvents
 					onWillFocus={this.componentDidMount.bind(this)}
 					onDidFocus={this.componentDidMount.bind(this)}
@@ -113,16 +115,22 @@ class Home extends React.Component {
 				<Grid>
 
 					<Col size={10}>
-						<View style={{...Styles.logoContainer, zIndex: 0,}}>
-							<Text style={Styles.homeLabel}> Latest News </Text>
+						<View style={{...Styles.logoContainer,}}>
+							<View style={{alignContent: 'center', width: '100%'}}>
+								<Text style={Styles.screenTitle}>Latest News</Text>
+							</View>
 							<View style={{paddingLeft: 10, paddingRight: 10}}>
 								{lastPost ? <ShowPost post={lastPost}/> : null}
 								{nextToLastPost ? <ShowPost post={nextToLastPost}/> : null}
+							</View>
 						</View>
-						</View>
-						<Text style={[Styles.homeLabel, {marginTop: 5}]} onPress={() => {
-							navigate('News', {})
-						}}>M o r e N e w s >></Text>
+						<Text
+							style={[Styles.homeLabel, {marginTop: 5}]}
+							onPress={() => {
+								navigate('News', {})
+							}}>
+							M o r e N e w s >>
+						</Text>
 						<Text style={Styles.homeLabel}>NALC on Social Media</Text>
 						<View style={{flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between'}}>
 							<SocialIcon

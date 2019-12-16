@@ -2,9 +2,10 @@ import {StyleSheet} from "react-native";
 import Constants from 'expo-constants';
 
 
+const menuHeight = 32;
 const styles = StyleSheet.create({
 	container: {
-		marginTop: Constants.statusBarHeight,
+		marginTop: Constants.statusBarHeight + menuHeight,
 		marginLeft: 0,
 		marginRight: 0,
 		flex: 1,
@@ -144,7 +145,14 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 20,
 		fontWeight: '900',
-		alignSelf: 'flex-start'
+		alignSelf: 'center',
+	},
+	menuIcon: {
+		zIndex: 9,
+		position: 'absolute',
+		top: 0,
+		right: 0,
+
 	}
 });
 export default styles;

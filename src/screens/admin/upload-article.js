@@ -6,6 +6,7 @@ import newsService from '../../services/news';
 import {Col, Grid, Row} from "react-native-easy-grid";
 import util from "../../services/util";
 import styles from '../main-styles';
+import MenuButton from "../../components/menu/menu-button";
 
 
 export default class UploadArticle extends React.Component {
@@ -118,6 +119,7 @@ export default class UploadArticle extends React.Component {
 		return (
 			<View style={[styles.container]}>
 				{/*//<View style={styles.container}>*/}
+				<MenuButton navigation={this.props.navigation}/>
 				<Text style={styles.homeLabel}>U p l o a d A r t i c l e</Text>
 				{msgCtrl}
 				<ScrollView>

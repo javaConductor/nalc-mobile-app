@@ -1,6 +1,7 @@
 import React from 'react'
 import {createStackNavigator} from "react-navigation-stack";
 import {BottomTabBar, createBottomTabNavigator} from 'react-navigation-tabs';
+import {createDrawerNavigator} from 'react-navigation-drawer';
 import HomeScreen from '../../screens/home';
 import LoginScreen from '../../screens/login';
 import LogOutScreen from '../../screens/logOut';
@@ -160,12 +161,20 @@ const publicTabBarComponent = ({navigation, ...rest}) => {
 	);
 };
 
-export const createMainNavigator = () => createBottomTabNavigator(
+// export const createMainNavigator = () => createBottomTabNavigator(
+// 	publicRoutes,
+// 	{
+// 		tabBarComponent: publicTabBarComponent,
+// 		initialRouteName: "InitApp"
+// 	}
+// );
+
+export const createMainNavigator = () => createDrawerNavigator(
 	publicRoutes,
-	{
-		tabBarComponent: publicTabBarComponent,
-		initialRouteName: "InitApp"
-	}
+	// {
+	// 	tabBarComponent: publicTabBarComponent,
+	// 	initialRouteName: "InitApp"
+	// }
 );
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

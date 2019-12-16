@@ -5,6 +5,7 @@ import storage from '../../services/storage';
 import styles from '../../screens/main-styles';
 import ShowPost from './show-post';
 import util from "../../services/util";
+import MenuButton from "../../components/menu/menu-button";
 //import config from '../../config';
 
 export default class PostList extends React.Component {
@@ -73,6 +74,7 @@ export default class PostList extends React.Component {
 
 		return (
 			<View style={styles.container}>
+				<MenuButton navigation={this.props.navigation}/>
 				<Text style={styles.homeLabel}>N e w s</Text>
 				{/*<ListView*/}
 				{/*	contentContainerStyle={{...styles.wrapper}}*/}
