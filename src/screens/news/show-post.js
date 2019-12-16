@@ -3,7 +3,7 @@ import React from 'react';
 import {ActivityIndicator, Linking, Text, View} from 'react-native'
 import HTML from 'react-native-render-html';
 import styles from '../../screens/main-styles';
-import * as Font from 'expo-font';
+import utils from "../../services/util";
 
 
 class ShowPost extends React.Component {
@@ -20,11 +20,7 @@ class ShowPost extends React.Component {
 	}
 
 	async componentDidMount() {
-		await Font.loadAsync({
-			'Oswald-Bold': require('../../../assets/fonts/Oswald-Bold.ttf'),
-			'OswaldHeavy-Regular': require('../../../assets/fonts/OswaldHeavy-Regular.ttf'),
-
-		});
+		await utils.loadFonts();
 		this.setState((prevState) => {
 			return {...prevState, loading: false}
 		})

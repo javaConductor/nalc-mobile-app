@@ -6,6 +6,7 @@ import storage from '../services/storage';
 import styles from '../screens/main-styles';
 import util from "../services/util";
 import {Col, Grid, Row} from "react-native-easy-grid";
+import MenuButton from "../components/menu/menu-button";
 
 
 export default class ManageInterests extends React.Component {
@@ -117,24 +118,27 @@ export default class ManageInterests extends React.Component {
 		const msgCtrl = this.state.message ? <Text style={styles.message}>{this.state.message}</Text> : null;
 		const errCtrl = this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : null;
 		return (
-			<ScrollView contentContainerStyle={styles.container}>
+			<View style={styles.container}>
+				<MenuButton navigation={this.props.navigation}/>
 				<Text style={styles.homeLabel}>I n t e r e s t s</Text>
-				{errCtrl}
-				{msgCtrl}
-				<Grid style={{marginRight: 10}}>
-					<Row size={1}>
-						<Col size={3}><Text style={styles.rowHeader}>Select Categories</Text></Col>
-					</Row>
-					{rows}
-				</Grid>
-				<View>
-					<Button
-						color={'navy'}
-						title={'Save'}
-						raised={true}
-						onPress={this.onSave.bind(this)}/>
-				</View>
-			</ScrollView>
+				<ScrollView contentContainerStyle={styles.container}>
+					{errCtrl}
+					{msgCtrl}
+					<Grid style={{marginRight: 10}}>
+						<Row size={1}>
+							<Col size={3}><Text style={styles.rowHeader}>Select Categories</Text></Col>
+						</Row>
+						{rows}
+					</Grid>
+					<View>
+						<Button
+							color={'navy'}
+							title={'Save'}
+							raised={true}
+							onPress={this.onSave.bind(this)}/>
+					</View>
+				</ScrollView>
+			</View>
 		)
 	}
 

@@ -7,6 +7,7 @@ import utils from '../../services/util';
 import auth from '../../services/auth';
 import {NavigationEvents} from "react-navigation";
 import PasswordInput from '../../components/password-input';
+import MenuButton from "../../components/menu/menu-button";
 
 
 export default class ChangePassword extends React.Component {
@@ -78,7 +79,8 @@ export default class ChangePassword extends React.Component {
 			<NavigationEvents
 				onWillBlur={this.componentWillUnmount.bind(this)}
 				onWillFocus={this.componentDidMount.bind(this)}/>
-			<Text style={styles.homeLabel}>C h a n g e P a s s w o r d</Text>
+			<MenuButton navigation={this.props.navigation}/>
+			<Text style={styles.homeLabel}>Change Password</Text>
 
 			{errorComponent}
 			{messageComponent}

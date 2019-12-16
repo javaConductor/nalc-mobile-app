@@ -1,5 +1,5 @@
 import React from "react";
-import {Dimensions, SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {ActivityIndicator, Dimensions, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import HomeScreen from '../../screens/home';
 import NewsScreen from '../../screens/news/post-list';
 import ManageInterestsScreen from "../../screens/manage-interests";
@@ -22,6 +22,7 @@ import ManageAdminsScreen from "../../screens/admin/manage-admins";
 import EditAdminScreen from "../../screens/admin/edit-admin";
 import MainDrawer from "./main-drawer";
 import {evaluateChildDrawerTitle} from './utils';
+import utils from '../../services/util';
 
 
 const WIDTH = Dimensions.get('window').width;
@@ -29,10 +30,15 @@ const WIDTH = Dimensions.get('window').width;
 const createDrawerNavComponent = (routeFilterFn) => {
 	return class Drawer extends React.Component {
 
-		componentDidMount() {
+		async componentDidMount() {
+			this.setState((prevState) => ({...prevState, isLoading: true}));
+			await utils.loadFonts();
+			this.setState((prevState) => ({...prevState, isLoading: false}));
 		}
 
 		render() {
+			if (this.state.isLoading)
+				return <ActivityIndicator/>;
 			console.log(`Drawer.render: props ${JSON.stringify(Object.keys(this.props))}`);
 			//console.log(`Drawer.render: props.descriptors ${JSON.stringify( this.props.descriptors, null, 2 ) }`);
 			return (
@@ -58,7 +64,7 @@ const createDrawerNavComponent = (routeFilterFn) => {
 			console.log(`Drawer.drawerItems: filteredItems ${JSON.stringify(filteredItems, null, 2)}`);
 			const newProps = {...this.props, items: filteredItems};
 			return (
-				<DrawerItems  {...newProps} />
+				<DrawerItems  {...newProps} labelStyle={{fontSize: 16, fontFamily: "Oswald-Bold"}}/>
 			);
 		}
 	}
@@ -147,6 +153,7 @@ const publicRoutes = {
 	Example: Example,
 	InitApp: InitApp,
 	SplashScreen: {screen: Splash, title: 'Initializing NALC Mobile . . .'},
+
 };
 const filterPublicRoutes = (route) => {
 	console.log(`DrawerNavigator.filterRoutes: route: ${route.routeName}`);
@@ -204,6 +211,7 @@ const DrawerConfig = {
 	drawerWidth: WIDTH * 0.83,
 	drawerPosition: 'right',
 	contentComponent: MainDrawer,
+	initialRouteName: "InitApp"
 };
 
 ///////////////////////////////////////////////////////////////////////////////

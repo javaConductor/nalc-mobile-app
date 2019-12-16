@@ -19,9 +19,10 @@ const OuterDrawerItem = (item) => {
 			style={{
 				flexDirection: 'row',
 				justifyContent: 'space-between',
+
 			}}
 		>
-			<Text>{label}</Text>
+			<Text style={{fontSize: 16, fontFamily: 'Oswald-Bold'}}>{label}</Text>
 			{hasChildren ? <Icon name="chevron-right" size={20}/> : null}
 		</View>
 	</TouchableOpacity>

@@ -2,7 +2,7 @@ export const evaluateOuterDrawerListItems = items => {
 	const drawerItems = {};
 	items.forEach((item, index) => {
 		let {key} = item;
-//		console.log(`OuterDrawerListItem: ${key}.`);
+		console.log(`OuterDrawerListItem: item: ${JSON.stringify(item, null, 2)}.`);
 
 		// Delimiter _
 		// key => DataSearch_Basic to DataSearch
@@ -14,9 +14,12 @@ export const evaluateOuterDrawerListItems = items => {
 
 				//console.log(`OuterDrawerListItem.Group: ${key} Item: ${opt} start: ${drawerItems[key].start} end: ${index+1}`);
 				drawerItems[key].end = index + 1;
+				drawerItems[key].routeName = key;
+
 			} else {
 				//console.log(`OuterDrawerListItem.Group: ${key} start: ${index} end: ${0}`);
 				drawerItems[key] = {
+					routeName: key,
 					start: index,
 					end: 0,
 				};
@@ -24,6 +27,7 @@ export const evaluateOuterDrawerListItems = items => {
 		} else {
 			//console.log(`OuterDrawerListItem.Group: ${origKey} NO Children start: ${index} end: ${index+1}`);
 			drawerItems[origKey] = {
+				routeName: origKey,
 				start: index,
 				end: index + 1,
 			};

@@ -2,10 +2,10 @@ import {StyleSheet} from "react-native";
 import Constants from 'expo-constants';
 
 
-const menuHeight = 32;
+const menuHeight = 0;
 const styles = StyleSheet.create({
 	container: {
-		marginTop: Constants.statusBarHeight + menuHeight,
+		marginTop: Constants.statusBarHeight,
 		marginLeft: 0,
 		marginRight: 0,
 		flex: 1,

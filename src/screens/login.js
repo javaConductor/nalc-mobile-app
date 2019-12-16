@@ -6,6 +6,7 @@ import auth from '../services/auth';
 import styles from './main-styles';
 import {NavigationEvents} from "react-navigation";
 import PasswordInput from '../components/password-input';
+import MenuButton from "../components/menu/menu-button";
 
 
 class Login extends React.Component {
@@ -110,6 +111,7 @@ class Login extends React.Component {
 				<NavigationEvents
 					onDidBlur={this.componentDidMount.bind(this)}
 					onWillFocus={this.componentDidMount.bind(this)}/>
+				<MenuButton navigation={this.props.navigation}/>
 				<Text style={styles.homeLabel}>L o g i n</Text>
 				{msgComponent}
 				<View style={styles.form}>

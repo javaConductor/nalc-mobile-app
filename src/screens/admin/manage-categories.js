@@ -7,6 +7,7 @@ import {Col, Grid, Row} from "react-native-easy-grid";
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import util from "../../services/util";
 import styles from '../main-styles';
+import MenuButton from "../../components/menu/menu-button";
 
 
 export default class ManageCategories extends React.Component {
@@ -60,6 +61,7 @@ export default class ManageCategories extends React.Component {
 		return (
 			<View style={styles.container}>
 				<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
+				<MenuButton navigation={this.props.navigation}/>
 				<Text style={styles.homeLabel}>C a t e g o r i e s</Text>
 				<ScrollView>
 					<Grid>

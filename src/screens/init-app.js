@@ -23,6 +23,8 @@ class InitApp extends React.Component {
 			return {...prevState, isLoading: true}
 		});
 		const firstTimeRun = await initApp.initApp();
+		await util.loadFonts();
+
 		console.log(`InitApp.componentDidMount: firstTimeRun: ${firstTimeRun}`);
 		if (firstTimeRun) {
 			console.log(`InitApp.componentDidMount: navigated to SplashScreen`);

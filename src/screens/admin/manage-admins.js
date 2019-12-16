@@ -6,6 +6,7 @@ import {NavigationEvents, withNavigation} from 'react-navigation';
 import {Col, Grid, Row} from "react-native-easy-grid";
 import util from "../../services/util";
 import mainStyles from '../main-styles';
+import MenuButton from "../../components/menu/menu-button";
 
 
 class ManageAdmins extends React.Component {
@@ -62,6 +63,7 @@ class ManageAdmins extends React.Component {
 		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
 		return <View style={mainStyles.container}>
 			<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
+			<MenuButton navigation={this.props.navigation}/>
 			<Text style={{
 				width: '100%',
 				backgroundColor: 'navy',

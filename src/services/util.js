@@ -1,4 +1,5 @@
 import sha256 from 'js-sha256';
+import * as Font from "expo-font";
 // import storage from "./storage";
 
 const self = {
@@ -95,6 +96,12 @@ const self = {
 			return {...m, [uniqueValueFn(value)]: value};
 		}, {});
 		return Object.values(obj);
+	},
+	async loadFonts() {
+		await Font.loadAsync({
+			'Oswald-Bold': require('../../assets/fonts/Oswald-Bold.ttf'),
+			'OswaldHeavy-Regular': require('../../assets/fonts/OswaldHeavy-Regular.ttf'),
+		});
 	}
 
 };

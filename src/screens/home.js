@@ -41,6 +41,7 @@ class Home extends React.Component {
 		try {
 			//console.log(`Home.componentDidMount: dim.screen ${JSON.stringify(Dimensions.get('screen'), null, 2)}  dim.window ${JSON.stringify(Dimensions.get('window'))}`);
 			await systemCheck.check();
+
 			//console.log('Home.componentDidMount: check OK');
 		} catch (e) {
 			console.error(`Home.componentDidMount: check FAILED!!! ${util.errorMessage(e)}`);
