@@ -50,7 +50,7 @@ class MainDrawer extends Component {
 			return {itemLabel: item, ...mainDrawerItems[item]}
 		});
 		const nuList = fullItemList.map((item) => ({...item, hasChildren: (item.end !== item.start + 1)}));
-		console.log(`renderMainDrawerComponents: mainDrawerItems: ${JSON.stringify(nuList, null, 2)}`);
+		//console.log(`renderMainDrawerComponents: mainDrawerItems: ${JSON.stringify(nuList, null, 2)}`);
 		return nuList.map(({itemLabel, start, end, hasChildren}) => (
 			<OuterDrawerItem
 				key={itemLabel}
