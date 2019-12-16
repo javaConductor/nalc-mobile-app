@@ -35,10 +35,11 @@ class ShowPost extends React.Component {
 		console.log(`ShowPost: post: ${post.title}`);
 		const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 		const dateStr = new Date(post.date).toLocaleString("en-US", options);
-		return <View style={{...styles.post}} key={post.id}>
+		return <View style={[styles.post, {alignItems: 'flex-start', backgroundColor: '#e0eaf6' } ]   }
+						key={post.id}>
 			<Text>{dateStr}</Text>
 			<Text style={{...styles.postTitle, fontSize: 20, fontFamily: 'OswaldHeavy-Regular'}}>{post.title}</Text>
-			<View style={styles.postContent}>
+			<View style={[styles.postContent, { backgroundColor: '#e0eaf6' }]}>
 				<HTML html={post.content}
 				      onLinkPress={(evt, href) => {
 					      Linking.openURL(href);

@@ -41,7 +41,6 @@ class Home extends React.Component {
 		try {
 			//console.log(`Home.componentDidMount: dim.screen ${JSON.stringify(Dimensions.get('screen'), null, 2)}  dim.window ${JSON.stringify(Dimensions.get('window'))}`);
 			await systemCheck.check();
-
 			//console.log('Home.componentDidMount: check OK');
 		} catch (e) {
 			console.error(`Home.componentDidMount: check FAILED!!! ${util.errorMessage(e)}`);
@@ -57,6 +56,7 @@ class Home extends React.Component {
 			const lastPost = origPosts.length > 0 ? origPosts[0] : null;
 			const nextToLastPost = origPosts.length > 1 ? origPosts[1] : null;
 			const nextToNextToLastPost = origPosts.length > 2 ? origPosts[2] : null;
+
 			console.log(`Home.componentDidMount: lastPosts: ${JSON.stringify(lastPost, null, 2)} \nand ${JSON.stringify(nextToLastPost, null, 2)}`);
 
 			if (this._isMounted)
