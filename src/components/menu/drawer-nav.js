@@ -29,6 +29,12 @@ const WIDTH = Dimensions.get('window').width;
 
 const createDrawerNavComponent = (routeFilterFn) => {
 	return class Drawer extends React.Component {
+		constructor(props) {
+			super(props);
+			this.state = {
+				isLoading: true
+			}
+		}
 
 		async componentDidMount() {
 			this.setState((prevState) => ({...prevState, isLoading: true}));

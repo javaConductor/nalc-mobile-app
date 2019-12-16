@@ -2,7 +2,7 @@ export const evaluateOuterDrawerListItems = items => {
 	const drawerItems = {};
 	items.forEach((item, index) => {
 		let {key} = item;
-		console.log(`OuterDrawerListItem: item: ${JSON.stringify(item, null, 2)}.`);
+		//console.log(`OuterDrawerListItem: item: ${JSON.stringify(item, null, 2)}.`);
 
 		// Delimiter _
 		// key => DataSearch_Basic to DataSearch
@@ -34,7 +34,7 @@ export const evaluateOuterDrawerListItems = items => {
 
 		}
 	});
-	console.log(`OuterDrawerListItem: return: ${JSON.stringify(drawerItems, null, 2)}`);
+	//console.log(`OuterDrawerListItem: return: ${JSON.stringify(drawerItems, null, 2)}`);
 	return drawerItems;
 };
 

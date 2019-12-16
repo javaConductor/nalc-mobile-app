@@ -61,7 +61,7 @@ export default class ChangePassword extends React.Component {
 		// console.log(`isPasswordOk: ${state.password1} === ${state.password2} = ${state.password1===state.password2}`);
 		const passwordsMatch = state.password1 === state.password2;
 		const passwordsOk = (passwordsMatch && (state.password1.length > 5));
-		console.log(`isPasswordOk: length: ${state.password1.length} and ${state.password2.length} OK: ${passwordsOk}`);
+		//console.log(`isPasswordOk: length: ${state.password1.length} and ${state.password2.length} OK: ${passwordsOk}`);
 		return passwordsOk;
 	}
 

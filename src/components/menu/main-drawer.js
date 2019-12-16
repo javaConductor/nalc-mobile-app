@@ -77,7 +77,7 @@ class MainDrawer extends Component {
 		const {items, ...restProps} = this.props;
 		const {mainDrawer, currentComponent} = this.state;
 		console.log(`MainDrawer.render: mainDrawer: ${mainDrawer} currentComponent: ${currentComponent} `);
-		console.log(`MainDrawer.render: items: ${JSON.stringify(items.map(item => item), null, 2)}`);
+		//console.log(`MainDrawer.render: items: ${JSON.stringify(items.map(item => item), null, 2)}`);
 		// get items objects with unique items and indexes
 		const scopedItemsObject = evaluateOuterDrawerListItems(items);
 
@@ -127,7 +127,7 @@ class MainDrawer extends Component {
 	}
 
 	filterPublicRoutes(route) {
-		console.log(`MainDrawer.filterPublicRoutes: route:  ${JSON.stringify(route)}`);
+		//console.log(`MainDrawer.filterPublicRoutes: route:  ${JSON.stringify(route)}`);
 		if (route.routeName === 'TesterScreen') {
 			const ans = true;
 			//console.log(`MainDrawer.filterPublicRoutes: show: ${ans} route: ${JSON.stringify(route)}`);

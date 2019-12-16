@@ -5,7 +5,7 @@ import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 
 const OuterDrawerItem = (item) => {
 	const {label, onPress, hasChildren} = item;
-	console.log(`OuterDrawerItem ${JSON.stringify(item, null, 2)}`);
+	//console.log(`OuterDrawerItem ${JSON.stringify(item, null, 2)}`);
 	return <TouchableOpacity
 		onPress={onPress}
 		style={{

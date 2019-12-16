@@ -56,6 +56,7 @@ class Home extends React.Component {
 			//const posts = origPosts.reverse();// move the latest to the front
 			const lastPost = origPosts.length > 0 ? origPosts[0] : null;
 			const nextToLastPost = origPosts.length > 1 ? origPosts[1] : null;
+			const nextToNextToLastPost = origPosts.length > 2 ? origPosts[2] : null;
 			console.log(`Home.componentDidMount: lastPosts: ${JSON.stringify(lastPost, null, 2)} \nand ${JSON.stringify(nextToLastPost, null, 2)}`);
 
 			if (this._isMounted)
@@ -66,7 +67,8 @@ class Home extends React.Component {
 						dims: Dimensions.get('screen'),
 						isLoading: false,
 						lastPost,
-						nextToLastPost
+						nextToLastPost,
+						nextToNextToLastPost
 					}
 				});
 
@@ -106,7 +108,7 @@ class Home extends React.Component {
 			return null;
 		const {navigate} = this.props.navigation;
 		//console.log(`Home.render(): userIsAuthenticated: ${this.state.isAuthenticated}`);
-		const {lastPost, nextToLastPost} = this.state;
+		const {lastPost, nextToLastPost, nextToNextToLastPost} = this.state;
 		return (<View style={Styles.container}>
 				<MenuButton navigation={this.props.navigation}/>
 				<NavigationEvents
@@ -123,6 +125,7 @@ class Home extends React.Component {
 							<View style={{paddingLeft: 10, paddingRight: 10}}>
 								{lastPost ? <ShowPost post={lastPost}/> : null}
 								{nextToLastPost ? <ShowPost post={nextToLastPost}/> : null}
+								{nextToNextToLastPost ? <ShowPost post={nextToNextToLastPost}/> : null}
 							</View>
 						</View>
 						<Text
