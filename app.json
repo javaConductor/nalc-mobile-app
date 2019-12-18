@@ -7,7 +7,7 @@
       "**/*"
     ],
     "description": "",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "ios": {
       "supportsTablet": true
     },

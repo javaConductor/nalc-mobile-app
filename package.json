@@ -43,12 +43,13 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.6.3",
-    "babel-core": "7.1.2",
+    "@babel/core": "7.0.0-beta.47",
+    "babel-core": "7.0.0-beta.3",
+    "jest": "^25.0.0",
     "babel-jest": "^25.0.0",
     "babel-preset-expo": "^7.1.0",
     "babel-preset-react-native": "^5.0.2",
     "braces": "^3.0.2",
-    "jest": "^25.0.0",
     "react-test-renderer": "16.3.1"
   },
   "rnpm": {
