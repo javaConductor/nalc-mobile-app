@@ -28,8 +28,10 @@ const OuterDrawerItem = (item) => {
 					flexDirection: 'column',
 					justifyContent: 'space-around',
 				}}>
-				<Text style={{fontSize: 16, fontFamily: 'Oswald-Bold'}}>{label}</Text>
-				{hasChildren ? <Icon name="chevron-right" size={20}/> : null}
+				<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+					<Text style={{fontSize: 16, fontFamily: 'Oswald-Bold'}}>{label}</Text>
+					{hasChildren ? <Icon name="chevron-right" size={40}/> : null}
+				</View>
 
 				<View
 					style={{
