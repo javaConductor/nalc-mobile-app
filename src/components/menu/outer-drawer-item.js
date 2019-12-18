@@ -22,8 +22,22 @@ const OuterDrawerItem = (item) => {
 
 			}}
 		>
-			<Text style={{fontSize: 16, fontFamily: 'Oswald-Bold'}}>{label}</Text>
-			{hasChildren ? <Icon name="chevron-right" size={20}/> : null}
+			<View
+				style={{
+					width: '100%',
+					flexDirection: 'column',
+					justifyContent: 'space-around',
+				}}>
+				<Text style={{fontSize: 16, fontFamily: 'Oswald-Bold'}}>{label}</Text>
+				{hasChildren ? <Icon name="chevron-right" size={20}/> : null}
+
+				<View
+					style={{
+						width: '100%',
+						borderBottomColor: 'black',
+						borderBottomWidth: 1,
+					}}
+				/></View>
 		</View>
 	</TouchableOpacity>
 };
