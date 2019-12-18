@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		fontWeight: '900',
 		alignSelf: 'flex-start',
-		paddingTop: 3,
-		paddingBottom: 3,
+		paddingTop: 7,
+		paddingBottom: 7,
 	},
 	post: {
 		justifyContent: 'center',
