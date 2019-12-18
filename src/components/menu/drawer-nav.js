@@ -251,7 +251,7 @@ const allTasksRoutes = {
 		title: "Change Password",
 		navigationOptions: evaluateChildDrawerTitle,
 	},
-	'Administrative Tasks_LogOut': {
+	'LogOut': {
 		screen: LogOutScreen,
 		title: "Sign Out",
 		navigationOptions: evaluateChildDrawerTitle,

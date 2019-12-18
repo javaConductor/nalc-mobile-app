@@ -88,7 +88,7 @@ class MainDrawer extends Component {
 			const obj = Object.keys(scopedItemsObject).reduce((acc, routeName) => {
 				console.log(`MainDrawer.render: routeName: ${routeName} `);
 				if (routeName === component)
-					return acc;
+					return (acc);
 				const obj = scopedItemsObject[routeName];
 				return this.filterPublicRoutes(obj)
 					? {...acc, [routeName]: obj}
