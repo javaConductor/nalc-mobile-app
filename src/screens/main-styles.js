@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 		marginLeft: 10,
 		marginRight: 20,
-		alignSelf: 'left'
+		alignSelf: 'flex-start'
 	},
 	postContent: {
 		backgroundColor: 'white',
