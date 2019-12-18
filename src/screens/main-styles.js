@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 	},
 	postTitle: {
-		color: 'maroon',
+		color: '#c6002f',
 		fontFamily: 'Oswald-Bold',
 		fontStyle: "normal",
 		fontSize: 30,
