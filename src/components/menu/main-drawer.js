@@ -152,7 +152,7 @@ class MainDrawer extends Component {
 			const ans = auth.userState.hasAuthenticated;
 			//console.log(`MainDrawer.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
 			return ans;
-		} else if (['Home', 'News', 'ManageInterests'].includes(route.routeName)) {
+		} else if (['Home', 'News', 'Manage Interests'].includes(route.routeName)) {
 			const ans = true;//!auth.userState.hasAuthenticated;
 			//console.log(`MainDrawer.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
 			return ans;

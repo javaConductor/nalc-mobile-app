@@ -151,7 +151,7 @@ const adminNavigator = createAppContainer(createAdminDrawerNavigator());
 const publicRoutes = {
 	Home: {screen: HomeScreen},
 	News: {screen: NewsScreen},
-	ManageInterests: {screen: ManageInterestsScreen, title: "Interests"},
+	'Manage Interests': {screen: ManageInterestsScreen, title: "Interests"},
 	Login: {screen: LoginScreen, title: "Sign In"},
 	Admin: {screen: AdminScreen, title: 'Administrative Tasks'},
 	AdminMenu: {screen: adminNavigator, title: 'Administrative Tasks'},
@@ -187,7 +187,7 @@ const filterPublicRoutes = (route) => {
 		const ans = showLogOutMenuOption();
 		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
 		return ans;
-	} else if (['Home', 'News', 'ManageInterests'].includes(route.routeName)) {
+	} else if (['Home', 'News', 'Manage Interests'].includes(route.routeName)) {
 		const ans = showDefaultOptions();
 		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
 		return ans;
@@ -226,7 +226,7 @@ const DrawerConfig = {
 const allTasksRoutes = {
 	Home: {screen: HomeScreen},
 	News: {screen: NewsScreen},
-	ManageInterests: {screen: ManageInterestsScreen, title: "Interests",},
+	'Manage Interests': {screen: ManageInterestsScreen, title: "Interests",},
 	Login: {screen: LoginScreen, title: "Sign In"},
 	Admin: {screen: AdminScreen, title: 'Administrative Tasks'},
 	AdminMenu: {screen: adminNavigator, title: 'Administrative Tasks'},
