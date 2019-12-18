@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'Oswald-Bold',
 		fontStyle: "normal",
 		fontSize: 30,
-		backgroundColor: '#eoeaf6',
+		backgroundColor: '#e0eaf6',
 		marginLeft: 10,
 		marginRight: 20,
 		alignSelf: 'flex-start'
