@@ -107,7 +107,9 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 20,
 		fontWeight: '900',
-		alignSelf: 'flex-start'
+		alignSelf: 'flex-start',
+		paddingTop: 3,
+		paddingBottom: 3,
 	},
 	post: {
 		justifyContent: 'center',
