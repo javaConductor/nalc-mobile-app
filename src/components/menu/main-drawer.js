@@ -78,15 +78,15 @@ class MainDrawer extends Component {
 		const {items, navigation, ...restProps} = this.props;
 		const {mainDrawer, currentComponent} = this.state;
 		const component = navigation.state.routes[navigation.state.index].key;
-		console.log(`MainDrawer.render: mainDrawer: component: ${JSON.stringify(component, utils.getCircularReplacer(), 2)} `);
-		console.log(`MainDrawer.render: mainDrawer: ${mainDrawer} currentComponent: ${currentComponent} `);
+		//console.log(`MainDrawer.render: mainDrawer: component: ${JSON.stringify(component, utils.getCircularReplacer(), 2)} `);
+		//console.log(`MainDrawer.render: mainDrawer: ${mainDrawer} currentComponent: ${currentComponent} `);
 		//console.log(`MainDrawer.render: items: ${JSON.stringify(items.map(item => item), null, 2)}`);
 		// get items objects with unique items and indexes
 		const scopedItemsObject = evaluateOuterDrawerListItems(items);
 
 		if (mainDrawer) {
 			const obj = Object.keys(scopedItemsObject).reduce((acc, routeName) => {
-				console.log(`MainDrawer.render: routeName: ${routeName} `);
+				//console.log(`MainDrawer.render: routeName: ${routeName} `);
 				if (routeName === component)
 					return (acc);
 				const obj = scopedItemsObject[routeName];
