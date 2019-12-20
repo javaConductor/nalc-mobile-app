@@ -8,11 +8,15 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@babel/helper-create-regexp-features-plugin": "^7.7.4",
+    "@expo/vector-icons": "latest",
     "babel-preset-react-native": "^5.0.2",
+    "braces": "^3.0.2",
     "cheeseburger-menu": "0.0.13",
     "debug": "^3.1.0",
-    "expo": "^35.0.0",
+    "expo": "^36.0.1",
     "expo-constants": "^8.0.0",
+    "expo-image-picker": "^8.0.1",
     "fresh": "^0.5.2",
     "js-sha256": "^0.9.0",
     "js-yaml": "^3.13.1",
@@ -38,18 +42,17 @@
     "react-navigation-drawer": "^2.3.3",
     "react-navigation-stack": "^1.10.3",
     "react-navigation-tabs": "^2.6.0",
-    "uuid": "^3.3.3",
-    "@expo/vector-icons": "latest"
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.6.3",
-    "@babel/core": "7.0.0-beta.47",
-    "babel-core": "7.0.0-beta.3",
-    "jest": "^25.0.0",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^25.0.0",
     "babel-preset-expo": "^7.1.0",
     "babel-preset-react-native": "^5.0.2",
     "braces": "^3.0.2",
+    "jest": "^25.0.0",
     "react-test-renderer": "16.3.1"
   },
   "rnpm": {

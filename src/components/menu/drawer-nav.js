@@ -251,6 +251,8 @@ const allTasksRoutes = {
 		title: "Change Password",
 		navigationOptions: evaluateChildDrawerTitle,
 	},
+	TesterScreen: {screen: Tester, navigationOptions: evaluateChildDrawerTitle},
+
 	'LogOut': {
 		screen: LogOutScreen,
 		title: "Sign Out",

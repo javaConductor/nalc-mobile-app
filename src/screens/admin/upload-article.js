@@ -1,12 +1,14 @@
 // UploadArticle.js
 import React from 'react'
-import {Button, ScrollView, Switch, Text, TextInput, View} from 'react-native'
+import {Button, Image, ScrollView, Switch, Text, TextInput, View} from 'react-native';
+
 import categoryService from '../../services/categories';
 import newsService from '../../services/news';
 import {Col, Grid, Row} from "react-native-easy-grid";
 import util from "../../services/util";
 import styles from '../main-styles';
 import MenuButton from "../../components/menu/menu-button";
+import * as ImagePicker from 'expo-image-picker';
 
 
 export default class UploadArticle extends React.Component {
@@ -20,6 +22,7 @@ export default class UploadArticle extends React.Component {
 		this.state = {
 			title: undefined,
 			url: undefined,
+			image: null,
 			selectedCategories: {},//{categoryId: true/false}
 			categories: []// name, id
 		}
@@ -78,13 +81,34 @@ export default class UploadArticle extends React.Component {
 		return keys.filter((categorySelection) => selectedCategories[categorySelection]);
 	}
 
+	clearImage() {
+		this.setState((prevState) => ({...prevState, image: null}));
+	}
+
+	_pickImage = async () => {
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1
+		});
+
+		console.log(`UploadArticle._pickImage: picker result:  ${JSON.stringify(result)}`);
+
+		if (!result.cancelled) {
+			this.setState({image: result.uri});
+		}
+	};
+
 	async onSave() {
 		const {navigate} = this.props.navigation;
-		const {url, title} = this.state;
+		const {url, title, image} = this.state;
 		const categories = this.selectedIdList(this.state.selectedCategories);
 		const contentLink = `<a target='_blank' href='${url}'> Link...</a>`;
 		try {
-			await newsService.addNewsPost({content: contentLink, title, categories});
+			const response = await newsService.addNewsPost({content: contentLink, title, categories, image});
+			console.log(`UploadArticle.onSave: response: ${JSON.stringify(response)}`);
+
 			const selectedCategories = this.createSelectedCategories(this.state.categories);
 			if (this.mounted)
 				this.setState((prevState) => ({
@@ -100,7 +124,7 @@ export default class UploadArticle extends React.Component {
 			if (this.mounted)
 				this.setState((prevState) => ({
 					...prevState,
-					message: `Error uploading article: ${util.errorMessage(e)}`
+					errorMessage: `Error uploading article: ${util.errorMessage(e)}`
 				}));
 			if (typeof e === 'object' && (e.authenticationRequired || e.badToken)) {
 				navigate("Login", {target: "UploadArticle"});
@@ -109,19 +133,20 @@ export default class UploadArticle extends React.Component {
 	}
 
 	render() {
-		const urlRegex = /(https?|ftp):\/\/(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?/;
-		const {title, url, selectedCategories} = this.state;
-		const goodURL = urlRegex.test(url);
+		const {title, url, selectedCategories, image, message, errorMessage} = this.state;
+		const goodURL = util.validURL(url);
 		console.log(`UploadArticle.render: ${url} ${goodURL ? "Good URL" : "URL NO GOOD"}!`);
 		const selected = this.selectedIdList(selectedCategories);
 		const canSave = goodURL && title && title.trim().length > 0 && url && url.trim().length > 0 && selected.length > 0;
-		const msgCtrl = this.state.message ? <Text>{this.state.message}</Text> : null;
+		const msgCtrl = message ? <Text style={styles.message}>{message}</Text> : null;
+		const errorCtrl = errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null;
 		return (
 			<View style={[styles.container]}>
 				{/*//<View style={styles.container}>*/}
 				<MenuButton navigation={this.props.navigation}/>
 				<Text style={styles.homeLabel}>U p l o a d A r t i c l e</Text>
 				{msgCtrl}
+				{errorCtrl}
 				<ScrollView>
 					<Grid
 						style={{flexDirection: 'column', justifyContent: 'space-around', flexGrow: 2, marginLeft: 10}}>
@@ -153,6 +178,40 @@ export default class UploadArticle extends React.Component {
 								</View>
 							</Col>
 						</Row>
+						<Row style={{marginBottom: 10,}}>
+							<Col size={2}>
+								<View style={styles.formLabel}>
+									<Text>Image</Text>
+								</View>
+							</Col>
+							<Col size={6}>
+								<View
+									style={[styles.formInput, {flexDirection: 'row', justifyContent: 'space-between'}]}>
+
+									<Button
+										style={{
+											marginRight: 10,
+											outlineColor: 'navy',
+											borderColor: 'navy',
+											borderRadius: 20
+										}}
+										title="Select Image"
+										onPress={this._pickImage}
+									/>
+									{image &&
+									<Button
+										style={{marginLeft: 10}}
+										title="Clear Image"
+										onPress={this.clearImage.bind(this)}
+									/>
+									}
+								</View>
+							</Col>
+						</Row>
+						{image &&
+						<Row style={{minHeight: 200,}}>
+							<Image source={{uri: image}} style={{resizeMode: 'center', width: '100%'}}/>
+						</Row>}
 						<View style={{marginLeft: 15, alignContent: 'center'}}>
 							{this.renderCategoryChoices()}
 						</View>
@@ -194,4 +253,5 @@ export default class UploadArticle extends React.Component {
 			</Row>
 		)
 	}
+
 }
