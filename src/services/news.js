@@ -159,7 +159,7 @@ const self = {
 		//data:image/png;base64,iVB
 		console.log(`news.uploadImage: fileName: ${fileName}`);
 		console.log(`news.uploadImage: contentType: ${JSON.stringify(contentType)}`);
-		console.log(`news.uploadImage: base64: ${JSON.stringify(base64)}`);
+		console.log(`news.uploadImage: base64.length: ${base64.length}`);
 
 		const postData = {
 			postId,
