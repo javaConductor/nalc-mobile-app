@@ -1,0 +1,58 @@
+import React from 'react'
+import {createAppContainer, withNavigation} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import {createDrawerNavigator} from 'react-navigation-drawer';
+import {Button, Image} from "react-native";
+import AdminScreen from './src/screens/admin';
+import EditAdminScreen from './src/screens/admin/edit-admin';
+import PostListScreen from './src/screens/news/post-list';
+import ManageInterestsScreen from './src/screens/manage-interests';
+import ManageCategoriesScreen from "./src/screens/admin/manage-categoryService";
+import EditCategoryScreen from "./src/screens/admin/categoryService/edit-category";
+import UploadArticleScreen from "./src/screens/admin/upload-article";
+import LoginScreen from './src/screens/login';
+import ChangePasswordScreen from './src/screens/admin/change-password';
+import InitScreen from './src/screens/init-app';
+import TesterScreen from './src/screens/tester';
+import SplashScreen from './src/screens/splash';
+import MenuContent from './src/components/menu-content';
+import ExampleScreen from './src/screens/example';
+import Menu from './src/components/menu';
+import HomeScreen from './src/screens/home';
+const logo = require('./assets/gldLogo72.png');
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+// const MainNavigator = createDrawerNavigator({
+
+const AdminNav = createAppContainer(  createBottomTabNavigator({
+	ChangePassword: {screen: ChangePasswordScreen},
+
+}));
+
+// const MainNavigator = createStackNavigator({
+// 		MenuContent: {screen: MenuContent},
+//         InitApp: {screen: InitScreen},
+//         Splash: {screen: SplashScreen},
+//         Tester: {screen: TesterScreen},
+// 		Example: {screen: ExampleScreen},
+//         Home: {
+//             screen: HomeScreen,
+//
+// 	        navigationOptions: ({navigation}) => ({
+// 		        title: `Home`,
+// 		        headerLeft: () => {return <Image source={logo} />},
+// 		        headerRight: () => {return <Menu />},
+// 	        })
+//         },
+//         Login: {screen: LoginScreen},
+//         PostList: {screen: PostListScreen},
+//         ManageInterests: {screen: ManageInterestsScreen},
+//         Admin: {screen: AdminScreen},
+// 		AdminTasks: {screen: AdminNav}
+//
+//     },
+//     {
+//         initialRouteName: 'InitApp',
+//     });
+
+const App = createAppContainer(AdminNav);
+export default App;
