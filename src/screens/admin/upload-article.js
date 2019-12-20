@@ -105,10 +105,18 @@ export default class UploadArticle extends React.Component {
 		const {url, title, image} = this.state;
 		const categories = this.selectedIdList(this.state.selectedCategories);
 		const contentLink = `<a target='_blank' href='${url}'> Link...</a>`;
+		if (this.mounted)
+			this.setState((prevState) => ({
+				...prevState,
+				errorMessage: null,
+				message: null,
+			}));
 		try {
 			const response = await newsService.addNewsPost({content: contentLink, title, categories, image});
 			console.log(`UploadArticle.onSave: response: ${JSON.stringify(response)}`);
-
+			if (response.errorMessage) {
+				throw response;
+			}
 			const selectedCategories = this.createSelectedCategories(this.state.categories);
 			if (this.mounted)
 				this.setState((prevState) => ({
