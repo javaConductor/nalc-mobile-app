@@ -113,6 +113,7 @@ const self = {
 	 * @param postData = {content, title, categoryService}
 	 */
 	addNewsPost: (postData) => {
+		const {image} = postData;
 		return auth.currentAccessToken().then((accessToken) => {
 			console.log(`news.addNewsPost: ${JSON.stringify(postData)}`);
 			return fetch(`${backEndURL}/${config.BACKEND_NEWS_PATH}`, {
@@ -122,7 +123,7 @@ const self = {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({...postData, id: undefined}),
+				body: JSON.stringify({...postData, image: null, id: undefined}),
 			})
 				.then((response) => {
 					if (!response.ok)
@@ -130,7 +131,11 @@ const self = {
 					return response.json();
 				})
 				.then((responseJson) => {
-					console.log(`news.addNewsPost: ${JSON.stringify(responseJson)}`);
+					console.log(`news.addNewsPost: response: ${JSON.stringify(responseJson)}`);
+					if (image) {
+						console.log(`news.addNewsPost: post: ${responseJson.id} image: ${JSON.stringify(image)}`);
+						return self.uploadImage(responseJson.id, image);
+					}
 					return responseJson;
 				})
 				.catch((error) => {
@@ -139,9 +144,49 @@ const self = {
 				});
 		});
 	},
+
+	uploadImage: async function (postId, uri) {
+		const url = `${backEndURL}/${config.BACKEND_ADD_IMAGE_PATH}`;
+		console.log(`news.uploadImage(${postId}, ${JSON.stringify(uri)}) >> ${url}`);
+
+		const accessToken = await auth.currentAccessToken();
+
+		const [start, base64] = uri.split(';base64,', 2);
+		const contentType = start.substr(5, start.length - 1);
+		let [, fileType] = contentType.split('/');
+		const fileName = `photo.${fileType === 'jpg' ? 'jpeg' : fileType}`;
+
+		//data:image/png;base64,iVB
+		console.log(`news.uploadImage: fileName: ${fileName}`);
+		console.log(`news.uploadImage: contentType: ${JSON.stringify(contentType)}`);
+		console.log(`news.uploadImage: base64: ${JSON.stringify(base64)}`);
+
+		const postData = {
+			postId,
+			fileName,
+			contentType,
+			base64Image: base64
+		};
+
+		let options = {
+			method: 'POST',
+			body: JSON.stringify(postData),
+			headers: {
+				Accept: 'application/json',
+				'x-access-token': accessToken,
+				'Content-Type': 'application/json',
+			},
+		};
+		return fetch(url, options).then((response) => {
+			if (!response.ok)
+				throw util.handleHttpError(response, 'upload image for post');
+			return response.json();
+		});
+	}
 };
 
 self.addNewsPost = auth.tokenWrapper(self.addNewsPost);
+self.uploadImage = auth.tokenWrapper(self.uploadImage);
 
 // create function read posts every N minutes after NEWS_POST_LAST_READ_DATE
 

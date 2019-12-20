@@ -92,7 +92,7 @@ const self = {
 		posts = posts.sort((a, b) => {
 			return (a.date.valueOf() < b.date.valueOf()) ? 1 : -1;
 		});
-		console.log(`storage.storeNewsPosts(): Storing: ${JSON.stringify(posts, null, 2)} `);
+		//console.log(`storage.storeNewsPosts(): Storing: ${JSON.stringify(posts, null, 2)} `);
 		return AsyncStorage.setItem(NEWS_POSTS, JSON.stringify(posts))
 			// .then(() => {
 			// 	return self.storeLastPostReadDate(new Date())
