@@ -1,30 +1,30 @@
 {
   "expo": {
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "android": {
       "package": "com.nalc11.mobile_app"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nalc11.mobile-app"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "description": "",
     "icon": "./assets/icon.png",
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.nalc11.mobile_app"
-    },
     "name": "NALC Mobile App",
     "orientation": "portrait",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "slug": "nalc-mobile-app",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "native",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {

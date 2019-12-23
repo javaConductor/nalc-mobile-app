@@ -4,11 +4,9 @@ import {ActivityIndicator, Linking, Text, View} from 'react-native'
 import HTML from 'react-native-render-html';
 import styles from '../../screens/main-styles';
 import utils from "../../services/util";
-import {Document, Page, pdfjs} from 'react-pdf';
-import 'react-pdf/dist/Page/AnnotationLayer.css';
-
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+//import {Document, Page, pdfjs} from 'react-pdf';
+//import 'react-pdf/dist/Page/AnnotationLayer.css';
+//pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 class ShowPost extends React.Component {
 
@@ -72,21 +70,10 @@ class ShowPost extends React.Component {
 				alignContent: 'center',
 				flexDirection: 'column'
 			}]}>
-				{!pdfURL ? <HTML html={post.content} onLinkPress={(evt, href) => {
-						Linking.openURL(href);
-					}}/>
-					: <Document
-						onLoadError={console.error}
-						file={{
-							url: 'https://cors-anywhere.herokuapp.com/' + pdfURL,
-							httpHeaders: {'Origin': window.location.hostname}
-						}}
-					>
-						<Page pageNumber={pdfPageNumber} height={200}/>
-						<Page pageNumber={2} height={200}/>
+				<HTML html={post.content} onLinkPress={(evt, href) => {
+					Linking.openURL(href);
+				}}/>
 
-					</Document>
-				}
 			</View>
 			<View
 				style={{
