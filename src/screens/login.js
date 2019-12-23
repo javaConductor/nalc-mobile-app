@@ -99,7 +99,7 @@ class Login extends React.Component {
 
 	render() {
 		const {email, password} = this.state.auth;
-		console.log(`Login.render: auth: ${JSON.stringify({email, password})}`);
+		//console.log(`Login.render: auth: ${JSON.stringify({email, password})}`);
 		const {message, errorMessage} = this.state;
 		const hasError = !!errorMessage;
 		const displayMessage = hasError ? errorMessage : message;

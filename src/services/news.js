@@ -147,7 +147,7 @@ const self = {
 
 	uploadImage: async function (postId, uri) {
 		const url = `${backEndURL}/${config.BACKEND_ADD_IMAGE_PATH}`;
-		console.log(`news.uploadImage(${postId}, ${JSON.stringify(uri)}) >> ${url}`);
+		//console.log(`news.uploadImage(${postId}, ${JSON.stringify(uri)}) >> ${url}`);
 
 		const accessToken = await auth.currentAccessToken();
 

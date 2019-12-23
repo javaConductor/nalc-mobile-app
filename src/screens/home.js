@@ -13,6 +13,7 @@ import util from "../services/util";
 import {Col, Grid} from "react-native-easy-grid";
 import {SocialIcon} from 'react-native-elements'
 import MenuButton from "../components/menu/menu-button";
+import Config from '../../src/config';
 
 
 const logo = require('../../assets/gldLogo72.png');
@@ -83,23 +84,25 @@ class Home extends React.Component {
 	}
 
 	gotoFacebook() {
-		Linking.openURL('https://www.facebook.com/nalc.national/');
+		Linking.openURL(Config.SOCIAL_FACEBOOK);
 	}
 
 	gotoTwitter() {
-		Linking.openURL('https://twitter.com/NALC_National?lang=en');
+		Linking.openURL(Config.SOCIAL_TWITTER);
 	}
 
 	gotoInstagram() {
-		Linking.openURL('https://www.instagram.com/lettercarriers/');
+		Linking.openURL(Config.SOCIAL_INSTAGRAM);
 	}
 
 	gotoFlickr() {
-		Linking.openURL('https://www.flickr.com/photos/nalc-usa/');
+		Linking.openURL(Config.SOCIAL_FLICKR);
 	}
 
 	gotoYouTube() {
-		Linking.openURL('https://www.youtube.com/channel/UCKZJ1C15xMWWxLGIRRfCDIw');
+		// Linking.openURL('https://www.youtube.com/channel/UCKZJ1C15xMWWxLGIRRfCDIw');
+		Linking.openURL(Config.SOCIAL_YOUTUBE);
+
 	}
 
 	render() {

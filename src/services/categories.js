@@ -15,7 +15,7 @@ const self = {
 			const responseJson = await response.json();
 			const result = responseJson.filter((cat) => {
 				return cat.name.toLowerCase() !== 'uncategorized';
-			});
+			}).map((cat) => ({...cat, name: decodeURIComponent(decodeURI(cat.name))}));
 			//console.log(`CategoryService: getCategories filtered: ${JSON.stringify(result, null, 2)}`);
 			return result;
 		} catch (error) {

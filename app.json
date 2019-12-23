@@ -1,15 +1,16 @@
 {
   "expo": {
     "android": {
-      "package": "com.nalc.mobile_app"
+      "package": "com.nalc11.mobile_app"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "description": "",
-    "icon": "./assets/logo.png",
+    "icon": "./assets/icon.png",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nalc11.mobile_app"
     },
     "name": "NALC Mobile App",
     "orientation": "portrait",

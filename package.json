@@ -12,12 +12,14 @@
     "@expo/vector-icons": "latest",
     "babel-preset-react-native": "^5.0.2",
     "braces": "^3.0.2",
+    "cheerio-react": "^1.0.2",
     "cheeseburger-menu": "0.0.13",
     "debug": "^3.1.0",
     "expo": "^36.0.1",
     "expo-constants": "^8.0.0",
     "expo-image-picker": "^8.0.1",
     "fresh": "^0.5.2",
+    "htmlparser2": "^4.0.0",
     "js-sha256": "^0.9.0",
     "js-yaml": "^3.13.1",
     "process": "^0.11.10",
@@ -42,6 +44,8 @@
     "react-navigation-drawer": "^2.3.3",
     "react-navigation-stack": "^1.10.3",
     "react-navigation-tabs": "^2.6.0",
+    "react-pdf": "^4.1.0",
+    "sharp": "^0.23.4",
     "uuid": "^3.3.3"
   },
   "devDependencies": {

@@ -93,7 +93,8 @@ export default class UploadArticle extends React.Component {
 			quality: 1
 		});
 
-		console.log(`UploadArticle._pickImage: picker result:  ${JSON.stringify(result)}`);
+		console.log(`UploadArticle._pickImage: picker result uri size:  ${result.uri.length}`);
+//		console.log(`UploadArticle._pickImage: picker result:  ${JSON.stringify(result)}`);
 
 		if (!result.cancelled) {
 			this.setState({image: result.uri});
