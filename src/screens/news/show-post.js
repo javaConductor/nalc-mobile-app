@@ -1,6 +1,6 @@
 // ShowPost.js
 import React from 'react';
-import {ActivityIndicator, Linking, Text, View} from 'react-native'
+import {ActivityIndicator, Linking, Text, TouchableOpacity, View} from 'react-native'
 import HTML from 'react-native-render-html';
 import styles from '../../screens/main-styles';
 import utils from "../../services/util";
@@ -58,7 +58,7 @@ class ShowPost extends React.Component {
 		if (loading)
 			return <ActivityIndicator size={'large'}/>;
 
-		console.log(`ShowPost: post: ${post.title} pdf: ${pdfURL}`);
+		console.log(`ShowPost: post: ${post.title} link: [${post.link}]`);
 		const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 		const dateStr = new Date(post.date).toLocaleString("en-US", options);
 		return <View style={[styles.post, {alignItems: 'flex-start', backgroundColor: '#e0eaf6'}]}
@@ -73,7 +73,16 @@ class ShowPost extends React.Component {
 				<HTML html={post.content} onLinkPress={(evt, href) => {
 					Linking.openURL(href);
 				}}/>
-
+				<TouchableOpacity
+					style={{}}
+					onPress={() => {
+						Linking.openURL(post.link);
+					}}
+				>
+					<Text
+						style={{fontFamily: 'Oswald-Regular', color: 'navy'}}
+					>View in browser...</Text>
+				</TouchableOpacity>
 			</View>
 			<View
 				style={{

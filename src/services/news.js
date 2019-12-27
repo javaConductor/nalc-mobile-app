@@ -78,10 +78,11 @@ const self = {
 				//console.log(`news: getNewsByDateAndCategories: ${responseJson}`);
 				const filtered = responseJson
 					.map((post) => {
-						//console.log(`news: getNewsByDateAndCategories: map post ${JSON.stringify(post.title, null, 2)} `);
-						const {id, date, modified, title: {rendered: title}, content: {rendered: content}, excerpt: {rendered: excerpt}, author: authorId, featured_media: featuredMediaId, featuredMedia} = post;
+						//console.log(`news: getNewsByDateAndCategories: map post ${JSON.stringify(post, null, 2)} `);
+						const {id, link, date, modified, title: {rendered: title}, content: {rendered: content}, excerpt: {rendered: excerpt}, author: authorId, featured_media: featuredMediaId, featuredMedia} = post;
 						const smaller = {
 							id,
+							link,
 							date,
 							modified,
 							title,

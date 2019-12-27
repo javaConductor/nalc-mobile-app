@@ -105,6 +105,7 @@ const self = {
 	},
 	async loadFonts() {
 		await Font.loadAsync({
+			'Oswald-Regular': require('../../assets/fonts/Oswald-Regular.ttf'),
 			'Oswald-Bold': require('../../assets/fonts/Oswald-Bold.ttf'),
 			'OswaldHeavy-Regular': require('../../assets/fonts/OswaldHeavy-Regular.ttf'),
 		});
