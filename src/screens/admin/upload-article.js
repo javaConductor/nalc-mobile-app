@@ -22,7 +22,7 @@ export default class UploadArticle extends React.Component {
 		this.state = {
 			title: undefined,
 			url: undefined,
-			image: null,
+			uri: null,
 			selectedCategories: {},//{categoryId: true/false}
 			categories: []// name, id
 		}
@@ -82,28 +82,32 @@ export default class UploadArticle extends React.Component {
 	}
 
 	clearImage() {
-		this.setState((prevState) => ({...prevState, image: null}));
+		this.setState((prevState) => ({...prevState, uri: null}));
 	}
 
 	_pickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			base64: true,
 			allowsEditing: true,
 			aspect: [4, 3],
 			quality: 1
 		});
 
-		console.log(`UploadArticle._pickImage: picker result uri size:  ${result.uri.length}`);
-//		console.log(`UploadArticle._pickImage: picker result:  ${JSON.stringify(result)}`);
+//		console.log(`UploadArticle._pickImage: picker result uri size:  ${result.uri.length}`);
+		console.log(`UploadArticle._pickImage: result:  ${JSON.stringify({...result, base64: null})}`);
+		result.base64 && console.log(`UploadArticle._pickImage: base64:  ${JSON.stringify(result.base64.substr(0, 100))}`);
 
 		if (!result.cancelled) {
-			this.setState({image: result.uri});
+			const {uri, base64} = result;
+			this.setState({image: {uri, base64}});
 		}
 	};
 
 	async onSave() {
 		const {navigate} = this.props.navigation;
 		const {url, title, image} = this.state;
+		const {uri} = image;
 		const categories = this.selectedIdList(this.state.selectedCategories);
 		const contentLink = `<a target='_blank' href='${url}'> Link...</a>`;
 		if (this.mounted)
@@ -141,8 +145,10 @@ export default class UploadArticle extends React.Component {
 		}
 	}
 
+
 	render() {
 		const {title, url, selectedCategories, image, message, errorMessage} = this.state;
+		const {uri} = image || {};
 		const goodURL = util.validURL(url);
 		console.log(`UploadArticle.render: ${url} ${goodURL ? "Good URL" : "URL NO GOOD"}!`);
 		const selected = this.selectedIdList(selectedCategories);
@@ -207,7 +213,7 @@ export default class UploadArticle extends React.Component {
 										title="Select Image"
 										onPress={this._pickImage}
 									/>
-									{image &&
+									{uri &&
 									<Button
 										style={{marginLeft: 10}}
 										title="Clear Image"
@@ -217,9 +223,9 @@ export default class UploadArticle extends React.Component {
 								</View>
 							</Col>
 						</Row>
-						{image &&
+						{uri &&
 						<Row style={{minHeight: 200,}}>
-							<Image source={{uri: image}} style={{resizeMode: 'center', width: '100%'}}/>
+							<Image source={{uri: uri}} style={{resizeMode: 'center', width: '100%'}}/>
 						</Row>}
 						<View style={{marginLeft: 15, alignContent: 'center'}}>
 							{this.renderCategoryChoices()}

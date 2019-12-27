@@ -111,12 +111,12 @@ const self = {
 	},
 	/**
 	 *
-	 * @param postData = {content, title, categoryService}
+	 * @param postData = {content, title, categoryService, image}
 	 */
 	addNewsPost: (postData) => {
 		const {image} = postData;
 		return auth.currentAccessToken().then((accessToken) => {
-			console.log(`news.addNewsPost: ${JSON.stringify(postData)}`);
+			//console.log(`news.addNewsPost: ${JSON.stringify(postData)}`);
 			return fetch(`${backEndURL}/${config.BACKEND_NEWS_PATH}`, {
 				method: 'POST',
 				headers: {
@@ -132,9 +132,9 @@ const self = {
 					return response.json();
 				})
 				.then((responseJson) => {
-					console.log(`news.addNewsPost: response: ${JSON.stringify(responseJson)}`);
+					//console.log(`news.addNewsPost: response: ${JSON.stringify(responseJson)}`);
 					if (image) {
-						console.log(`news.addNewsPost: post: ${responseJson.id} image: ${JSON.stringify(image)}`);
+						console.log(`news.addNewsPost: post: ${responseJson.id} image: ${JSON.stringify(image.uri)}`);
 						return self.uploadImage(responseJson.id, image);
 					}
 					return responseJson;
@@ -146,11 +146,48 @@ const self = {
 		});
 	},
 
-	uploadImage: async function (postId, uri) {
+	uploadImage: async function (postId, image) {
+		const {uri, base64} = image;
 		const url = `${backEndURL}/${config.BACKEND_ADD_IMAGE_PATH}`;
-		//console.log(`news.uploadImage(${postId}, ${JSON.stringify(uri)}) >> ${url}`);
+		console.log(`news.uploadImage(${postId}, ${JSON.stringify(uri)}) >> ${url}`);
+
+		let postData;
+		try {
+			if (uri.startsWith('data:'))
+				postData = await self._parseDataImageUri(uri);
+			else if (uri.startsWith('file:'))
+				postData = await self._parseFileImageUri(uri, base64);
+			else
+				throw {errorMessage: 'Image URI not recognized.'};
+		} catch (e) {
+			throw e;
+		}
 
 		const accessToken = await auth.currentAccessToken();
+
+		let options = {
+			method: 'POST',
+			body: JSON.stringify({...postData, postId}),
+			headers: {
+				Accept: 'application/json',
+				'x-access-token': accessToken,
+				'Content-Type': 'application/json',
+			},
+		};
+		console.log(`news.uploadImage: sending POST: ${url}`);
+
+		return fetch(url, options).then((response) => {
+			if (!response.ok)
+				throw util.handleHttpError(response, 'upload image for post');
+			return response.json();
+		}).catch((err) => {
+			console.error(`news.uploadImage: ERROR: ${JSON.stringify(util.errorMessage(err))}`);
+			throw err;
+		});
+	},
+
+	_parseDataImageUri: async (uri) => {
+		console.log(`news._parseDataImageUri(${uri})`);
 
 		const [start, base64] = uri.split(';base64,', 2);
 		const contentType = start.substr(5, start.length - 1);
@@ -158,36 +195,58 @@ const self = {
 		const fileName = `photo.${fileType === 'jpg' ? 'jpeg' : fileType}`;
 
 		//data:image/png;base64,iVB
-		console.log(`news.uploadImage: fileName: ${fileName}`);
-		console.log(`news.uploadImage: contentType: ${JSON.stringify(contentType)}`);
-		console.log(`news.uploadImage: base64.length: ${base64.length}`);
+		console.log(`news._parseDataImageUri: fileName: ${fileName}`);
+		console.log(`news._parseDataImageUri: contentType: ${JSON.stringify(contentType)}`);
+		console.log(`news._parseDataImageUri: base64.length: ${base64.length}`);
 
-		const postData = {
-			postId,
+		return {
 			fileName,
 			contentType,
 			base64Image: base64
 		};
 
-		let options = {
-			method: 'POST',
-			body: JSON.stringify(postData),
-			headers: {
-				Accept: 'application/json',
-				'x-access-token': accessToken,
-				'Content-Type': 'application/json',
-			},
-		};
-		return fetch(url, options).then((response) => {
-			if (!response.ok)
-				throw util.handleHttpError(response, 'upload image for post');
-			return response.json();
-		});
+	},
+
+	_parseFileImageUri: async (uri, base64) => {
+		console.log(`news._parseFileImageUri(${uri})`);
+		console.log(`news._parseFileImageUri(${unescape(unescape(uri))})`);
+
+		try {
+			/*
+			*
+			* news.uploadImage(988,
+			*   "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540javaconductor%252Fnalc-mobile-app/ImagePicker/8f827c03-d124-4836-a77b-0fafa49e8b54.jpg") >> http://mx6.l.hostens.cloud:4000/news/addImageToPost
+			* */
+			const fileUri = uri.substr(5, uri.length - 1);
+			let fileType = fileUri.split('.').reverse()[0];
+			fileType = (fileType === 'jpg') ? 'jpeg' : fileType;
+			const fileName = `photo.${fileType}`;
+			const contentType = `image/${fileType}`;
+			console.log(`news._parseFileImageUri: fileName: ${fileName}`);
+			console.log(`news._parseFileImageUri: contentType: ${JSON.stringify(contentType)}`);
+
+			const response = await fetch(((uri)));
+			console.log(`news._parseFileImageUri: response.ok: ${response.ok}`);
+			// console.log(`news._parseFileImageUri:  status: ${response.statusText}`);
+
+			const blob = await response.blob();
+			console.log(`news._parseFileImageUri: blob: ${JSON.stringify(blob)}`)
+			console.log(`news._parseFileImageUri: base64.length: ${base64.length}`);
+			return {
+				fileName,
+				contentType,
+				base64Image: base64
+			};
+		} catch (e) {
+			console.error(`news._parseFileImageUri: ERROR: ${util.errorMessage(e)}`);
+			throw e;
+		}
+
 	}
 };
 
 self.addNewsPost = auth.tokenWrapper(self.addNewsPost);
-self.uploadImage = auth.tokenWrapper(self.uploadImage);
+//self.uploadImage = auth.tokenWrapper(self.uploadImage);
 
 // create function read posts every N minutes after NEWS_POST_LAST_READ_DATE
 

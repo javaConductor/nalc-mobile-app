@@ -33,7 +33,6 @@ const cfg = {
 	///// AUTH
 	BACKEND_AUTH_PATH,
 	BACKEND_REFRESH_TOKEN_PATH,
-
 	NEWS_CHECK_INTERVAL_SECONDS,
 	USER_KEY,
 	//social media links
@@ -44,7 +43,7 @@ const cfg = {
 	SOCIAL_TWITTER,
 };
 
-console.log(`config:${cfg.NEWS_CHECK_INTERVAL_SECONDS}`);
-console.log(`config:${JSON.stringify(cfg, null, 2)}`);
+//console.log(`config:${cfg.NEWS_CHECK_INTERVAL_SECONDS}`);
+console.info(`config:${JSON.stringify(cfg, null, 2)}`);
 
 export default cfg;
