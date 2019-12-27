@@ -15,9 +15,9 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "description": "",
+    "description": "NALC Branch 11 Mobile App",
     "icon": "./assets/icon.png",
-    "name": "NALC Mobile App",
+    "name": "NALC BR11 Mobile App",
     "orientation": "portrait",
     "privacy": "public",
     "sdkVersion": "35.0.0",
