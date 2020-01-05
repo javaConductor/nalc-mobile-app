@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 	},
 	postTitle: {
-		color: '#c6002f',
+		color: '#f1be3e',
 		fontFamily: 'Oswald-Bold',
 		fontStyle: "normal",
 		fontSize: 30,

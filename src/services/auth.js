@@ -76,7 +76,7 @@ const self = {
 			//// Clear the user info
 			//////////////////////////////////////////////////////////////////////////////
 			await storage.storeAuthInfo({});
-
+			self.userState = {};
 			//////////////////////////////////////////////////////////////////////////////
 			// Send Authenticate request to backend
 			//////////////////////////////////////////////////////////////////////////////
@@ -106,10 +106,12 @@ const self = {
 			//////////////////////////////////////////////////////////////////////////////
 			/// Check whether user canManage other Administrators
 			//////////////////////////////////////////////////////////////////////////////
-			const canManage = self._canManage(responseJson);
+			const canManage = await self._canManage(responseJson);
+			console.log(`auth.authenticate(): canManage: ${canManage} authInfo: ${JSON.stringify(responseJson)}`);
 			self.userState = {hasAuthenticated: true, canManage: canManage};
 			return responseJson;
 		} catch (error) {
+			self.userState = {};
 			console.error(`auth.authenticate(): ERROR: ${utils.errorMessage(error)}`);
 			throw error;
 		}

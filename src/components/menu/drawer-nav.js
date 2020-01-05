@@ -111,7 +111,7 @@ const adminTasksRoutes = {
 };
 
 const filterAdminRoutes = (route) => {
-	//console.log(`DrawerNavigator.filterAdminRoutes: route: ${JSON.stringify(route, null, 2)}`);
+	console.log(`DrawerNavigator.filterAdminRoutes: route: ${JSON.stringify(route, null, 2)}`);
 	if (['Manage Administrators'].includes(route.routeName)) {
 		const ans = showAdminCanManage();
 		//console.log(`DrawerNavigator.filterAdminRoutes: show: ${ans} route: ${JSON.stringify(route, null, 2)}`);
@@ -143,65 +143,8 @@ const AdminDrawerConfig = {
 	drawerPosition: 'right',
 	contentComponent: createDrawerNavComponent(filterAdminRoutes),
 };
+
 const adminNavigator = createAppContainer(createAdminDrawerNavigator());
-
-///////////////////////////////////////////////////////////////////////////////
-///// P u b l i c   N a v i g a t o r
-///////////////////////////////////////////////////////////////////////////////
-const publicRoutes = {
-	Home: {screen: HomeScreen},
-	News: {screen: NewsScreen},
-	'Manage Interests': {screen: ManageInterestsScreen, title: "Interests"},
-	Login: {screen: LoginScreen, title: "Sign In"},
-	Admin: {screen: AdminScreen, title: 'Administrative Tasks'},
-	AdminMenu: {screen: adminNavigator, title: 'Administrative Tasks'},
-	TesterScreen: {screen: Tester},
-	Example: Example,
-	InitApp: InitApp,
-	SplashScreen: {screen: Splash, title: 'Initializing NALC Mobile . . .'},
-
-};
-const filterPublicRoutes = (route) => {
-	//console.log(`DrawerNavigator.filterRoutes: route: ${route.routeName}`);
-	if (route.routeName === 'TesterScreen') {
-		const ans = true;
-		//console.log(`DrawerNavigator.filterPublicRoutes: show: ${ans} route: ${JSON.stringify(route)}`);
-		return ans;
-	} else if (['InitApp', 'SplashScreen', 'Example'].includes(route.routeName)) {
-		const ans = false;
-		//console.log(`DrawerNavigator.filterPublicRoutes: show: ${ans} route: ${JSON.stringify(route)}`);
-		return ans;
-	} else if (route.routeName === 'AdminMenu') {
-		const ans = auth.userState.hasAuthenticated;//showAdminMenuOptions();
-		//console.log(`DrawerNavigator.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
-		return ans;
-	} else if (route.routeName === 'Admin') {
-		const ans = !auth.userState.hasAuthenticated;//showAdminMenuOptions();
-		//console.log(`DrawerNavigator.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
-		return ans;
-	} else if (route.routeName === 'Login') {
-		const ans = false;
-		//console.log(`DrawerNavigator.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
-		return ans;
-	} else if (route.routeName === 'LogOut') {
-		const ans = showLogOutMenuOption();
-		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
-		return ans;
-	} else if (['Home', 'News', 'Manage Interests'].includes(route.routeName)) {
-		const ans = showDefaultOptions();
-		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
-		return ans;
-	} else if (['Manage Categories', 'UploadArticle', 'ChangePassword'].includes(route.routeName)) {
-		const ans = showAdminMenuOptions();
-		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
-		return ans;
-	} else if (['Manage Administrators'].includes(route.routeName)) {
-		const ans = showAdminCanManage();
-		//console.log(`MainNav.filterPublicRoutes: show: ${ans} route: ${route.routeName}`);
-		return ans;
-	}
-	return false;
-};
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

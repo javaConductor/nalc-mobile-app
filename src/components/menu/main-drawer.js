@@ -104,7 +104,8 @@ class MainDrawer extends Component {
 		}
 
 		const index = scopedItemsObject[currentComponent];
-		const scopedItemsArr = items.slice(index.start, index.end);
+		const scopedItemsArr = this.filterIfNecessary(items.slice(index.start, index.end));
+		console.log(`MainDrawer.render: scopedItemsArr: ${JSON.stringify(scopedItemsArr, utils.getCircularReplacer(), 2)} `);
 
 		return (
 			<ScrollView>
@@ -132,8 +133,16 @@ class MainDrawer extends Component {
 
 	}
 
+	filterIfNecessary(scopedItemsArr) {
+		console.log(`MainDrawer.render: filterIfNecessary: scopedItemsArr: ${JSON.stringify(scopedItemsArr, utils.getCircularReplacer(), 2)} `);
+
+		return auth.userState.canManage
+			? scopedItemsArr
+			: scopedItemsArr.filter((item) => !item.key.endsWith('_Administrators'));
+	}
+
 	filterPublicRoutes(route) {
-		//console.log(`MainDrawer.filterPublicRoutes: route:  ${JSON.stringify(route)}`);
+		//console.log(`MainDrawer.filterPublicRoutes: route:  ${JSON.stringify(route.routeName)}`);
 		if (route.routeName === 'TesterScreen') {
 			const ans = true;
 			//console.log(`MainDrawer.filterPublicRoutes: show: ${ans} route: ${JSON.stringify(route)}`);
