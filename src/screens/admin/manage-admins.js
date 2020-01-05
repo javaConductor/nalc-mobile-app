@@ -5,6 +5,7 @@ import Users from '../../services/users';
 import {NavigationEvents, withNavigation} from 'react-navigation';
 import {Col, Grid, Row} from "react-native-easy-grid";
 import util from "../../services/util";
+import auth from "../../services/auth";
 import mainStyles from '../main-styles';
 import MenuButton from "../../components/menu/menu-button";
 
@@ -29,6 +30,11 @@ class ManageAdmins extends React.Component {
 
 	async componentDidMount() {
 		console.log("ManageAdmins.componentDidMount");
+		const {navigate} = this.props.navigation;
+
+		if (!auth.userState.canManage)
+			return navigate('Login', {target: 'Manage Administrators'});
+
 		try {
 			//console.log(`ManageAdmins.componentDidMount(): this.props.navigation: (${JSON.stringify(this.props.navigation, null, 2)})`);
 			const admins = this.props.navigation?.state?.params?.admins || await Users.getAdmins();
