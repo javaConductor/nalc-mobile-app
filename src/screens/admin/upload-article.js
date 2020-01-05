@@ -68,14 +68,14 @@ export default class UploadArticle extends React.Component {
 
 	updateSelectedCategories(categoryId, selected) {
 		const selectCats = {...this.state.selectedCategories, [categoryId]: selected};
-		console.log(`UploadArticle.updateSelectedCategories: selectedCategories ${JSON.stringify(selectCats, null, 2)} `);
+		//console.log(`UploadArticle.updateSelectedCategories: selectedCategories ${JSON.stringify(selectCats, null, 2)} `);
 		this.setState((prevState) => ({...prevState, selectedCategories: selectCats}));
 	}
 
 	selectedIdList(selectedCategories) {
 		const keys = Object.keys(selectedCategories);
 		//console.log(`selectedIdList: keys: ${JSON.stringify(keys, null, 2)}`);
-		console.log(`UploadArticle.selectedIdList: selected: ${JSON.stringify(selectedCategories, null, 2)}`);
+		//console.log(`UploadArticle.selectedIdList: selected: ${JSON.stringify(selectedCategories, null, 2)}`);
 
 		/// keys are category ids
 		return keys.filter((categorySelection) => selectedCategories[categorySelection]);
@@ -96,7 +96,7 @@ export default class UploadArticle extends React.Component {
 
 //		console.log(`UploadArticle._pickImage: picker result uri size:  ${result.uri.length}`);
 		console.log(`UploadArticle._pickImage: result:  ${JSON.stringify({...result, base64: null})}`);
-		result.base64 && console.log(`UploadArticle._pickImage: base64:  ${JSON.stringify(result.base64.substr(0, 100))}`);
+		//result.base64 && console.log(`UploadArticle._pickImage: base64:  ${JSON.stringify(result.base64.substr(0, 100))}`);
 
 		if (!result.cancelled) {
 			const {uri, base64} = result;
@@ -105,8 +105,10 @@ export default class UploadArticle extends React.Component {
 	};
 
 	async onSave() {
-		const {navigate} = this.props.navigation;
 		const {url, title, image} = this.state;
+		console.log(`UploadArticle.onSave: Saving Article ${title}`);
+		this.setState((prevState) => ({...prevState, isSaving: true}));
+		const {navigate} = this.props.navigation;
 		const {uri} = image;
 		const categories = this.selectedIdList(this.state.selectedCategories);
 		const contentLink = `<a target='_blank' href='${url}'> Link...</a>`;
@@ -130,6 +132,7 @@ export default class UploadArticle extends React.Component {
 					url: '',
 					content: '',
 					title: '',
+					isSaving: false,
 					selectedCategories
 				}));
 		} catch (e) {
@@ -137,6 +140,7 @@ export default class UploadArticle extends React.Component {
 			if (this.mounted)
 				this.setState((prevState) => ({
 					...prevState,
+					isSaving: false,
 					errorMessage: `Error uploading article: ${util.errorMessage(e)}`
 				}));
 			if (typeof e === 'object' && (e.authenticationRequired || e.badToken)) {
@@ -147,7 +151,7 @@ export default class UploadArticle extends React.Component {
 
 
 	render() {
-		const {title, url, selectedCategories, image, message, errorMessage} = this.state;
+		const {title, url, selectedCategories, image, message, errorMessage, isSaving} = this.state;
 		const {uri} = image || {};
 		const goodURL = util.validURL(url);
 		console.log(`UploadArticle.render: ${url} ${goodURL ? "Good URL" : "URL NO GOOD"}!`);
@@ -231,7 +235,11 @@ export default class UploadArticle extends React.Component {
 							{this.renderCategoryChoices()}
 						</View>
 					</Grid>
-					<Button color={'navy'} disabled={!canSave} title={'Save'} onPress={this.onSave.bind(this)}/>
+					<Button
+						color={'navy'}
+						disabled={!canSave || isSaving}
+						title={'Save'}
+						onPress={this.onSave.bind(this)}/>
 				</ScrollView>
 			</View>
 		)

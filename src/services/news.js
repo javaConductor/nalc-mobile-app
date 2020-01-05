@@ -15,7 +15,7 @@ const backEndURL = `${config.BACKEND_PROTOCOL}://${config.BACKEND_HOST}:${config
  */
 const updateMedia = (post) => {
 	//console.log(`news.updateMedia ${post.id}: mediaId: ${post.featured_media}`);
-	const p = post.featured_media <= 0 ? Promise.resolve(post)
+	return post.featured_media <= 0 ? Promise.resolve(post)
 		: self.getMedia(post.featured_media)
 			.then((mediaObj) => {
 				//const {guid: {rendered: mediaUrl}} = mediaObj;
@@ -27,7 +27,6 @@ const updateMedia = (post) => {
 				console.error(`news:updateMedia: ERROR ${util.errorMessage(err)}`);
 				throw err;
 			});
-	return p;
 };
 
 const self = {
@@ -174,7 +173,7 @@ const self = {
 				'Content-Type': 'application/json',
 			},
 		};
-		console.log(`news.uploadImage: sending POST: ${url}`);
+		console.log(`news.uploadImage: sending POST: ${url} token: ${accessToken}`);
 
 		return fetch(url, options).then((response) => {
 			if (!response.ok)
@@ -246,7 +245,7 @@ const self = {
 };
 
 self.addNewsPost = auth.tokenWrapper(self.addNewsPost);
-//self.uploadImage = auth.tokenWrapper(self.uploadImage);
+self.uploadImage = auth.tokenWrapper(self.uploadImage);
 
 // create function read posts every N minutes after NEWS_POST_LAST_READ_DATE
 
