@@ -163,7 +163,7 @@ export default class UploadArticle extends React.Component {
 			<View style={[styles.container]}>
 				{/*//<View style={styles.container}>*/}
 				<MenuButton navigation={this.props.navigation}/>
-				<Text style={styles.homeLabel}>U p l o a d A r t i c l e</Text>
+				<Text style={styles.homeLabel}>P u b l i s h A r t i c l e</Text>
 				{msgCtrl}
 				{errorCtrl}
 				<ScrollView>
@@ -238,7 +238,7 @@ export default class UploadArticle extends React.Component {
 					<Button
 						color={'navy'}
 						disabled={!canSave || isSaving}
-						title={'Save'}
+						title={'Publish'}
 						onPress={this.onSave.bind(this)}/>
 				</ScrollView>
 			</View>

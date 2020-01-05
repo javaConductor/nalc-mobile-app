@@ -230,11 +230,11 @@ const allTasksRoutes = {
 	Login: {screen: LoginScreen, title: "Sign In"},
 	Admin: {screen: AdminScreen, title: 'Administrative Tasks'},
 	AdminMenu: {screen: adminNavigator, title: 'Administrative Tasks'},
-	'Administrative Tasks_Upload Article': {
+	'Administrative Tasks_Publish Article': {
 		screen: UploadArticleScreen,
 		header: null,
 		navigationOptions: evaluateChildDrawerTitle,
-		title: "U p l o a d   A r t i c l e"
+		title: "P u b l i s h  A r t i c l e"
 	},
 	'Administrative Tasks_Administrators': {
 		screen: ManageAdminNavigator,

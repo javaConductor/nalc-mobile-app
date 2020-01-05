@@ -85,7 +85,7 @@ class Admin extends React.Component {
 		/// R O U T E S
 		///////////////////////////////////////////////////////////////////////////////
 		let routes = {
-			'Upload Article': UploadArticleScreen,
+			'Publish Article': UploadArticleScreen,
 			Categories: CategoryNavigator,
 		};
 		if (canManage) {
