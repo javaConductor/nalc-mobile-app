@@ -74,7 +74,7 @@ class EditAdmin extends React.Component {
 					/// Use Users service to save the admin
 					console.log(`EditAdmin: Saving admin: ${newPswd ? 'pass: ' + newPswd : ''} ${JSON.stringify(newAdmin)}`);
 
-					const p = Users.saveAdmin(admin);
+					const p = Users.saveAdmin(newAdmin);
 					p.then((admins) => {
 						//this.props.navigation.goBack().goBack();
 						console.log(`EditAdmin: Saving admin: response: ${JSON.stringify(admins)}: navigating to ManageAdmins`);
