@@ -45,7 +45,7 @@ const createDrawerNavComponent = (routeFilterFn) => {
 		render() {
 			if (this.state.isLoading)
 				return <ActivityIndicator/>;
-			console.log(`Drawer.render: props ${JSON.stringify(Object.keys(this.props))}`);
+			//console.log(`Drawer.render: props ${JSON.stringify(Object.keys(this.props))}`);
 			//console.log(`Drawer.render: props.descriptors ${JSON.stringify( this.props.descriptors, null, 2 ) }`);
 			return (
 				<View>
@@ -67,7 +67,7 @@ const createDrawerNavComponent = (routeFilterFn) => {
 		drawerItems() {
 			const {items} = this.props;
 			const filteredItems = items.filter(routeFilterFn);
-			console.log(`Drawer.drawerItems: filteredItems ${JSON.stringify(filteredItems, null, 2)}`);
+			//console.log(`Drawer.drawerItems: filteredItems ${JSON.stringify(filteredItems, null, 2)}`);
 			const newProps = {...this.props, items: filteredItems};
 			return (
 				<DrawerItems  {...newProps} labelStyle={{fontSize: 16, fontFamily: "Oswald-Bold"}}/>
@@ -111,7 +111,7 @@ const adminTasksRoutes = {
 };
 
 const filterAdminRoutes = (route) => {
-	console.log(`DrawerNavigator.filterAdminRoutes: route: ${JSON.stringify(route, null, 2)}`);
+	//console.log(`DrawerNavigator.filterAdminRoutes: route: ${JSON.stringify(route, null, 2)}`);
 	if (['Manage Administrators'].includes(route.routeName)) {
 		const ans = showAdminCanManage();
 		//console.log(`DrawerNavigator.filterAdminRoutes: show: ${ans} route: ${JSON.stringify(route, null, 2)}`);
@@ -162,7 +162,7 @@ const publicRoutes = {
 
 };
 const filterPublicRoutes = (route) => {
-	console.log(`DrawerNavigator.filterRoutes: route: ${route.routeName}`);
+	//console.log(`DrawerNavigator.filterRoutes: route: ${route.routeName}`);
 	if (route.routeName === 'TesterScreen') {
 		const ans = true;
 		//console.log(`DrawerNavigator.filterPublicRoutes: show: ${ans} route: ${JSON.stringify(route)}`);

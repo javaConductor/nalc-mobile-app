@@ -1,6 +1,6 @@
 // Home.js
 import React from 'react'
-import {Dimensions, Linking, Text, View} from 'react-native';
+import {Dimensions, Image, Linking, Text, TouchableOpacity, View} from 'react-native';
 import {createAppContainer, NavigationEvents} from 'react-navigation';
 
 import {createStackNavigator} from 'react-navigation-stack';
@@ -14,7 +14,8 @@ import {Col, Grid} from "react-native-easy-grid";
 import {SocialIcon} from 'react-native-elements'
 import MenuButton from "../components/menu/menu-button";
 import Config from '../../src/config';
-
+import smugMugLogo from '../../assets/Smugmug-Icon_33997.png';
+//import smugMugLogo from '../../assets/309_Smugmug-512.png';
 
 const logo = require('../../assets/gldLogo72.png');
 
@@ -95,8 +96,8 @@ class Home extends React.Component {
 		Linking.openURL(Config.SOCIAL_INSTAGRAM);
 	}
 
-	gotoFlickr() {
-		Linking.openURL(Config.SOCIAL_FLICKR);
+	gotoSmugMug() {
+		Linking.openURL(Config.SOCIAL_SMUGMUG);
 	}
 
 	gotoYouTube() {
@@ -145,26 +146,33 @@ class Home extends React.Component {
 								type='facebook'
 								onPress={this.gotoFacebook}
 							/>
+
 							<SocialIcon
 								title='NALC on Twitter'
 								onPress={this.gotoTwitter}
 								type='twitter'
 							/>
+
 							<SocialIcon
 								title='NALC on Instagram'
 								onPress={this.gotoInstagram}
 								type='instagram'
 							/>
-							<SocialIcon
-								title='NALC on Flickr'
-								onPress={this.gotoFlickr}
-								type='flickr'
-							/>
+
 							<SocialIcon
 								title='NALC on YouTube'
 								onPress={this.gotoYouTube}
 								type='youtube'
 							/>
+
+							<TouchableOpacity
+								onPress={this.gotoSmugMug}
+								style={{top: 5,}}>
+								<Image resizeMode={'contain'}
+								       source={smugMugLogo}
+								       style={{width: 55, height: 55,}}/>
+							</TouchableOpacity>
+
 						</View>
 
 					</Col>
