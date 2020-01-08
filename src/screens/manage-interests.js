@@ -132,7 +132,7 @@ export default class ManageInterests extends React.Component {
 					</Grid>
 					<View>
 						<Button
-							color={'navy'}
+							color={'#003459'}
 							title={'Save'}
 							raised={true}
 							onPress={this.onSave.bind(this)}/>

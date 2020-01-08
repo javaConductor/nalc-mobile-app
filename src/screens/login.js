@@ -66,7 +66,8 @@ class Login extends React.Component {
 		const passwordHash = util.passwordHash(this.state.auth.password);
 		const authInfo = await auth.authenticate(this.state.auth.email, passwordHash)
 			.catch((err) => {
-				console.error(`Login.onLogin: authenticate error: ${JSON.stringify(err, null, 2)}`);
+				console.error(`Login.onLogin: authenticate error: ${err}`);
+				// console.error(`Login.onLogin: authenticate error: ${JSON.stringify(err, null, 2)}`);
 				this.setState((prevState) => {
 					return {...prevState, errorMessage: `${util.errorMessage(err)}`}
 				});
@@ -139,7 +140,7 @@ class Login extends React.Component {
 					</View>
 
 					<Button
-						color={'navy'}
+						color={'#003459'}
 						disabled={!canLogin}
 						onPress={this.onLogin.bind(this)}
 						title="Login"

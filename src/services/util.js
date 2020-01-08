@@ -1,9 +1,16 @@
 import sha256 from 'js-sha256';
 import * as Font from "expo-font";
 // import storage from "./storage";
+//import DeviceInfo from 'react-native-device-info';
 
 const self = {
 
+// 	getDeviceInfo: () => {
+// 		return DeviceInfo;
+// },
+// 	getDeviceId: () => {
+// 		return DeviceInfo.getDeviceId();
+// },
 	getAvailableRoutes: navigation => {
 		let availableRoutes = [];
 		if (!navigation) return availableRoutes;
@@ -112,4 +119,5 @@ const self = {
 	},
 
 };
+//console.log(`Device ID: ${self.getDeviceId()}`)
 export default self;

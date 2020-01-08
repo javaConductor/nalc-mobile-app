@@ -72,7 +72,7 @@ class ManageAdmins extends React.Component {
 			<MenuButton navigation={this.props.navigation}/>
 			<Text style={{
 				width: '100%',
-				backgroundColor: 'navy',
+				backgroundColor: '#003459',
 				color: 'white',
 				fontSize: 20,
 				fontWeight: '900',
@@ -98,7 +98,7 @@ class ManageAdmins extends React.Component {
 						</Col>
 					</Row>
 					{adminList}
-					<Button color={'navy'}
+					<Button color={'#003459'}
 					        style={{alignSelf: 'center'}}
 					        title={"Add New Administrator"}
 					        onPress={() => {
@@ -124,7 +124,7 @@ class ManageAdmins extends React.Component {
 				</Col>
 				<Col size={1} style={styles.rowCol}>
 					<Button
-						color={'navy'}
+						color={'#003459'}
 						title={'Remove'}
 						onPress={() => this.onRemoveAdmin(admin)}/>
 				</Col>

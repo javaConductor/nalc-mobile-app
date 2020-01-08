@@ -111,7 +111,7 @@ export default class ChangePassword extends React.Component {
 
 				<View>
 					<Button
-						color={'navy'}
+						color={'#003459'}
 						disabled={!(passwordsOk)}
 						title={'Change Password'}
 						raised={true}

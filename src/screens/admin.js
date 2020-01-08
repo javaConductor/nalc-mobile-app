@@ -105,7 +105,7 @@ class Admin extends React.Component {
 					showIcon: true,
 					showLabel: true,
 					style: {
-						backgroundColor: 'navy'
+						backgroundColor: '#003459'
 					}
 				},
 			});

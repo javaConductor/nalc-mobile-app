@@ -3,7 +3,7 @@ import React from 'react'
 import {View} from 'react-native'
 import auth from '../services/auth';
 import styles from './main-styles';
-import {NavigationEvents, withNavigation} from "react-navigation";
+import {withNavigation} from "react-navigation";
 
 
 class LogOut extends React.Component {
@@ -25,9 +25,7 @@ class LogOut extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<NavigationEvents
-					onDidBlur={this.componentDidMount.bind(this)}
-					onWillFocus={this.componentDidMount.bind(this)}/>
+
 			</View>
 		)
 	}

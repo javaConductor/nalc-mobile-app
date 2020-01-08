@@ -4,6 +4,7 @@ import {Button, Linking, StyleSheet, View} from 'react-native'
 import {withNavigation} from "react-navigation";
 import storage from '../services/storage';
 import auth from '../services/auth';
+import news from '../services/news';
 
 
 class Tester extends React.Component {
@@ -29,6 +30,13 @@ class Tester extends React.Component {
 		const authInfo = await storage.getAuthInfo();
 		authInfo.accessTokenExpires = new Date(-7).valueOf();
 		return storage.storeAuthInfo(authInfo);
+	}
+
+	async reFetchPosts() {
+		await storage.storeNewsPosts([]);
+		await storage.storeLastPostReadDate(new Date(2019, 1));
+		const selectedCategories = await storage.getSelectedCategories();
+		await news.getNewsByDateAndCategories(new Date(2019, 1).toISOString(), selectedCategories);
 	}
 
 	render() {
@@ -58,6 +66,10 @@ class Tester extends React.Component {
 				<Button
 					onPress={() => Linking.openURL('http://facebook.com/LeeCollinsChicago')}
 					title="facebook link"
+				/>
+				<Button
+					onPress={() => this.reFetchPosts()}
+					title="refreshPosts"
 				/>
 			</View>
 		)

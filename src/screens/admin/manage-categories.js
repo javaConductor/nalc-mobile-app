@@ -75,7 +75,7 @@ export default class ManageCategories extends React.Component {
 						</Row>
 						{this.state.categories.map(this.renderRow.bind(this))}
 					</Grid>
-					<Button style={{alignSelf: 'flex-start'}} color={'navy'}
+					<Button style={{alignSelf: 'flex-start'}} color={'#003459'}
 					        onPress={() => navigate('EditCategory', {})} title={"Add New Category"}/>
 				</ScrollView>
 			</View>

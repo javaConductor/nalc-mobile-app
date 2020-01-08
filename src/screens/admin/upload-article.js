@@ -236,7 +236,7 @@ export default class UploadArticle extends React.Component {
 						</View>
 					</Grid>
 					<Button
-						color={'navy'}
+						color={'#003459'}
 						disabled={!canSave || isSaving}
 						title={'Publish'}
 						onPress={this.onSave.bind(this)}/>

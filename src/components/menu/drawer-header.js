@@ -8,7 +8,7 @@ const DrawerHeader = ({navigateToCallback}) => (
 		<View
 			style={{
 				flexDirection: 'row',
-				backgroundColor: '#0033FF',
+				backgroundColor: '#003459',
 				paddingVertical: 28,
 				paddingLeft: 17,
 				paddingTop: StatusBar.currentHeight + 10,
@@ -16,7 +16,7 @@ const DrawerHeader = ({navigateToCallback}) => (
 			}}
 		>
 			<Image source={smallLogo}/>
-			<Text style={{color: '#FFF', paddingLeft: 9, fontSize: 16}}>
+			<Text style={{color: '#FFF', paddingLeft: 9, fontSize: 16, backgroundColor: '#003459'}}>
 				NALC Mobile
 			</Text>
 		</View>

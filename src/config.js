@@ -43,7 +43,7 @@ const cfg = {
 	SOCIAL_TWITTER,
 };
 
-//console.log(`config:${cfg.NEWS_CHECK_INTERVAL_SECONDS}`);
+console.log(`config:${cfg.BACKEND_HOST}`);
 console.info(`config:${JSON.stringify(cfg, null, 2)}`);
 
 export default cfg;

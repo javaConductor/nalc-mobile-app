@@ -107,7 +107,7 @@ export default class EditCategory extends React.Component {
 				</View>
 				<View>
 					<Button
-						color={'navy'}
+						color={'#003459'}
 						style={styles.button}
 						disabled={!hasValidEntries}
 						title={'Save'}

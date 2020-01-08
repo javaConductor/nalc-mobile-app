@@ -49,6 +49,19 @@ const self = {
 	},
 
 	logoff: async () => {
+		const authInfo = await storage.getAuthInfo();
+		const {refreshToken, username, accessToken} = authInfo;
+		console.log(`auth.logoff:  username: ${username}`);
+
+		const response = await fetch(`${backEndURL}/${config.BACKEND_AUTH_PATH}`, {
+			method: 'DELETE',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({username}),
+		});
+
 		await storage.storeAuthInfo({});
 		self.userState = {
 			hasAuthenticated: false,
@@ -94,6 +107,8 @@ const self = {
 			//////////////////////////////////////////////////////////////////////////////
 			const responseJson = await response.json();
 			console.log(`auth: authenicate: response: ${JSON.stringify(responseJson, null, 2)}`);
+
+			//console.log(`auth: authenicate: response: ${JSON.stringify(responseJson, null, 2)}`);
 			if (!responseJson.authenticated) {
 				throw {errorMessage: responseJson.message};
 			}
@@ -117,33 +132,6 @@ const self = {
 		}
 	},
 
-	authenticateThen: async (email, passwordHash) => {
-		return storage.storeAuthInfo({})
-			.then(() => {
-				return fetch(`${backEndURL}/${config.BACKEND_AUTH_PATH}`, {
-					method: 'POST',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({username: email, passwordHash}),
-				})
-					.then((response) => response.json())
-					.then(async (responseJson) => {
-						console.log(`auth: authenicate: response: ${JSON.stringify(responseJson, null, 2)}`);
-						if (!responseJson.authenticated) {
-							throw {errorMessage: responseJson.message};
-						}
-						self.userState.hasAuthenticated = true;
-						await storage.storeAuthInfo(responseJson);
-						return responseJson;
-					})
-					.catch((error) => {
-						console.error(`auth.authenticate(): ERROR: ${utils.errorMessage(error)}`);
-						throw error;
-					});
-			});
-	},
 	/**
 	 *
 	 *

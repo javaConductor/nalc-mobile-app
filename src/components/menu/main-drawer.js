@@ -105,7 +105,7 @@ class MainDrawer extends Component {
 
 		const index = scopedItemsObject[currentComponent];
 		const scopedItemsArr = this.filterIfNecessary(items.slice(index.start, index.end));
-		console.log(`MainDrawer.render: scopedItemsArr: ${JSON.stringify(scopedItemsArr, utils.getCircularReplacer(), 2)} `);
+		//console.log(`MainDrawer.render: scopedItemsArr: ${JSON.stringify(scopedItemsArr, utils.getCircularReplacer(), 2)} `);
 
 		return (
 			<ScrollView>
@@ -134,7 +134,7 @@ class MainDrawer extends Component {
 	}
 
 	filterIfNecessary(scopedItemsArr) {
-		console.log(`MainDrawer.render: filterIfNecessary: scopedItemsArr: ${JSON.stringify(scopedItemsArr, utils.getCircularReplacer(), 2)} `);
+		//console.log(`MainDrawer.render: filterIfNecessary: scopedItemsArr: ${JSON.stringify(scopedItemsArr, utils.getCircularReplacer(), 2)} `);
 
 		return auth.userState.canManage
 			? scopedItemsArr

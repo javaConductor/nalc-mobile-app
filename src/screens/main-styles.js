@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 
 	},
 	button: {
-		color: 'navy',
+		color: '#003459',
 	},
 	form: {
 		flex: 1,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 	homeLabel: {
 		width: '100%',
 		marginBottom: 10,
-		backgroundColor: 'navy',
+		backgroundColor: '#003459',
 		color: 'white',
 		fontSize: 20,
 		fontWeight: '900',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 	},
 	postTitle: {
-		color: '#f1be3e',
+		color: '#003459',
 		fontFamily: 'Oswald-Bold',
 		fontStyle: "normal",
 		fontSize: 30,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
 	},
 	screenTitle: {
 		width: '100%',
-		backgroundColor: 'navy',
+		backgroundColor: '#003459',
 		color: 'white',
 		fontSize: 20,
 		fontWeight: '900',
