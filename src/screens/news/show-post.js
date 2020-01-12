@@ -4,6 +4,11 @@ import {ActivityIndicator, Linking, Text, TouchableOpacity, View} from 'react-na
 import HTML from 'react-native-render-html';
 import styles from '../../screens/main-styles';
 import utils from "../../services/util";
+
+
+const Entities = require('html-entities').XmlEntities;
+const entities = new Entities();
+
 //import {Document, Page, pdfjs} from 'react-pdf';
 //import 'react-pdf/dist/Page/AnnotationLayer.css';
 //pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -64,7 +69,9 @@ class ShowPost extends React.Component {
 		return <View style={[styles.post, {alignItems: 'flex-start', backgroundColor: '#e0eaf6'}]}
 		             key={post.id}>
 			<Text>{dateStr}</Text>
-			<Text style={{...styles.postTitle, fontSize: 20, fontFamily: 'OswaldHeavy-Regular'}}>{post.title}</Text>
+			<Text style={{...styles.postTitle, fontSize: 20, fontFamily: 'OswaldHeavy-Regular'}}>
+				{entities.decode(post.title)}
+			</Text>
 			<View style={[styles.postContent, {
 				backgroundColor: '#e0eaf6',
 				alignContent: 'center',
