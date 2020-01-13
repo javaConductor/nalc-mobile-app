@@ -8,7 +8,10 @@ import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import util from "../../services/util";
 import styles from '../main-styles';
 import MenuButton from "../../components/menu/menu-button";
+import {XmlEntities as Entities} from 'html-entities';
 
+
+const entities = new Entities();
 
 export default class ManageCategories extends React.Component {
 	static navigationOptions = {
@@ -90,8 +93,12 @@ export default class ManageCategories extends React.Component {
 		const {navigate} = this.props.navigation;
 
 		return (<Row key={category.id} style={{borderColor: 'navy', borderTopWidth: 2}}>
-				<Col style={{...styles.rowCol, borderRightWidth: 2}} size={1}><Text
-					onPress={() => navigate('EditCategory', {category})}>{category.name}</Text></Col>
+				<Col style={{...styles.rowCol, borderRightWidth: 2}} size={1}>
+					<Text
+						onPress={() => navigate('EditCategory', {category})}>
+						{entities.decode(category.name)}
+					</Text>
+				</Col>
 				{/*<Col  size={1}><Button title={category.slug} onPress={() => navigate('EditCategory', {category})}/></Col>*/}
 				<Col style={styles.rowCol} size={2}>
 					<AutoGrowingTextInput
