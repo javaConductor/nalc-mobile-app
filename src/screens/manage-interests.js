@@ -7,7 +7,10 @@ import styles from '../screens/main-styles';
 import util from "../services/util";
 import {Col, Grid, Row} from "react-native-easy-grid";
 import MenuButton from "../components/menu/menu-button";
+import {XmlEntities as Entities} from 'html-entities';
 
+
+const entities = new Entities();
 
 export default class ManageInterests extends React.Component {
 	static navigationOptions = {
@@ -153,7 +156,11 @@ export default class ManageInterests extends React.Component {
 		const updateUserInterest = this.updateUserInterest.bind(this);
 		return (
 			<Row size={1} key={category.id} style={{...styles.formRow, borderTopWidth: 2}}>
-				<Col size={2} style={styles.formRow}><Text>{category.name}</Text></Col>
+				<Col size={2} style={styles.formRow}>
+					<Text>
+						{entities.decode(category.name)}
+					</Text>
+				</Col>
 				<Col size={1} style={styles.formInputSwitch}>
 					<Switch
 						onValueChange={(hasInterest) => {
