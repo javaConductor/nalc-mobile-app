@@ -6,7 +6,10 @@ import {AutoGrowingTextInput} from "react-native-autogrow-textinput";
 import {NavigationEvents} from "react-navigation";
 import util from '../../../services/util';
 import styles from "../../main-styles";
+import {XmlEntities as Entities} from 'html-entities';
 
+
+const entities = new Entities();
 
 export default class EditCategory extends React.Component {
 	static navigationOptions = {
@@ -19,6 +22,8 @@ export default class EditCategory extends React.Component {
 	constructor(props) {
 		super(props);
 		const category = props.navigation.state.params?.category || {};
+		if (category.name)
+			category.name = entities.decode(category.name);
 		console.log(`EditCategory(${JSON.stringify(category)})`);
 		this.state = {category};
 		this._mounted = false;

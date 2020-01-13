@@ -39,7 +39,6 @@ const self = {
 	isUserAuthenticated: async () => {
 		return storage.getAuthInfo().then(authInfo => self._tokenValid(authInfo));
 	},
-
 	_tokenValid: (authInfo) => {
 		if (!authInfo)
 			return false;
@@ -47,7 +46,6 @@ const self = {
 		/// check for valid token
 		return !!authInfo.accessToken;
 	},
-
 	logoff: async () => {
 		const authInfo = await storage.getAuthInfo();
 		const {refreshToken, username, accessToken} = authInfo;
