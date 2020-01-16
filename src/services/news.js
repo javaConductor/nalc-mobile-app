@@ -112,11 +112,12 @@ const self = {
 	 *
 	 * @param postData = {content, title, categoryService, image}
 	 */
-	addNewsPost: (postData) => {
+	addNewsPost: async (postData) => {
 		const {image} = postData;
-		return auth.currentAccessToken().then((accessToken) => {
+		try {
+			const accessToken = await auth.currentAccessToken();
 			//console.log(`news.addNewsPost: ${JSON.stringify(postData)}`);
-			return fetch(`${backEndURL}/${config.BACKEND_NEWS_PATH}`, {
+			const response = await fetch(`${backEndURL}/${config.BACKEND_NEWS_PATH}`, {
 				method: 'POST',
 				headers: {
 					'x-access-token': accessToken,
@@ -124,25 +125,23 @@ const self = {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({...postData, image: null, id: undefined}),
-			})
-				.then((response) => {
-					if (!response.ok)
-						throw util.handleHttpError(response, 'add post');
-					return response.json();
-				})
-				.then((responseJson) => {
-					//console.log(`news.addNewsPost: response: ${JSON.stringify(responseJson)}`);
-					if (image) {
-						console.log(`news.addNewsPost: post: ${responseJson.id} image: ${JSON.stringify(image.uri)}`);
-						return self.uploadImage(responseJson.id, image);
-					}
-					return responseJson;
-				})
-				.catch((error) => {
-					console.error(`news.addNewsPost: ERROR: ${util.errorMessage(error)} `);
-					throw error;
-				});
-		});
+			});
+
+			if (!response.ok) {
+				throw util.handleHttpError(response, 'add post');
+			}
+			const responseJson = await response.json();
+			//console.log(`news.addNewsPost: response: ${JSON.stringify(responseJson)}`);
+			if (image) {
+				console.log(`news.addNewsPost: post: ${responseJson.id} image: ${JSON.stringify(image.uri)}`);
+				return self.uploadImage(responseJson.id, image);
+			}
+			return responseJson;
+		} catch (error) {
+			console.error(`news.addNewsPost: ERROR: ${util.errorMessage(error)} `);
+			return null;
+			//throw error;
+		}
 	},
 
 	uploadImage: async function (postId, image) {
