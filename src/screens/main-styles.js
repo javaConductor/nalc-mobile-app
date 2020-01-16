@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'space-around',
 		//alignItems: 'center',
-		backgroundColor: 'white',
+		backgroundColor: '#e0eaf6',
 		width: '100%',
 		height: '100%'
 
@@ -98,7 +98,6 @@ const styles = StyleSheet.create({
 		flex: 2,
 		justifyContent: 'flex-start',
 		alignItems: 'stretch',
-		zIndex: 0
 	},
 	homeLabel: {
 		width: '100%',

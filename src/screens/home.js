@@ -1,6 +1,6 @@
 // Home.js
 import React from 'react'
-import {Dimensions, Image, Linking, Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions, Image, Linking, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {createAppContainer, NavigationEvents} from 'react-navigation';
 
 import {createStackNavigator} from 'react-navigation-stack';
@@ -10,7 +10,7 @@ import Styles from '../screens/main-styles';
 import ShowPost from '../screens/news/show-post';
 import storage from "../services/storage";
 import util from "../services/util";
-import {Col, Grid} from "react-native-easy-grid";
+import {Grid, Row} from "react-native-easy-grid";
 import {SocialIcon} from 'react-native-elements'
 import MenuButton from "../components/menu/menu-button";
 import Config from '../../src/config';
@@ -121,17 +121,20 @@ class Home extends React.Component {
 				/>
 				<Grid>
 
-					<Col size={10}>
+
+					<Row size={5}>
 						<View style={{...Styles.logoContainer,}}>
 							<View style={{alignContent: 'center', width: '100%'}}>
 								<Text style={Styles.screenTitle}>Latest News</Text>
 							</View>
-							<View style={{paddingLeft: 10, paddingRight: 10}}>
+							<ScrollView style={{paddingLeft: 10, paddingRight: 10}}>
 								{lastPost ? <ShowPost post={lastPost}/> : null}
 								{nextToLastPost ? <ShowPost post={nextToLastPost}/> : null}
 								{nextToNextToLastPost ? <ShowPost post={nextToNextToLastPost}/> : null}
-							</View>
+							</ScrollView>
 						</View>
+					</Row>
+					<Row size={1}>
 						<Text
 							style={[Styles.homeLabel, {marginTop: 5}]}
 							onPress={() => {
@@ -139,8 +142,13 @@ class Home extends React.Component {
 							}}>
 							M o r e N e w s >>
 						</Text>
+					</Row>
+					<Row size={1}>
 						<Text style={Styles.homeLabel}>NALC on Social Media</Text>
-						<View style={{flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between'}}>
+					</Row>
+					<Row size={1}>
+						<View
+							style={{flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between'}}>
 							<SocialIcon
 								title='NALC on Facebook'
 								type='facebook'
@@ -174,8 +182,8 @@ class Home extends React.Component {
 							</TouchableOpacity>
 
 						</View>
+					</Row>
 
-					</Col>
 
 				</Grid>
 			</View>

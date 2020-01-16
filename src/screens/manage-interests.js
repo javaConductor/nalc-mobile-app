@@ -155,13 +155,13 @@ export default class ManageInterests extends React.Component {
 
 		const updateUserInterest = this.updateUserInterest.bind(this);
 		return (
-			<Row size={1} key={category.id} style={{...styles.formRow, borderTopWidth: 2}}>
+			<Row size={1} key={category.id} style={{...styles.formRow, borderTopWidth: 2, backgroundColor: '#e0eaf6'}}>
 				<Col size={2} style={styles.formRow}>
 					<Text>
 						{entities.decode(category.name)}
 					</Text>
 				</Col>
-				<Col size={1} style={styles.formInputSwitch}>
+				<Col size={1} style={[styles.formInputSwitch, {backgroundColor: '#e0eaf6'}]}>
 					<Switch
 						onValueChange={(hasInterest) => {
 							updateUserInterest(category.id, hasInterest)

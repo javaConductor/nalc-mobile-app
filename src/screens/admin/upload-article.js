@@ -1,6 +1,6 @@
 // UploadArticle.js
 import React from 'react'
-import {Button, Image, ScrollView, Switch, Text, TextInput, View} from 'react-native';
+import {Button, Image, ScrollView, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
 import categoryService from '../../services/categories';
 import newsService from '../../services/news';
@@ -10,6 +10,29 @@ import styles from '../main-styles';
 import MenuButton from "../../components/menu/menu-button";
 import * as ImagePicker from 'expo-image-picker';
 
+
+const localStyles = StyleSheet.create({
+
+	button: {
+		backgroundColor: '#003459',
+		marginRight: 10,
+		marginLeft: 10,
+		marginTop: 10,
+		// paddingRight: 50,
+		paddingTop: 10,
+		paddingBottom: 10,
+		borderRadius: 10,
+		borderWidth: 1,
+		borderColor: '#fff'
+	},
+	buttonText: {
+		color: '#e0eaf6',
+		textAlign: 'center',
+		paddingLeft: 10,
+		paddingRight: 10
+	},
+
+});
 
 export default class UploadArticle extends React.Component {
 	static navigationOptions = {
@@ -82,7 +105,7 @@ export default class UploadArticle extends React.Component {
 	}
 
 	clearImage() {
-		this.setState((prevState) => ({...prevState, uri: null}));
+		this.setState((prevState) => ({...prevState, image: {}}));
 	}
 
 	_pickImage = async () => {
@@ -171,12 +194,12 @@ export default class UploadArticle extends React.Component {
 						style={{flexDirection: 'column', justifyContent: 'space-around', flexGrow: 2, marginLeft: 10}}>
 						<Row>
 							<Col size={2}>
-								<View style={styles.formLabel}>
-									<Text>Title</Text>
+								<View style={[styles.formLabel, {backgroundColor: '#e0eaf6'}]}>
+									<Text style={{backgroundColor: '#e0eaf6'}}>Title</Text>
 								</View>
 							</Col>
 							<Col size={6}>
-								<View style={{...styles.formInput}}>
+								<View style={[styles.formInput, {backgroundColor: '#e0eaf6'}]}>
 									<TextInput style={[styles.formInput, {borderWidth: 2, borderColor: 'black'}]}
 									           value={title}
 									           onChangeText={this.updateTitle.bind(this)}/>
@@ -185,8 +208,8 @@ export default class UploadArticle extends React.Component {
 						</Row>
 						<Row style={{marginBottom: 10}}>
 							<Col size={2}>
-								<View style={styles.formLabel}>
-									<Text>URL</Text>
+								<View style={[styles.formLabel, {backgroundColor: '#e0eaf6'}]}>
+									<Text style={{backgroundColor: '#e0eaf6'}}>URL</Text>
 								</View>
 							</Col>
 							<Col size={6}>
@@ -197,35 +220,41 @@ export default class UploadArticle extends React.Component {
 								</View>
 							</Col>
 						</Row>
+						{/*<Row>*/}
+						{/*	<View style={[styles.formLabel, {backgroundColor: '#e0eaf6'} ]}>*/}
+						{/*		<Text style={{backgroundColor: '#e0eaf6'}}>Image</Text>*/}
+						{/*	</View>*/}
+						{/*</Row>*/}
 						<Row style={{marginBottom: 10,}}>
-							<Col size={2}>
-								<View style={styles.formLabel}>
-									<Text>Image</Text>
-								</View>
-							</Col>
-							<Col size={6}>
+							<Col>
 								<View
-									style={[styles.formInput, {flexDirection: 'row', justifyContent: 'space-between'}]}>
-
-									<Button
-										style={{
-											marginRight: 10,
-											outlineColor: 'navy',
-											borderColor: 'navy',
-											borderRadius: 20
-										}}
-										title="Select Image"
+									style={[
+										styles.formInput,
+										{
+											flexDirection: 'row',
+											justifyContent: 'space-around',
+											backgroundColor: '#e0eaf6'
+										}]}>
+									<TouchableOpacity
+										style={localStyles.button}
 										onPress={this._pickImage}
-									/>
-									{uri &&
-									<Button
-										style={{marginLeft: 10}}
-										title="Clear Image"
-										onPress={this.clearImage.bind(this)}
-									/>
-									}
+										underlayColor='#fff'>
+										<Text style={localStyles.buttonText}>Select&nbsp;Image</Text>
+									</TouchableOpacity>
+									<View><Text>&nbsp;&nbsp;&nbsp;</Text></View>
 								</View>
 							</Col>
+							<Col>
+								<View>
+									{uri && <TouchableOpacity
+										style={localStyles.button}
+										onPress={this.clearImage.bind(this)}
+										underlayColor='#fff'>
+										<Text style={localStyles.buttonText}>Clear&nbsp;Image</Text>
+									</TouchableOpacity>}
+								</View>
+							</Col>
+
 						</Row>
 						{uri &&
 						<Row style={{minHeight: 200,}}>
@@ -258,13 +287,15 @@ export default class UploadArticle extends React.Component {
 		return (
 			<Row key={category.id} style={{marginLeft: 15,}}>
 				<Col size={10}>
-					<View style={styles.formLabel}>
+					<View style={[
+						styles.formLabel,
+						{backgroundColor: '#e0eaf6'}]}>
 						<Text style={{alignSelf: 'flex-start'}}>{category.name}</Text>
 					</View>
 				</Col>
 				<Col size={2}>
 					{/*<View style={styles.formValue}> */}
-					<Switch style={styles.formValue}
+					<Switch style={[styles.formValue, {backgroundColor: '#e0eaf6'}]}
 					        onValueChange={(isInCategory) => {
 						        updateSelectedCategories(category.id, isInCategory)
 					        }}
@@ -278,3 +309,4 @@ export default class UploadArticle extends React.Component {
 	}
 
 }
+
