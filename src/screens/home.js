@@ -120,8 +120,6 @@ class Home extends React.Component {
 					onDidFocus={this.componentDidMount.bind(this)}
 				/>
 				<Grid>
-
-
 					<Row size={5}>
 						<View style={{...Styles.logoContainer,}}>
 							<View style={{alignContent: 'center', width: '100%'}}>
@@ -183,8 +181,6 @@ class Home extends React.Component {
 
 						</View>
 					</Row>
-
-
 				</Grid>
 			</View>
 		);

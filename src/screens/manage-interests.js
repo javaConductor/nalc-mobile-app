@@ -1,6 +1,6 @@
 // ManageInterests.js
 import React from 'react'
-import {Button, ScrollView, Switch, Text, View} from 'react-native'
+import {Button, ScrollView, StyleSheet, Switch, Text, View} from 'react-native'
 import categoryService from '../services/categories';
 import storage from '../services/storage';
 import styles from '../screens/main-styles';
@@ -8,9 +8,38 @@ import util from "../services/util";
 import {Col, Grid, Row} from "react-native-easy-grid";
 import MenuButton from "../components/menu/menu-button";
 import {XmlEntities as Entities} from 'html-entities';
+import {NavigationEvents} from "react-navigation";
+import Styles from "./main-styles";
 
 
 const entities = new Entities();
+
+const localStyles = StyleSheet.create({
+
+	rowContainer: {
+		borderTopWidth: 2,
+		backgroundColor: '#e0eaf6'
+	},
+	button: {
+		backgroundColor: '#003459',
+		marginRight: 10,
+		marginLeft: 10,
+		marginTop: 10,
+		// paddingRight: 50,
+		paddingTop: 10,
+		paddingBottom: 10,
+		borderRadius: 10,
+		borderWidth: 1,
+		borderColor: '#fff'
+	},
+	buttonText: {
+		color: '#e0eaf6',
+		textAlign: 'center',
+		paddingLeft: 10,
+		paddingRight: 10
+	},
+
+});
 
 export default class ManageInterests extends React.Component {
 	static navigationOptions = {
@@ -91,6 +120,12 @@ export default class ManageInterests extends React.Component {
 		return list;
 	}
 
+	onBlur() {
+		this.setState((prevState) => {
+			return {...prevState, message: null}
+		});
+	}
+
 	async onSave() {
 		console.log(`onSave()`);
 		const newList = this.createSelectedCategoriesList(this.state.userInterests);
@@ -122,8 +157,18 @@ export default class ManageInterests extends React.Component {
 		const errCtrl = this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : null;
 		return (
 			<View style={styles.container}>
+
+				<NavigationEvents
+					onWillFocus={payload => console.log('ManageInterests.render: will focus', payload)}
+					onDidFocus={payload => console.log('ManageInterests.render: did focus', payload)}
+					onWillBlur={payload => console.log('ManageInterests.render: will blur', payload)}
+					onDidBlur={this.onBlur.bind(this)}
+				/>
+
 				<MenuButton navigation={this.props.navigation}/>
-				<Text style={styles.homeLabel}>I n t e r e s t s</Text>
+				<View style={{alignContent: 'center', width: '100%'}}>
+					<Text style={Styles.screenTitle}>I n t e r e s t s</Text>
+				</View>
 				<ScrollView contentContainerStyle={styles.container}>
 					{errCtrl}
 					{msgCtrl}
@@ -155,7 +200,7 @@ export default class ManageInterests extends React.Component {
 
 		const updateUserInterest = this.updateUserInterest.bind(this);
 		return (
-			<Row size={1} key={category.id} style={{...styles.formRow, borderTopWidth: 2, backgroundColor: '#e0eaf6'}}>
+			<Row size={1} key={category.id} style={[styles.formRow, localStyles.rowContainer]}>
 				<Col size={2} style={styles.formRow}>
 					<Text>
 						{entities.decode(category.name)}

@@ -9,6 +9,7 @@ import util from "../../services/util";
 import styles from '../main-styles';
 import MenuButton from "../../components/menu/menu-button";
 import * as ImagePicker from 'expo-image-picker';
+import {NavigationEvents} from "react-navigation";
 
 
 const localStyles = StyleSheet.create({
@@ -65,9 +66,12 @@ export default class UploadArticle extends React.Component {
 					});
 			})
 			.catch((error) => {
-				const message = typeof error === 'object' ? error.message : error;
+//				const message = typeof error === 'object' ? error.message : error;
 				console.error(`UploadArticle.componentDidMount: ERROR: ${util.errorMessage(error)}`);
-				throw error;
+				this.setState((prevState) => ({
+					...prevState,
+					errorMessage: `${util.errorMessage(error)}`
+				}));
 			});
 	}
 
@@ -127,6 +131,12 @@ export default class UploadArticle extends React.Component {
 		}
 	};
 
+	onBlur() {
+		this.setState((prevState) => {
+			return {...prevState, message: null, errorMessage: null, image: null}
+		});
+	}
+
 	async onSave() {
 		const {url, title, image} = this.state;
 		console.log(`UploadArticle.onSave: Saving Article ${title}`);
@@ -172,59 +182,53 @@ export default class UploadArticle extends React.Component {
 		}
 	}
 
-
 	render() {
 		const {title, url, selectedCategories, image, message, errorMessage, isSaving} = this.state;
 		const {uri} = image || {};
 		const goodURL = util.validURL(url);
-		console.log(`UploadArticle.render: ${url} ${goodURL ? "Good URL" : "URL NO GOOD"}!`);
+		console.log(`UploadArticle.render: '${url}' ${goodURL ? "Good URL" : "URL NO GOOD"}!`);
 		const selected = this.selectedIdList(selectedCategories);
 		const canSave = goodURL && title && title.trim().length > 0 && url && url.trim().length > 0 && selected.length > 0;
 		const msgCtrl = message ? <Text style={styles.message}>{message}</Text> : null;
 		const errorCtrl = errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null;
 		return (
 			<View style={[styles.container]}>
+				<NavigationEvents
+					onDidBlur={this.onBlur.bind(this)}
+				/>
 				{/*//<View style={styles.container}>*/}
 				<MenuButton navigation={this.props.navigation}/>
-				<Text style={styles.homeLabel}>P u b l i s h A r t i c l e</Text>
+				<View style={{alignContent: 'center', width: '100%'}}>
+					<Text style={styles.screenTitle}>P u b l i s h A r t i c l e</Text>
+				</View>
 				{msgCtrl}
 				{errorCtrl}
 				<ScrollView>
 					<Grid
 						style={{flexDirection: 'column', justifyContent: 'space-around', flexGrow: 2, marginLeft: 10}}>
 						<Row>
-							<Col size={2}>
-								<View style={[styles.formLabel, {backgroundColor: '#e0eaf6'}]}>
-									<Text style={{backgroundColor: '#e0eaf6'}}>Title</Text>
-								</View>
-							</Col>
 							<Col size={6}>
 								<View style={[styles.formInput, {backgroundColor: '#e0eaf6'}]}>
-									<TextInput style={[styles.formInput, {borderWidth: 2, borderColor: 'black'}]}
+									<TextInput style={[
+										styles.formInput,
+										{borderWidth: 2, borderColor: 'black'}
+									]}
+									           placeholder={'Enter Title'}
 									           value={title}
 									           onChangeText={this.updateTitle.bind(this)}/>
 								</View>
 							</Col>
 						</Row>
 						<Row style={{marginBottom: 10}}>
-							<Col size={2}>
-								<View style={[styles.formLabel, {backgroundColor: '#e0eaf6'}]}>
-									<Text style={{backgroundColor: '#e0eaf6'}}>URL</Text>
-								</View>
-							</Col>
 							<Col size={6}>
 								<View style={{...styles.formInput}}>
 									<TextInput style={[styles.formInput, {borderWidth: 2, borderColor: 'black'}]}
 									           value={url}
+									           placeholder={'Enter URL'}
 									           onChangeText={this.updateUrl.bind(this)}/>
 								</View>
 							</Col>
 						</Row>
-						{/*<Row>*/}
-						{/*	<View style={[styles.formLabel, {backgroundColor: '#e0eaf6'} ]}>*/}
-						{/*		<Text style={{backgroundColor: '#e0eaf6'}}>Image</Text>*/}
-						{/*	</View>*/}
-						{/*</Row>*/}
 						<Row style={{marginBottom: 10,}}>
 							<Col>
 								<View
@@ -301,7 +305,6 @@ export default class UploadArticle extends React.Component {
 					        }}
 					        value={inCategory}
 					/>
-					{/*</View>*/}
 				</Col>
 				<Col size={1}/>
 			</Row>

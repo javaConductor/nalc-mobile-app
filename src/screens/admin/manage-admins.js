@@ -70,14 +70,9 @@ class ManageAdmins extends React.Component {
 		return <View style={mainStyles.container}>
 			<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
 			<MenuButton navigation={this.props.navigation}/>
-			<Text style={{
-				width: '100%',
-				backgroundColor: '#003459',
-				color: 'white',
-				fontSize: 20,
-				fontWeight: '900',
-				alignSelf: 'flex-start'
-			}}>Manage Administrators</Text>
+			<View style={{alignContent: 'center', width: '100%'}}>
+				<Text style={mainStyles.screenTitle}>Manage Administrators</Text>
+			</View>
 			{msgCtrl}
 			<ScrollView>
 				<Grid>

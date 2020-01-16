@@ -65,7 +65,9 @@ export default class ManageCategories extends React.Component {
 			<View style={styles.container}>
 				<NavigationEvents onWillFocus={this.componentDidMount.bind(this)}/>
 				<MenuButton navigation={this.props.navigation}/>
-				<Text style={styles.homeLabel}>C a t e g o r i e s</Text>
+				<View style={{alignContent: 'center', width: '100%'}}>
+					<Text style={styles.screenTitle}>C a t e g o r i e s</Text>
+				</View>
 				<ScrollView>
 					<Grid>
 						<Row style={{marginBottom: 10}}>

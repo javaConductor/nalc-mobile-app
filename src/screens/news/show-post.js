@@ -4,6 +4,7 @@ import {ActivityIndicator, Linking, Text, TouchableOpacity, View} from 'react-na
 import HTML from 'react-native-render-html';
 import styles from '../../screens/main-styles';
 import utils from "../../services/util";
+import moment from "moment";
 
 
 const Entities = require('html-entities').XmlEntities;
@@ -65,7 +66,9 @@ class ShowPost extends React.Component {
 
 		console.log(`ShowPost: post: ${post.title} link: [${post.link}]`);
 		const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
-		const dateStr = new Date(post.date).toLocaleString("en-US", options);
+		//const dateStr = new Date(post.date).toLocaleString("en-US", options);
+
+		const dateStr = moment(post.date.valueOf()).format('LL');
 		return <View style={[styles.post, {alignItems: 'flex-start', backgroundColor: '#e0eaf6'}]}
 		             key={post.id}>
 			<Text>{dateStr}</Text>
@@ -93,6 +96,7 @@ class ShowPost extends React.Component {
 			</View>
 			<View
 				style={{
+					width: '100%',
 					borderBottomColor: '#ccc',
 					borderBottomWidth: 3,
 				}}

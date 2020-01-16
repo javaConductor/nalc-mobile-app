@@ -8,6 +8,7 @@ import auth from '../../services/auth';
 import {NavigationEvents} from "react-navigation";
 import PasswordInput from '../../components/password-input';
 import MenuButton from "../../components/menu/menu-button";
+import mainStyles from "../main-styles";
 
 
 export default class ChangePassword extends React.Component {
@@ -80,7 +81,9 @@ export default class ChangePassword extends React.Component {
 				onWillBlur={this.componentWillUnmount.bind(this)}
 				onWillFocus={this.componentDidMount.bind(this)}/>
 			<MenuButton navigation={this.props.navigation}/>
-			<Text style={styles.homeLabel}>Change Password</Text>
+			<View style={{alignContent: 'center', width: '100%'}}>
+				<Text style={mainStyles.screenTitle}>Change Password</Text>
+			</View>
 
 			{errorComponent}
 			{messageComponent}
