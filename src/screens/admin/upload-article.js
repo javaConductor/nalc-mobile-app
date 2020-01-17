@@ -203,7 +203,7 @@ export default class UploadArticle extends React.Component {
 				</View>
 				{msgCtrl}
 				{errorCtrl}
-				<ScrollView>
+				<ScrollView style={{marginTop: 10, marginRight: 5}}>
 					<Grid
 						style={{flexDirection: 'column', justifyContent: 'space-around', flexGrow: 2, marginLeft: 10}}>
 						<Row>

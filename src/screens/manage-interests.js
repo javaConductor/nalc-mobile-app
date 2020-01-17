@@ -159,9 +159,6 @@ export default class ManageInterests extends React.Component {
 			<View style={styles.container}>
 
 				<NavigationEvents
-					onWillFocus={payload => console.log('ManageInterests.render: will focus', payload)}
-					onDidFocus={payload => console.log('ManageInterests.render: did focus', payload)}
-					onWillBlur={payload => console.log('ManageInterests.render: will blur', payload)}
 					onDidBlur={this.onBlur.bind(this)}
 				/>
 

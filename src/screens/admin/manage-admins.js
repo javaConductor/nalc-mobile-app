@@ -25,7 +25,6 @@ class ManageAdmins extends React.Component {
 		console.log(`ManageAdmins.constructor(props: ${JSON.stringify(props)})`);
 		super(props);
 		console.log(`ManageAdmins.constructor : routes: ${util.getAvailableRoutes(this.props.navigation)}`);
-
 	}
 
 	async componentDidMount() {
@@ -109,7 +108,7 @@ class ManageAdmins extends React.Component {
 		const {navigate} = props.navigation;
 		const {firstName, lastName} = admin;
 		return (
-			<Row style={{borderTopWidth: 2}} key={admin.id}>
+			<Row style={{borderTopWidth: 2, marginLeft: 5}} key={admin.id}>
 				<Col size={2} style={styles.rowCol}>
 					<Text onPress={() => {
 						navigate('EditAdmin', {admin})

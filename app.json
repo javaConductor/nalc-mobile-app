@@ -5,9 +5,7 @@
       "android",
       "web"
     ],
-    "android": {
-      "package": "com.nalc11.mobile_app"
-    },
+
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nalc11.mobile-app"
@@ -23,9 +21,10 @@
     "sdkVersion": "35.0.0",
     "slug": "nalc-mobile-app",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "tabletImage": "./assets/splash_1280px1920px.png",
+      "image": "./assets/splash_960px1600px.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#c0c1c6"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

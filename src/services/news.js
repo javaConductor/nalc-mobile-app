@@ -162,6 +162,7 @@ const self = {
 		}
 
 		const accessToken = await auth.currentAccessToken();
+		console.log(`news.uploadImage: sending POST: ${url} token: ${accessToken}`);
 
 		let options = {
 			method: 'POST',
@@ -172,7 +173,6 @@ const self = {
 				'Content-Type': 'application/json',
 			},
 		};
-		console.log(`news.uploadImage: sending POST: ${url} token: ${accessToken}`);
 
 		return fetch(url, options).then((response) => {
 			if (!response.ok)
@@ -193,9 +193,9 @@ const self = {
 		const fileName = `photo.${fileType === 'jpg' ? 'jpeg' : fileType}`;
 
 		//data:image/png;base64,iVB
-		console.log(`news._parseDataImageUri: fileName: ${fileName}`);
-		console.log(`news._parseDataImageUri: contentType: ${JSON.stringify(contentType)}`);
-		console.log(`news._parseDataImageUri: base64.length: ${base64.length}`);
+		// console.log(`news._parseDataImageUri: fileName: ${fileName}`);
+		// console.log(`news._parseDataImageUri: contentType: ${JSON.stringify(contentType)}`);
+		// console.log(`news._parseDataImageUri: base64.length: ${base64.length}`);
 
 		return {
 			fileName,
