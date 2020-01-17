@@ -5,7 +5,9 @@
       "android",
       "web"
     ],
-
+    "android": {
+      "package": "com.nalc11.mobile_app"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nalc11.mobile-app"
