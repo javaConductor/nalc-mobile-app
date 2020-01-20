@@ -7,7 +7,7 @@ import ShowPost from './show-post';
 import util from "../../services/util";
 import MenuButton from "../../components/menu/menu-button";
 import Styles from "../main-styles";
-//import config from '../../config';
+
 
 export default class PostList extends React.Component {
 	static navigationOptions = {
@@ -79,14 +79,7 @@ export default class PostList extends React.Component {
 				<View style={{alignContent: 'center', width: '100%'}}>
 					<Text style={Styles.screenTitle}>N e w s</Text>
 				</View>
-				{/*<ListView*/}
-				{/*	contentContainerStyle={{...styles.wrapper}}*/}
 
-				{/*	dataSource={this.state.dataSource}*/}
-				{/*	renderRow={this.renderPost.bind(this)}*/}
-				{/*	renderSeparator={(sectionId, rowId) =>*/}
-				{/*		<View key={rowId} style={styles.separator}/>}//adding separation*/}
-				{/*/>*/}
 				<ScrollView>
 					{this.state.newsPosts.map(this.renderPost.bind(this))}
 				</ScrollView>

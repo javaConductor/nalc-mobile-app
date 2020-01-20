@@ -142,7 +142,9 @@ export default class UploadArticle extends React.Component {
 		console.log(`UploadArticle.onSave: Saving Article ${title}`);
 		this.setState((prevState) => ({...prevState, isSaving: true}));
 		const {navigate} = this.props.navigation;
-		const {uri} = image;
+		//const {uri} = image || {};
+		const uri = image?.uri;
+
 		const categories = this.selectedIdList(this.state.selectedCategories);
 		const contentLink = `<a target='_blank' href='${url}'> Link...</a>`;
 		if (this.mounted)

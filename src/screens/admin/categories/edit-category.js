@@ -32,7 +32,7 @@ export default class EditCategory extends React.Component {
 	componentDidMount() {
 		this._mounted = true;
 		const category = this.props.navigation.state.params?.category || {};
-		console.log(`EditCategory.componentDidMount: category: ${JSON.stringify(category)})`);
+		//console.log(`EditCategory.componentDidMount: category: ${JSON.stringify(category)})`);
 
 		this.setState((prevState) => {
 			return {...prevState, category}
@@ -44,7 +44,7 @@ export default class EditCategory extends React.Component {
 	}
 
 	update(name, value) {
-		console.log(`update: ${name} -> ${value}`);
+		console.log(`EditCategory.update: ${name} -> ${value}`);
 		const category = {...this.state.category, [name]: value};
 		this.setState((prevState) => ({...prevState, category}));
 	}
@@ -55,7 +55,8 @@ export default class EditCategory extends React.Component {
 			const savedCategory = await ((category.id)
 				? categoryService.updateCategory(category)
 				: categoryService.addCategory(category));
-			console.log(`EditCategory.onSave: Saved category: ${JSON.stringify(savedCategory)}`);
+			//console.log(`EditCategory.onSave: Saved category: ${JSON.stringify(savedCategory)}`);
+
 			this.props.navigation.navigate('Categories', {});
 		} catch (err) {
 			console.error(`EditCategory.onSave: Error: ${util.errorMessage(err)})`);

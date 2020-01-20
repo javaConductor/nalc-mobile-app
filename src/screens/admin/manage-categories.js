@@ -40,7 +40,7 @@ export default class ManageCategories extends React.Component {
 		const {navigate} = this.props.navigation;
 		try {
 			const categories = await categoryService.getCategories();
-			//console.log(`ManageCategories.componentDidMount: categoryService: (${JSON.stringify(categoryService)})`);
+			//console.log(`ManageCategories.componentDidMount: categories: (${JSON.stringify(categories)})`);
 
 			if (this.mounted)
 				this.setState((prevState) => {
@@ -48,7 +48,6 @@ export default class ManageCategories extends React.Component {
 				});
 		} catch (e) {
 			console.error(`ManageCategories.componentDidMount: Error getting categories: ${util.errorMessage(e)}`);
-
 			if (typeof e === 'object' && (e.authenticationRequired || e.badToken)) {
 				navigate("Login", {target: "ManageCategories"});
 			}
@@ -75,7 +74,6 @@ export default class ManageCategories extends React.Component {
 							{/*<Col size={1}><Text>Slug</Text></Col>*/}
 							<Col size={2}>
 								<Text style={styles.rowHeader}>Description</Text>
-
 							</Col>
 						</Row>
 						{this.state.categories.map(this.renderRow.bind(this))}
