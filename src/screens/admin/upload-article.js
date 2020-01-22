@@ -133,7 +133,15 @@ export default class UploadArticle extends React.Component {
 
 	onBlur() {
 		this.setState((prevState) => {
-			return {...prevState, message: null, errorMessage: null, image: null}
+			return {
+				...prevState,
+				title: undefined,
+				url: undefined,
+				uri: null,
+				selectedCategories: {},//{categoryId: true/false}
+				isSaving: false,
+				categories: []// name, id
+			}
 		});
 	}
 
@@ -160,28 +168,32 @@ export default class UploadArticle extends React.Component {
 				throw response;
 			}
 			const selectedCategories = this.createSelectedCategories(this.state.categories);
-			if (this.mounted)
-				this.setState((prevState) => ({
-					...prevState,
-					message: `Article '${title}' uploaded`,
-					url: '',
-					content: '',
-					title: '',
-					isSaving: false,
-					selectedCategories
-				}));
+			//if (this.mounted)
+			this.setState((prevState) => ({
+				...prevState,
+				message: `Article '${title}' uploaded`,
+				url: '',
+				content: '',
+				title: '',
+				isSaving: false,
+				selectedCategories
+			}));
 		} catch (e) {
 			console.error(`UploadArticle.onSave: Error saving post: ${util.errorMessage(e)}`);
-			if (this.mounted)
-				this.setState((prevState) => ({
-					...prevState,
-					isSaving: false,
-					errorMessage: `Error uploading article: ${util.errorMessage(e)}`
-				}));
+
+			this.setState((prevState) => ({
+				...prevState,
+				isSaving: false,
+				errorMessage: `Error uploading article: ${util.errorMessage(e)}`
+			}));
 			if (typeof e === 'object' && (e.authenticationRequired || e.badToken)) {
 				navigate("Login", {target: "UploadArticle"});
 			}
 		}
+		this.setState((prevState) => ({
+			...prevState,
+			isSaving: false,
+		}));
 	}
 
 	render() {
